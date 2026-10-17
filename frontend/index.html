@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CareAuth | Smart Healthcare Prior-Authorization Management</title>
+  <title>CareAuth AI | Enterprise Healthcare Management & Prior-Auth Portal</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -43,321 +43,322 @@
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
-<body class="text-slate-800 min-h-screen flex antialiased">
+<body class="text-slate-800 min-h-screen flex flex-col antialiased">
 
-  <!-- LEFT HOSPITAL SIDEBAR -->
-  <aside class="w-64 bg-white border-r border-slate-200/90 flex flex-col shrink-0 hidden md:flex z-20">
-    
-    <!-- Hospital Brand Logo -->
-    <div class="h-20 flex items-center gap-3 px-6 border-b border-slate-100">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-teal-500/20">
-        <i data-lucide="heart-pulse" class="w-6 h-6"></i>
-      </div>
-      <div>
-        <div class="flex items-center gap-1.5">
-          <span class="text-lg font-bold tracking-tight text-slate-900">CareAuth</span>
-          <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-teal-50 text-teal-700 border border-teal-200">AI</span>
-        </div>
-        <p class="text-[11px] text-slate-400 font-medium">Prior-Auth Suite</p>
-      </div>
-    </div>
-
-    <!-- Navigation Menu (Fully Functional Interactive Tabs) -->
-    <div class="flex-1 py-6 px-4 space-y-6 overflow-y-auto text-xs font-semibold">
-      <div>
-        <div class="text-[10px] uppercase font-bold text-slate-400 px-3 mb-2 tracking-wider">Hospital Workflows</div>
-        <nav class="space-y-1.5">
-          <button onclick="switchMainView('cockpit')" id="navCockpitBtn" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-teal-50 text-teal-700 font-bold border border-teal-100 shadow-sm transition text-left">
-            <i data-lucide="layout-grid" class="w-4 h-4 text-teal-600"></i> Prior Auth Cockpit
-          </button>
-          <button onclick="switchMainView('policies')" id="navPoliciesBtn" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition text-left">
-            <i data-lucide="book-open" class="w-4 h-4"></i> Payer Policies Library
-          </button>
-          <button onclick="switchMainView('signoff')" id="navSignoffBtn" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition text-left">
-            <i data-lucide="user-check" class="w-4 h-4"></i> Doctor Sign-Off Queue
-          </button>
-        </nav>
-      </div>
-    </div>
-
-  </aside>
-
-  <!-- MAIN VIEWPORT -->
-  <div class="flex-1 flex flex-col min-w-0">
-
-    <!-- TOP HEADER BAR -->
-    <header class="h-20 bg-white border-b border-slate-200/80 px-8 flex items-center justify-between gap-6 shrink-0 sticky top-0 z-30 shadow-sm">
+  <!-- ======================================================== -->
+  <!-- SCREEN 1: UNIFIED HEALTHCARE AUTHENTICATION (LOGIN/SIGNUP)-->
+  <!-- ======================================================== -->
+  <div id="authScreen" class="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-slate-100 via-teal-50/40 to-slate-200">
+    <div class="max-w-xl w-full bg-white border border-slate-200/90 rounded-3xl p-8 shadow-2xl shadow-slate-300/40">
       
-      <!-- Clean Medical Suite Title -->
-      <div class="flex items-center gap-4">
+      <!-- Brand Header -->
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-teal-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-teal-500/30 mb-3">
+          <i data-lucide="heart-pulse" class="w-8 h-8"></i>
+        </div>
+        <h1 class="text-2xl font-black text-slate-900 tracking-tight">CareAuth <span class="text-teal-600 font-mono text-lg">AI</span></h1>
+        <p class="text-xs text-slate-500 mt-1 font-medium">Enterprise Healthcare Prior-Authorization & Patient Care Management</p>
+      </div>
+
+      <!-- Auth Mode Switcher -->
+      <div class="flex items-center gap-2 p-1.5 bg-slate-100 rounded-2xl mb-6">
+        <button id="tabSignInBtn" onclick="switchAuthTab('signin')" class="flex-1 py-2.5 text-xs font-bold rounded-xl bg-white text-slate-800 shadow-sm transition">
+          Sign In
+        </button>
+        <button id="tabSignUpBtn" onclick="switchAuthTab('signup')" class="flex-1 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition">
+          New Patient Registration
+        </button>
+      </div>
+
+      <!-- 1. SIGN IN FORM WITH 1-CLICK ROLE DEMO LOGINS -->
+      <div id="formSignIn" class="space-y-5">
+        
         <div>
-          <div class="flex items-center gap-2">
-            <h2 class="text-base font-extrabold text-slate-800">Prior Authorization Management Portal</h2>
-            <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Multi-Agent System Active
-            </span>
+          <div class="text-xs uppercase font-bold text-slate-400 tracking-wider mb-2.5 flex items-center justify-between">
+            <span>Select Your Portal Role (1-Click Demo)</span>
+            <span class="text-[10px] text-teal-600 font-semibold bg-teal-50 px-2 py-0.5 rounded">Quick Access</span>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Clinical Decision Support & Insurance Policy Adjudication</p>
+          <div class="grid grid-cols-2 gap-2.5">
+            <button onclick="loginWithRole('coordinator')" class="p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 group-hover:text-teal-700">Prior-Auth Coordinator</span>
+                <i data-lucide="layout-grid" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">Full AI Cockpit & Payer Policies</div>
+            </button>
+
+            <button onclick="loginWithRole('doctor')" class="p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 group-hover:text-teal-700">Attending Physician</span>
+                <i data-lucide="stethoscope" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">1-Click Sign-Off & Review Queue</div>
+            </button>
+
+            <button onclick="loginWithRole('patient')" class="p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 group-hover:text-teal-700">Patient Portal</span>
+                <i data-lucide="user" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">6th-Std Reports, Scans & Billing</div>
+            </button>
+
+            <button onclick="loginWithRole('lab')" class="p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 group-hover:text-teal-700">Diagnostic / Lab Tech</span>
+                <i data-lucide="microscope" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1">Patient List, MRI & Scan Uploads</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="relative flex py-1 items-center">
+          <div class="flex-grow border-t border-slate-200"></div>
+          <span class="flex-shrink mx-4 text-slate-400 text-[10px] uppercase font-bold tracking-wider">Or Sign In with Hospital Credentials</span>
+          <div class="flex-grow border-t border-slate-200"></div>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Email / Hospital ID</label>
+            <input type="text" id="manualEmail" value="deepak.kannan@hospital.org" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Password</label>
+            <input type="password" id="manualPass" value="••••••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+          </div>
+          <button onclick="manualLoginSubmit()" class="w-full py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
+            <i data-lucide="log-in" class="w-4 h-4"></i> Sign In to Hospital Portal
+          </button>
+        </div>
+
+      </div>
+
+      <!-- 2. NEW PATIENT REGISTRATION FORM -->
+      <div id="formSignUp" class="space-y-4 text-xs hidden">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Full Legal Name *</label>
+          <input type="text" id="regName" placeholder="e.g. Ramesh Patel" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500 font-medium">
+        </div>
+        
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Date of Birth *</label>
+            <input type="date" id="regDob" value="1984-06-15" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Phone Number *</label>
+            <input type="tel" id="regPhone" value="+1 (555) 782-9011" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Insurance Provider *</label>
+            <select id="regPayer" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+              <option value="Anthem Blue Cross">Anthem Blue Cross</option>
+              <option value="Medicare Part B">Medicare Part B</option>
+              <option value="UnitedHealthcare">UnitedHealthcare</option>
+              <option value="Aetna Health">Aetna Health</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Member / Policy ID</label>
+            <input type="text" id="regPolicy" placeholder="e.g. MEM-904812" value="ANT-7749102" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Reason for Visit / Chief Complaint *</label>
+          <input type="text" id="regComplaint" placeholder="e.g. Chronic left knee pain and locking after meniscus injury" value="Persistent knee pain and difficulty walking for 6 months" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Attach Your Prior Medical Scans or Lab Reports</label>
+          <div class="border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center bg-slate-50/70 hover:bg-slate-100/60 transition cursor-pointer relative" onclick="document.getElementById('patientFileInput').click()">
+            <input type="file" id="patientFileInput" class="hidden" onchange="handlePatientFileSelect(event)">
+            <i data-lucide="upload-cloud" class="w-7 h-7 text-teal-600 mx-auto mb-1"></i>
+            <span id="patientFileLabel" class="text-slate-600 font-semibold text-xs block">Click to select MRI scans, X-rays, or Lab PDFs</span>
+            <span class="text-[10px] text-slate-400 mt-0.5 block">Simulates automatic attachment to your hospital medical record</span>
+          </div>
+        </div>
+
+        <button onclick="registerNewPatient()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center justify-center gap-2">
+          <i data-lucide="user-plus" class="w-4 h-4"></i> Complete Registration & Enter My Patient Portal
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- SCREEN 2: MAIN DASHBOARD VIEWPORT (AFTER LOGIN)          -->
+  <!-- ======================================================== -->
+  <div id="mainDashboard" class="min-h-screen flex flex-col hidden">
+
+    <!-- UNIVERSAL TOP HEADER -->
+    <header class="h-20 bg-white border-b border-slate-200/80 px-8 flex items-center justify-between gap-6 shrink-0 sticky top-0 z-40 shadow-sm">
+      
+      <!-- Brand & Active Portal Badge -->
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-teal-500/20">
+            <i data-lucide="heart-pulse" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-lg font-bold tracking-tight text-slate-900">CareAuth <span class="text-xs font-mono font-bold px-1.5 py-0.5 rounded bg-teal-50 text-teal-700 border border-teal-200">AI</span></h1>
+              <span id="roleHeaderBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
+                Coordinator Portal
+              </span>
+            </div>
+            <p id="portalSubText" class="text-xs text-slate-400 font-medium">Enterprise Prior-Authorization Management</p>
+          </div>
         </div>
       </div>
 
-      <!-- Right Header Actions & User Profile (Moved to Top Right) -->
-      <div class="flex items-center gap-5 text-xs">
+      <!-- Quick Role Switcher Pill & Profile with LOGOUT -->
+      <div class="flex items-center gap-4 text-xs">
         
-        <!-- Measurable Improvement Stat -->
-        <div class="hidden xl:flex items-center gap-3 bg-slate-50 border border-slate-200/80 rounded-xl px-4 py-2">
-          <div class="flex items-center gap-2 pr-3 border-r border-slate-200">
-            <span class="text-slate-400 font-medium">Manual:</span>
-            <span class="font-bold text-slate-700">45 Mins</span>
-          </div>
-          <div class="flex items-center gap-2 pr-3 border-r border-slate-200">
-            <span class="text-slate-400 font-medium">Automated:</span>
-            <span class="font-bold text-teal-600 font-mono">11.4 Secs</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i data-lucide="trending-down" class="w-3.5 h-3.5 text-emerald-500"></i>
-            <span class="font-extrabold text-emerald-600 font-mono">98.6% Time Saved</span>
-          </div>
+        <!-- Switch Role Dropdown (For convenience during demo / presentations) -->
+        <div class="hidden md:flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl">
+          <button onclick="loginWithRole('coordinator')" id="pillCoord" class="px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition">Coordinator</button>
+          <button onclick="loginWithRole('doctor')" id="pillDoctor" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition">Doctor</button>
+          <button onclick="loginWithRole('patient')" id="pillPatient" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition">Patient</button>
+          <button onclick="loginWithRole('lab')" id="pillLab" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition">Lab Tech</button>
         </div>
 
-        <!-- Attending Doctor Profile (Top Right) -->
+        <!-- Attending User Profile with LOGOUT Button -->
         <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
-          <div class="w-9 h-9 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-xs shadow-sm">
+          <div id="userAvatar" class="w-9 h-9 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-xs shadow-sm">
             DK
           </div>
-          <div class="hidden sm:block text-left">
-            <div class="text-xs font-bold text-slate-800">Dr. Deepak Kannan</div>
-            <div class="text-[10px] text-slate-400 font-medium">Chief Medical Reviewer</div>
+          <div class="text-left hidden sm:block">
+            <div id="userNameDisplay" class="text-xs font-bold text-slate-800">Deepak Kannan</div>
+            <div id="userRoleDisplay" class="text-[10px] text-slate-400 font-medium">Lead Prior-Auth Specialist</div>
           </div>
+          
+          <!-- Explicit Logout Button -->
+          <button onclick="logout()" title="Sign Out & Return to Login" class="px-3 py-1.5 rounded-xl text-slate-600 hover:text-red-600 hover:bg-red-50 border border-slate-200 transition flex items-center gap-1.5 font-semibold">
+            <i data-lucide="log-out" class="w-4 h-4 text-red-500"></i>
+            <span class="hidden sm:inline">Logout</span>
+          </button>
         </div>
 
       </div>
 
     </header>
 
-    <!-- WORKSPACE BODY -->
-    <div class="flex-1 p-8 space-y-6 overflow-y-auto">
+    <!-- ======================================================== -->
+    <!-- PORTAL 1: COORDINATOR FULL COCKPIT (Original Workflow)   -->
+    <!-- ======================================================== -->
+    <div id="portalCoordinator" class="flex-1 flex overflow-hidden">
+      
+      <!-- Left Sidebar -->
+      <aside class="w-60 bg-white border-r border-slate-200/90 p-4 space-y-2 hidden md:block shrink-0 text-xs font-semibold">
+        <button onclick="switchCoordinatorView('cockpit')" id="coordTabCockpit" class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-teal-50 text-teal-700 font-bold border border-teal-100 text-left transition">
+          <i data-lucide="layout-grid" class="w-4 h-4"></i> Prior-Auth Cockpit
+        </button>
+        <button onclick="switchCoordinatorView('policies')" id="coordTabPolicies" class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-500 hover:bg-slate-50 text-left transition">
+          <i data-lucide="book-open" class="w-4 h-4"></i> Payer Policies (Evolus)
+        </button>
+      </aside>
 
-      <!-- TOP METRIC CARDS (Professional Healthcare Metrics) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+      <!-- Main Body: Cockpit View -->
+      <div id="coordViewCockpit" class="flex-1 p-8 space-y-6 overflow-y-auto">
         
-        <!-- Card 1: Benchmark Cases -->
-        <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-5 text-white shadow-lg shadow-teal-500/15 flex items-center justify-between">
-          <div>
-            <div class="text-teal-100 text-xs font-semibold uppercase tracking-wider">Clinical Queue</div>
-            <div class="text-3xl font-extrabold mt-1">3 Active Cases</div>
-            <div class="text-teal-100 text-xs mt-2 flex items-center gap-1">
-              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Ready for Adjudication
-            </div>
-          </div>
-          <div class="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center">
-            <i data-lucide="stethoscope" class="w-6 h-6 text-white"></i>
-          </div>
-        </div>
-
-        <!-- Card 2: Turnaround Speed -->
-        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex items-center justify-between">
-          <div>
-            <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Avg Adjudication Time</div>
-            <div class="text-3xl font-extrabold text-slate-800 mt-1 font-mono">11.4s</div>
-            <div class="text-emerald-600 font-bold text-xs mt-2 flex items-center gap-1">
-              <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i> 98.6% Faster than Manual
-            </div>
-          </div>
-          <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-            <i data-lucide="zap" class="w-6 h-6"></i>
-          </div>
-        </div>
-
-        <!-- Card 3: Policy Adherence -->
-        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex items-center justify-between">
-          <div>
-            <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Policy Adherence</div>
-            <div class="text-3xl font-extrabold text-slate-800 mt-1 font-mono">96%</div>
-            <div class="text-teal-600 font-bold text-xs mt-2 flex items-center gap-1">
-              <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Anthem & Medicare LCD
-            </div>
-          </div>
-          <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center">
-            <i data-lucide="file-check" class="w-6 h-6"></i>
-          </div>
-        </div>
-
-        <!-- Card 4: Estimated Monthly Clinic Cost Savings -->
-        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex items-center justify-between">
-          <div>
-            <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Admin Cost Savings</div>
-            <div class="text-3xl font-extrabold text-slate-800 mt-1 font-mono">$34,800</div>
-            <div class="text-emerald-600 font-bold text-xs mt-2 flex items-center gap-1">
-              <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> Estimated per Month
-            </div>
-          </div>
-          <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-            <i data-lucide="dollar-sign" class="w-6 h-6"></i>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ========================================== -->
-      <!-- VIEW 1: PRIOR AUTH COCKPIT (DEFAULT VIEW) -->
-      <!-- ========================================== -->
-      <div id="viewCockpit" class="space-y-6">
-
-        <!-- PATIENT CASE CARDS (Selectable Demo Scenarios) -->
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold uppercase text-slate-700 tracking-wider flex items-center gap-2">
-              <i data-lucide="users" class="w-4 h-4 text-teal-600"></i> Select Patient Prior-Auth Case
-            </h3>
-            <span class="text-xs text-slate-400 font-medium">Click any case to inspect and adjudicate</span>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="patientCardsContainer">
-            <!-- Injected via JS -->
-          </div>
-        </div>
-
-        <!-- MAIN CLINICAL SPLIT WORKSPACE -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-          <!-- LEFT PANEL: CLINICAL INGESTION & EHR (5 Cols) -->
-          <div class="lg:col-span-5 bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col">
-            
-            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-              <div>
-                <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <i data-lucide="file-text" class="w-4 h-4 text-teal-600"></i> Patient Clinical Note & EHR Transcript
-                </h4>
-                <p class="text-xs text-slate-400 mt-0.5">Scanned referral notes, doctor exam & imaging reports</p>
-              </div>
-              
-              <div class="flex items-center gap-2">
-                <span class="text-[11px] font-bold px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
-                  <i data-lucide="lock" class="w-3 h-3"></i> PHI Masked
-                </span>
-                <button onclick="togglePhiMask()" id="toggleMaskBtn" class="text-xs text-slate-400 hover:text-slate-800 transition px-2 py-1 rounded hover:bg-slate-100">
-                  Raw View
-                </button>
-              </div>
-            </div>
-
-            <!-- Document Text Area -->
-            <div class="flex-1 min-h-[380px]">
-              <textarea id="documentInput" class="w-full h-full bg-slate-50/70 border border-slate-200 rounded-xl p-4 text-xs font-mono text-slate-700 focus:outline-none focus:border-teal-500 leading-relaxed resize-none" placeholder="Clinical notes..."></textarea>
-            </div>
-
-            <!-- Extracted Entities Pill Rack -->
-            <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2" id="extractedPillRack">
-              <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-mono text-[11px] font-medium border border-slate-200">CPT: 29881</span>
-              <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-mono text-[11px] font-medium border border-slate-200">ICD-10: M23.22</span>
-              <span class="px-2.5 py-1 rounded-md bg-teal-50 text-teal-700 font-mono text-[11px] font-semibold border border-teal-200">PT: 6 Months Verified</span>
-            </div>
-
-            <!-- The Core Execution Button -->
-            <button id="runAdjudicateBtn" onclick="runAdjudication()" class="mt-4 w-full py-4 px-6 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold text-sm rounded-xl shadow-lg shadow-teal-600/20 flex items-center justify-center gap-2.5 transition active:scale-[0.99]">
-              <i data-lucide="play" class="w-5 h-5 fill-current"></i> Run Multi-Agent Adjudication
-            </button>
-
-          </div>
-
-          <!-- RIGHT PANEL: LIVE ADJUDICATION OUTPUT COCKPIT (7 Cols) -->
-          <div class="lg:col-span-7 bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col space-y-6">
-            
-            <!-- Section 1: Decision Banner & Physician Action -->
-            <div class="p-5 rounded-2xl bg-gradient-to-r from-slate-50 to-teal-50/40 border border-slate-200/80">
-              <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                  <div class="flex items-center gap-2 mb-1">
-                    <span id="decisionStatusTag" class="text-xs font-bold font-mono px-3 py-1 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-200">
-                      AUTO_APPROVED
-                    </span>
-                    <span id="targetPolicyTag" class="text-xs text-slate-500 font-mono">
-                      Anthem CG-SURG-01
-                    </span>
-                  </div>
-                  <h4 id="decisionTitle" class="text-lg font-bold text-slate-900">Prior Authorization Auto-Approved</h4>
-                  <p id="decisionDesc" class="text-xs text-slate-600 mt-1 max-w-xl leading-relaxed">
-                    All 4 mandatory Anthem medical necessity criteria are 100% satisfied with direct clinical evidence.
-                  </p>
-                </div>
-
-                <!-- Score Indicator -->
-                <div class="shrink-0 flex items-center gap-3 bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm">
-                  <div>
-                    <div class="text-[10px] uppercase font-bold text-slate-400">Confidence</div>
-                    <div id="overallScoreBadge" class="text-2xl font-black font-mono text-emerald-600">96%</div>
-                  </div>
-                  <div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                    <i data-lucide="shield-check" class="w-5 h-5"></i>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Physician Sign-Off Action Buttons -->
-              <div class="mt-4 pt-3 border-t border-slate-200/60 flex flex-wrap items-center gap-3" id="actionButtonContainer">
-                <button onclick="signOffCase('APPROVED_SUBMIT')" class="flex-1 min-w-[240px] py-2.5 px-4 bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-md shadow-teal-600/20 transition">
-                  <i data-lucide="check-check" class="w-4 h-4"></i> 1-Click Physician Sign & Transmit to Payer
-                </button>
-                <button onclick="signOffCase('FLAGGED_FOR_CLINIC')" class="py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl flex items-center justify-center gap-2 border border-slate-200 transition">
-                  <i data-lucide="flag" class="w-4 h-4 text-amber-500"></i> Escalate to Clinic Nurse
-                </button>
-              </div>
-            </div>
-
-            <!-- Section 2: Evidence Gap & Confidence Matrix (Track 2 Uncertainty Requirement) -->
+        <!-- Top Metric Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-5 text-white shadow-sm flex items-center justify-between">
             <div>
-              <div class="flex items-center justify-between mb-3">
-                <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-                  <i data-lucide="list-checks" class="w-4 h-4 text-teal-600"></i> Evidence Gap & Confidence Matrix (Line-by-Line Policy Match)
-                </h4>
-                <span class="text-[11px] font-mono text-slate-400">Evolus Knowledge Library</span>
-              </div>
+              <div class="text-teal-100 text-xs font-bold uppercase tracking-wider">Queue</div>
+              <div class="text-2xl font-black mt-1">3 Active Cases</div>
+            </div>
+            <i data-lucide="stethoscope" class="w-8 h-8 text-white/30"></i>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
+            <div>
+              <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Turnaround</div>
+              <div class="text-2xl font-black text-slate-800 mt-1 font-mono">11.4s</div>
+            </div>
+            <i data-lucide="zap" class="w-8 h-8 text-emerald-500"></i>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
+            <div>
+              <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Adherence</div>
+              <div class="text-2xl font-black text-slate-800 mt-1 font-mono">96%</div>
+            </div>
+            <i data-lucide="file-check" class="w-8 h-8 text-teal-500"></i>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
+            <div>
+              <div class="text-slate-400 text-xs font-bold uppercase tracking-wider">Monthly Savings</div>
+              <div class="text-2xl font-black text-slate-800 mt-1 font-mono">$34,800</div>
+            </div>
+            <i data-lucide="trending-up" class="w-8 h-8 text-emerald-500"></i>
+          </div>
+        </div>
 
-              <!-- Criteria Checklist -->
-              <div class="space-y-2.5 max-h-[220px] overflow-y-auto pr-1" id="criteriaMatrixContainer">
-                <!-- Injected via JS -->
-              </div>
+        <!-- Case Cards Strip -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="patientCardsContainer">
+          <!-- Injected via JS -->
+        </div>
 
-              <!-- Evidence Gap Alert -->
-              <div id="evidenceGapAlert" class="mt-3 p-3.5 rounded-xl bg-amber-50 border border-amber-200 hidden">
-                <div class="flex items-center gap-2 text-xs font-bold text-amber-800 mb-1">
-                  <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i> Documentation Gap Detected (Uncertainty Flagged)
-                </div>
-                <p id="evidenceGapText" class="text-xs text-amber-900 leading-relaxed"></p>
+        <!-- Split Adjudication Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- Left: Clinical Note -->
+          <div class="lg:col-span-5 bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+              <span class="text-xs font-bold text-slate-900 flex items-center gap-1.5"><i data-lucide="file-text" class="w-4 h-4 text-teal-600"></i> Clinical EHR Note</span>
+              <button onclick="togglePhiMask()" id="toggleMaskBtn" class="text-xs text-teal-600 hover:text-teal-800 underline font-semibold">Raw View</button>
+            </div>
+            <textarea id="documentInput" class="w-full flex-1 min-h-[360px] bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs font-mono text-slate-700 leading-relaxed resize-none"></textarea>
+            <button id="runAdjudicateBtn" onclick="runAdjudication()" class="mt-4 w-full py-3.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 text-white font-bold text-xs rounded-xl shadow-md shadow-teal-600/20 flex items-center justify-center gap-2 transition">
+              <i data-lucide="play" class="w-4 h-4 fill-current"></i> Run Multi-Agent Adjudication on AMD
+            </button>
+          </div>
+
+          <!-- Right: Live Output -->
+          <div class="lg:col-span-7 bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col space-y-5">
+            <!-- Decision Banner -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+              <div>
+                <span id="decisionStatusTag" class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">AUTO_APPROVED</span>
+                <h4 id="decisionTitle" class="text-base font-bold text-slate-900 mt-1">Prior Authorization Auto-Approved</h4>
+                <p id="decisionDesc" class="text-xs text-slate-500 mt-0.5">Anthem medical necessity verified.</p>
+              </div>
+              <div class="text-right">
+                <div class="text-[10px] uppercase font-bold text-slate-400">Confidence</div>
+                <div id="overallScoreBadge" class="text-2xl font-black font-mono text-emerald-600">96%</div>
               </div>
             </div>
 
-            <!-- Section 3: Dual Output Document Viewer -->
+            <!-- Evidence Gap Matrix -->
+            <div>
+              <div class="text-xs font-bold text-slate-700 uppercase mb-2">Evidence Gap & Confidence Matrix</div>
+              <div class="space-y-2 max-h-[180px] overflow-y-auto pr-1" id="criteriaMatrixContainer"></div>
+              <div id="evidenceGapAlert" class="mt-2 p-3 rounded-xl bg-amber-50 border border-amber-200 hidden text-xs text-amber-900">
+                <div class="font-bold flex items-center gap-1.5"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-600"></i> Evidence Gap Detected</div>
+                <div id="evidenceGapText" class="mt-1"></div>
+              </div>
+            </div>
+
+            <!-- Dual Output -->
             <div class="flex-1 flex flex-col pt-3 border-t border-slate-100">
-              <div class="flex items-center justify-between mb-3">
-                
-                <!-- Tab Switcher -->
-                <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
-                  <button id="tabFormalBtn" onclick="switchOutputTab('formal')" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-white text-slate-800 shadow-sm transition">
-                    CMS-1500 Prior Auth Packet
-                  </button>
-                  <button id="tabPatientBtn" onclick="switchOutputTab('patient')" class="text-xs font-medium px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition">
-                    Patient-Friendly Explanation
-                  </button>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs">
+                  <button id="tabFormalBtn" onclick="switchOutputTab('formal')" class="font-bold px-3 py-1 rounded-lg bg-white text-slate-800 shadow-sm transition">CMS-1500 Packet</button>
+                  <button id="tabPatientBtn" onclick="switchOutputTab('patient')" class="font-medium px-3 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition">Patient Explanation</button>
                 </div>
-
-                <!-- Language Selector -->
-                <div id="langSelector" class="hidden flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs">
-                  <button id="btnLangEn" onclick="setPatientLang('en')" class="px-2.5 py-1 rounded-lg bg-white text-teal-700 font-bold shadow-sm">English</button>
-                  <button id="btnLangEs" onclick="setPatientLang('es')" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800">Español</button>
-                  <button id="btnLangHi" onclick="setPatientLang('hi')" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800">हिंदी</button>
+                <div id="langSelector" class="hidden flex items-center gap-1 text-xs">
+                  <button id="btnLangEn" onclick="setPatientLang('en')" class="px-2 py-0.5 rounded bg-white text-teal-700 font-bold border">EN</button>
+                  <button id="btnLangEs" onclick="setPatientLang('es')" class="px-2 py-0.5 rounded text-slate-500">ES</button>
+                  <button id="btnLangHi" onclick="setPatientLang('hi')" class="px-2 py-0.5 rounded text-slate-500">HI</button>
                 </div>
-
-                <button onclick="copyOutputContent()" class="text-xs text-slate-500 hover:text-teal-700 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition">
-                  <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Packet
-                </button>
               </div>
-
-              <!-- Document Content Box -->
-              <div id="outputContentBox" class="flex-1 min-h-[190px] bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs font-mono text-slate-700 overflow-y-auto leading-relaxed whitespace-pre-wrap">
-                Click "Run Multi-Agent Adjudication on AMD ROCm" to generate documentation...
-              </div>
+              <div id="outputContentBox" class="flex-1 min-h-[160px] bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs font-mono text-slate-700 overflow-y-auto whitespace-pre-wrap"></div>
             </div>
 
           </div>
@@ -366,173 +367,537 @@
 
       </div>
 
-      <!-- ========================================== -->
-      <!-- VIEW 2: PAYER POLICIES LIBRARY VIEW       -->
-      <!-- ========================================== -->
-      <div id="viewPolicies" class="space-y-6 hidden">
-        <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm">
+      <!-- Main Body: Payer Policies View -->
+      <div id="coordViewPolicies" class="flex-1 p-8 space-y-6 overflow-y-auto hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
           <div class="flex items-center justify-between pb-4 border-b border-slate-100">
             <div>
-              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                <i data-lucide="book-open" class="w-5 h-5 text-teal-600"></i> Indexed Payer Policy Rulebooks (Evolus Knowledge Library)
-              </h3>
-              <p class="text-xs text-slate-500 mt-1">These active clinical guidelines are automatically queried during patient adjudication.</p>
+              <h3 class="text-lg font-bold text-slate-900">Evolus Payer Policy Rules Library</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Clinical adjudication rules loaded into the Evolus Knowledge Workspace for automated prior-authorization.</p>
             </div>
             <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
-              2 Active Rulebooks
+              Workspace: Payer Policies (Active)
             </span>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            
-            <!-- Policy 1 -->
-            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200 font-mono">Anthem CG-SURG-01</span>
-                  <span class="text-[11px] font-semibold text-slate-500">Orthopedic Surgery</span>
-                </div>
-                <h4 class="font-bold text-sm text-slate-800">Arthroscopy, Knee, Surgical with Meniscectomy</h4>
-                <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Requires objective mechanical exam findings (McMurray), ≥6 weeks of documented conservative management (PT, NSAIDs), and MRI corroboration of Grade III tear without severe osteoarthritis.
-                </p>
-              </div>
-              <div class="mt-4 pt-3 border-t border-slate-200 text-xs text-slate-400 flex items-center justify-between">
-                <span>Stored in Evolus Library</span>
-                <span class="text-teal-600 font-bold">Linked to Case 1 ✓</span>
-              </div>
-            </div>
-
-            <!-- Policy 2 -->
-            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded border border-indigo-200 font-mono">Medicare LCD L33777</span>
-                  <span class="text-[11px] font-semibold text-slate-500">Biologics & DMARDs</span>
-                </div>
-                <h4 class="font-bold text-sm text-slate-800">Biologic Immunosuppressives for Rheumatoid Arthritis</h4>
-                <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Mandates documented diagnostic criteria (Anti-CCP, swollen joints), negative TB screening, and mandatory 3-month step-therapy trial of conventional Methotrexate, with Section 4.2.1 exceptions for acute hepatic contraindications.
-                </p>
-              </div>
-              <div class="mt-4 pt-3 border-t border-slate-200 text-xs text-slate-400 flex items-center justify-between">
-                <span>Stored in Evolus Library</span>
-                <span class="text-indigo-600 font-bold">Linked to Case 2 & 3 ✓</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- ========================================== -->
-      <!-- VIEW 3: DOCTOR SIGN-OFF QUEUE VIEW        -->
-      <!-- ========================================== -->
-      <div id="viewSignoff" class="space-y-6 hidden">
-        <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm">
-          <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-            <div>
-              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                <i data-lucide="user-check" class="w-5 h-5 text-teal-600"></i> Attending Physician Sign-Off & Clearinghouse Transmission Queue
-              </h3>
-              <p class="text-xs text-slate-500 mt-1">Review cases requiring clinical sign-off and monitor electronic transmission status.</p>
-            </div>
-            <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-              Electronic Signature Certified
-            </span>
-          </div>
-
-          <div class="mt-6 overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-700">
-              <thead class="bg-slate-50 text-slate-500 uppercase font-bold text-[10px] tracking-wider border-b border-slate-200">
-                <tr>
-                  <th class="py-3 px-4">Case ID</th>
-                  <th class="py-3 px-4">Patient (Sanitized)</th>
-                  <th class="py-3 px-4">Procedure / CPT</th>
-                  <th class="py-3 px-4">Adjudication Status</th>
-                  <th class="py-3 px-4">Confidence</th>
-                  <th class="py-3 px-4">Reviewer Action</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100">
-                <tr class="hover:bg-slate-50/50">
-                  <td class="py-3.5 px-4 font-mono font-bold text-slate-800">PA-ORTHO-8821</td>
-                  <td class="py-3.5 px-4">[REDACTED_PATIENT_NAME]</td>
-                  <td class="py-3.5 px-4 font-semibold text-slate-900">Left Knee Arthroscopy (CPT 29881)</td>
-                  <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold font-mono">AUTO_APPROVED</span></td>
-                  <td class="py-3.5 px-4 font-bold text-emerald-600 font-mono">96%</td>
-                  <td class="py-3.5 px-4 text-emerald-700 font-bold flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5"></i> Transmitted to Payer</td>
-                </tr>
-                <tr class="hover:bg-slate-50/50">
-                  <td class="py-3.5 px-4 font-mono font-bold text-slate-800">PA-BIO-4920</td>
-                  <td class="py-3.5 px-4">[REDACTED_PATIENT_NAME]</td>
-                  <td class="py-3.5 px-4 font-semibold text-slate-900">Humira Biologic (HCPCS J0135)</td>
-                  <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold font-mono">STEP_THERAPY_GAP</span></td>
-                  <td class="py-3.5 px-4 font-bold text-amber-600 font-mono">64%</td>
-                  <td class="py-3.5 px-4 text-amber-700 font-bold flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5"></i> Escalate to Clinic Nurse</td>
-                </tr>
-                <tr class="hover:bg-slate-50/50">
-                  <td class="py-3.5 px-4 font-mono font-bold text-slate-800">PA-APPEAL-1094</td>
-                  <td class="py-3.5 px-4">[REDACTED_PATIENT_NAME]</td>
-                  <td class="py-3.5 px-4 font-semibold text-slate-900">Tertiary Transfer & Appeal</td>
-                  <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 font-bold font-mono">APPEAL_READY</span></td>
-                  <td class="py-3.5 px-4 font-bold text-indigo-600 font-mono">92%</td>
-                  <td class="py-3.5 px-4 text-teal-700 font-bold flex items-center gap-1.5"><i data-lucide="pen-tool" class="w-3.5 h-3.5"></i> Signed /s/ Dr. Deepak Kannan</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6" id="policyCardsContainer">
+            <!-- Injected via JS -->
           </div>
         </div>
       </div>
 
     </div>
 
+    <!-- ======================================================== -->
+    <!-- PORTAL 2: ATTENDING DOCTOR WORKSPACE                     -->
+    <!-- ======================================================== -->
+    <div id="portalDoctor" class="flex-1 p-8 space-y-6 overflow-y-auto hidden">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Dr. Sarah Jenkins' Physician Certification Station</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Review, electronically sign, and certify clinical necessity packets for electronic clearinghouse submission.</p>
+          </div>
+          <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            Active Digital Signature Token Valid
+          </span>
+        </div>
+
+        <div class="mt-6 space-y-4" id="doctorQueueContainer">
+          <!-- Injected via JS from /api/doctor/queue -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- PORTAL 3: PATIENT FRIENDLY PORTAL                        -->
+    <!-- ======================================================== -->
+    <div id="portalPatient" class="flex-1 p-8 space-y-6 overflow-y-auto hidden">
+      <div class="max-w-4xl mx-auto space-y-6">
+        
+        <!-- Welcome Card -->
+        <div class="bg-gradient-to-r from-teal-600 to-emerald-600 rounded-3xl p-6 text-white shadow-md">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-teal-100 uppercase tracking-wider">Patient Care Portal</span>
+              <h2 id="patientGreeting" class="text-2xl font-black mt-1">Hello, Ramesh Patel 👋</h2>
+              <p class="text-xs text-teal-50 mt-1">Here is your easy-to-read treatment progress, scan reports, and bill status.</p>
+            </div>
+            <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-8 h-8 text-white"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Procedure Status Banner in 6th Std Language -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Treatment & Insurance Status</span>
+            <span id="patientStatusBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">
+              Paperwork Approved & Ready
+            </span>
+          </div>
+          <h3 id="patientProcedureTitle" class="text-lg font-bold text-slate-900">Left Knee Arthroscopy & Cushion Repair</h3>
+          
+          <div class="p-4 rounded-xl bg-teal-50/50 border border-teal-100 text-xs text-slate-700 leading-relaxed">
+            <div class="font-bold text-teal-900 mb-1 flex items-center justify-between">
+              <span class="flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-teal-600"></i> What this means in plain words (Grade 6 Reading Level):</span>
+              <div class="flex items-center gap-1">
+                <button onclick="setPatientPortalLang('en')" id="ptLangEn" class="px-2 py-0.5 rounded bg-white text-teal-700 font-bold border border-teal-200 shadow-sm">EN</button>
+                <button onclick="setPatientPortalLang('es')" id="ptLangEs" class="px-2 py-0.5 rounded text-slate-500 hover:text-slate-800">ES</button>
+                <button onclick="setPatientPortalLang('hi')" id="ptLangHi" class="px-2 py-0.5 rounded text-slate-500 hover:text-slate-800">HI</button>
+              </div>
+            </div>
+            <p id="patientPlainBody">Good news! Your doctor's request for left knee arthroscopy has been checked and approved by Anthem Blue Cross. Our medical system verified your 6 months of physical therapy and confirmed your MRI shows a torn meniscus cushion. Anthem will cover their portion of the hospital and doctor bills. You do not need to submit any more paperwork. Your surgeon's office will call you within 2 business days to schedule your surgery date.</p>
+            <div class="mt-3 pt-2 border-t border-teal-100 text-slate-600">
+              <strong>Next Steps:</strong>
+              <div id="patientNextSteps" class="mt-0.5 whitespace-pre-line text-[11px]">1. Expect a scheduling call from Dr. Jenkins' clinic.
+2. Review your pre-op checklist.
+3. Pay your small copay balance ($250.00) online anytime before surgery.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagnostic Reports & Billing Tabs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Scan & Test Reports Card -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="file-check" class="w-4 h-4 text-teal-600"></i> My Scan & Diagnostic Reports
+              </h4>
+              <button onclick="openPatientUploadModal()" class="text-xs font-semibold text-teal-600 hover:text-teal-700 flex items-center gap-1">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Upload Scan
+              </button>
+            </div>
+            <div class="space-y-2 text-xs" id="patientReportsList">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+
+          <!-- Billing & Payment Tab -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
+            <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="credit-card" class="w-4 h-4 text-teal-600"></i> Insurance Coverage & Co-Pay
+            </h4>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between py-1 border-b border-slate-100">
+                <span class="text-slate-500">Estimated Procedure Cost:</span>
+                <span class="font-bold text-slate-800" id="billTotalCost">$4,200.00</span>
+              </div>
+              <div class="flex justify-between py-1 border-b border-slate-100">
+                <span class="text-slate-500">Insurance Covers:</span>
+                <span class="font-bold text-emerald-600" id="billInsurancePaid">-$3,950.00</span>
+              </div>
+              <div class="flex justify-between py-1.5 font-bold text-sm bg-slate-50 px-2 rounded-lg">
+                <span class="text-slate-800">Your Co-Pay Balance:</span>
+                <span class="text-teal-700 font-mono" id="billCopayDue">$250.00</span>
+              </div>
+
+              <!-- Payment Status Alert -->
+              <div id="paymentSuccessNotice" class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium">
+                <div class="font-bold flex items-center gap-1.5">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i> Co-Pay Paid in Full!
+                </div>
+                <div class="text-[11px] mt-1" id="paymentReceiptText">Receipt #RCP-882194</div>
+              </div>
+
+              <button id="payBillBtn" onclick="processPatientPayment()" class="w-full mt-3 py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow-sm transition flex items-center justify-center gap-2">
+                <i data-lucide="lock" class="w-4 h-4"></i> Pay Co-Pay Balance ($250.00)
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- PORTAL 4: DIAGNOSTIC & LAB TECH WORKSPACE                -->
+    <!-- ======================================================== -->
+    <div id="portalLab" class="flex-1 p-8 space-y-6 overflow-y-auto hidden">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Diagnostic Laboratory & Radiology Station</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Select a patient to inspect their MRI scans, X-Rays, and blood work, or upload new diagnostic reports.</p>
+          </div>
+          <button onclick="openLabUploadModal()" class="px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-sm transition">
+            <i data-lucide="plus" class="w-4 h-4"></i> Upload Diagnostic Scan
+          </button>
+        </div>
+
+        <!-- Split View: Left Patient List, Right Diagnostic Reports -->
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- Left: Patient Queue -->
+          <div class="lg:col-span-4 space-y-3">
+            <div class="text-xs font-bold uppercase text-slate-400 tracking-wider">Active Hospital Patients</div>
+            <div class="space-y-2 max-h-[500px] overflow-y-auto pr-1" id="labPatientListContainer">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+
+          <!-- Right: Selected Patient's Diagnostic Scans & Labs -->
+          <div class="lg:col-span-8 bg-slate-50/70 border border-slate-200 rounded-2xl p-5 flex flex-col space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+              <div>
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-teal-100 text-teal-800" id="labSelectedMrn">MRN: 882194</span>
+                <h4 class="text-base font-bold text-slate-900 mt-1" id="labSelectedPatientName">Ramesh Patel (54 M)</h4>
+                <p class="text-xs text-slate-500" id="labSelectedProcedure">Left Knee Arthroscopy & Partial Meniscectomy</p>
+              </div>
+              <span class="text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+                EHR Link Active
+              </span>
+            </div>
+
+            <!-- List of Reports for Selected Patient -->
+            <div class="text-xs font-bold uppercase text-slate-500 tracking-wider">Verified Imaging & Laboratory Results</div>
+            <div class="space-y-3 max-h-[380px] overflow-y-auto pr-1" id="labSelectedReportsContainer">
+              <!-- Injected via JS -->
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
-  <!-- JAVASCRIPT CONTROLLER -->
+  <!-- ======================================================== -->
+  <!-- MODALS                                                   -->
+  <!-- ======================================================== -->
+
+  <!-- Modal 1: Report Inspection Viewer Modal -->
+  <div id="modalReportViewer" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-base font-bold text-slate-900" id="modalReportTitle">Diagnostic Scan Report</h3>
+        <button onclick="closeReportModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div class="flex justify-between text-slate-500">
+          <span id="modalReportDate">Date: 2026-09-18</span>
+          <span id="modalReportDoctor" class="font-semibold text-slate-700">Dr. Robert Vance, MD</span>
+        </div>
+        <div class="p-4 bg-slate-900 text-teal-400 rounded-2xl font-mono text-[11px] flex items-center justify-center min-h-[120px] text-center border border-slate-800" id="modalReportPreview">
+          [Digital DICOM 3.0T High-Contrast MRI Series Corroborated]
+        </div>
+        <div>
+          <div class="font-bold text-slate-800 mb-1">Radiologist / Pathologist Findings:</div>
+          <p id="modalReportSummary" class="text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-200 leading-relaxed"></p>
+        </div>
+      </div>
+      <div class="pt-2 flex justify-end">
+        <button onclick="closeReportModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">
+          Close Report
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Lab Scan Upload Modal -->
+  <div id="modalLabUpload" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-base font-bold text-slate-900">Upload Diagnostic Scan / Lab Test</h3>
+        <button onclick="closeLabUploadModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Select Patient</label>
+          <select id="labUploadPatientSelect" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-teal-500"></select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Diagnostic Test Title</label>
+          <input type="text" id="labUploadTitle" placeholder="e.g. Left Knee 3.0T MRI Repeat" value="Coronal T2 High-Contrast MRI Scan" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-teal-500">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Test Modality / Category</label>
+          <select id="labUploadType" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800">
+            <option value="Radiology / MRI">Radiology / MRI</option>
+            <option value="Radiology / X-Ray">Radiology / X-Ray</option>
+            <option value="Pathology / Blood">Pathology / Blood</option>
+            <option value="Immunology Panel">Immunology Panel</option>
+            <option value="Specialist Consult">Specialist Consult</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Summary Findings</label>
+          <textarea id="labUploadFindings" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 h-20 resize-none">Confirmed intact collateral ligaments and verified tear boundaries.</textarea>
+        </div>
+      </div>
+      <div class="pt-2 flex justify-end gap-2">
+        <button onclick="closeLabUploadModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Cancel</button>
+        <button onclick="submitLabUpload()" class="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs rounded-xl">Upload & Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Doctor Contraindication Note Modal -->
+  <div id="modalDoctorNote" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-base font-bold text-slate-900">Document Clinical Contraindication</h3>
+        <button onclick="closeDoctorNoteModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <p class="text-slate-600">Provide physician attestation to clear the step-therapy uncertainty gap under Medicare LCD guidelines:</p>
+        <textarea id="doctorNoteText" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-800 h-28 resize-none">Documented contraindication: Patient has history of hepatic transaminitis (AST 184 / ALT 210). Methotrexate trial contraindicated per LCD §4.2.1 statutory exemption.</textarea>
+      </div>
+      <div class="pt-2 flex justify-end gap-2">
+        <button onclick="closeDoctorNoteModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Cancel</button>
+        <button onclick="submitDoctorNote()" class="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs rounded-xl">Sign & Clear Gap</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APP CONTROLLER -->
   <script>
+    let currentRole = 'coordinator';
     let currentCases = [];
     let activeCaseIndex = 0;
     let isMasked = true;
     let currentAdjudication = null;
     let currentPatientLang = 'en';
+    let currentPatientId = 'pat_10492';
+    let activeDoctorNoteCase = 'case2';
+    let labPatients = [];
+    let selectedLabPatientId = 'pat_10492';
 
-    // Interactive View Switcher for Sidebar Tabs
-    function switchMainView(viewName) {
-      document.getElementById('viewCockpit').classList.add('hidden');
-      document.getElementById('viewPolicies').classList.add('hidden');
-      document.getElementById('viewSignoff').classList.add('hidden');
-
-      // Reset button styles
-      ['Cockpit', 'Policies', 'Signoff'].forEach(name => {
-        const btn = document.getElementById(`nav${name}Btn`);
-        if (btn) {
-          btn.className = 'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition text-left';
-        }
-      });
-
-      if (viewName === 'cockpit') {
-        document.getElementById('viewCockpit').classList.remove('hidden');
-        document.getElementById('navCockpitBtn').className = 'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-teal-50 text-teal-700 font-bold border border-teal-100 shadow-sm transition text-left';
-      } else if (viewName === 'policies') {
-        document.getElementById('viewPolicies').classList.remove('hidden');
-        document.getElementById('navPoliciesBtn').className = 'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-teal-50 text-teal-700 font-bold border border-teal-100 shadow-sm transition text-left';
-      } else if (viewName === 'signoff') {
-        document.getElementById('viewSignoff').classList.remove('hidden');
-        document.getElementById('navSignoffBtn').className = 'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-teal-50 text-teal-700 font-bold border border-teal-100 shadow-sm transition text-left';
+    // 1. Role Switching & Auth
+    function switchAuthTab(tab) {
+      if (tab === 'signin') {
+        document.getElementById('formSignIn').classList.remove('hidden');
+        document.getElementById('formSignUp').classList.add('hidden');
+        document.getElementById('tabSignInBtn').className = 'flex-1 py-2.5 text-xs font-bold rounded-xl bg-white text-slate-800 shadow-sm transition';
+        document.getElementById('tabSignUpBtn').className = 'flex-1 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition';
+      } else {
+        document.getElementById('formSignIn').classList.add('hidden');
+        document.getElementById('formSignUp').classList.remove('hidden');
+        document.getElementById('tabSignUpBtn').className = 'flex-1 py-2.5 text-xs font-bold rounded-xl bg-white text-slate-800 shadow-sm transition';
+        document.getElementById('tabSignInBtn').className = 'flex-1 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition';
       }
       lucide.createIcons();
     }
 
+    async function loginWithRole(role) {
+      currentRole = role;
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ role: role })
+        });
+        const data = await res.json();
+        
+        document.getElementById('authScreen').classList.add('hidden');
+        document.getElementById('mainDashboard').classList.remove('hidden');
+
+        // Hide all portals
+        document.getElementById('portalCoordinator').classList.add('hidden');
+        document.getElementById('portalDoctor').classList.add('hidden');
+        document.getElementById('portalPatient').classList.add('hidden');
+        document.getElementById('portalLab').classList.add('hidden');
+
+        // Reset pill styles
+        ['Coord', 'Doctor', 'Patient', 'Lab'].forEach(p => {
+          const el = document.getElementById(`pill${p}`);
+          if (el) el.className = 'px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition';
+        });
+
+        // Set user profile info
+        document.getElementById('userNameDisplay').innerText = data.user.name;
+        document.getElementById('userRoleDisplay').innerText = data.user.role_title;
+        document.getElementById('userAvatar').innerText = data.user.avatar;
+
+        if (role === 'coordinator') {
+          document.getElementById('portalCoordinator').classList.remove('hidden');
+          document.getElementById('pillCoord').className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition';
+          document.getElementById('roleHeaderBadge').innerText = 'Prior-Auth Coordinator Portal';
+          document.getElementById('portalSubText').innerText = 'Full AI Adjudication & Payer Policy Matrix';
+          switchCoordinatorView('cockpit');
+        } else if (role === 'doctor') {
+          document.getElementById('portalDoctor').classList.remove('hidden');
+          document.getElementById('pillDoctor').className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition';
+          document.getElementById('roleHeaderBadge').innerText = 'Physician Certification Station';
+          document.getElementById('portalSubText').innerText = '1-Click Clinical Attestation & Electronic Sign-off';
+          loadDoctorQueue();
+        } else if (role === 'patient') {
+          document.getElementById('portalPatient').classList.remove('hidden');
+          document.getElementById('pillPatient').className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition';
+          document.getElementById('roleHeaderBadge').innerText = 'MyCare Patient Portal';
+          document.getElementById('portalSubText').innerText = 'Personalized Treatment Status, Scans & Billing';
+          loadPatientPortal(currentPatientId);
+        } else if (role === 'lab') {
+          document.getElementById('portalLab').classList.remove('hidden');
+          document.getElementById('pillLab').className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition';
+          document.getElementById('roleHeaderBadge').innerText = 'Diagnostic & Radiology Lab Station';
+          document.getElementById('portalSubText').innerText = 'Patient List, PACS Scans & Pathology Linking';
+          loadLabPortal();
+        }
+      } catch (e) {
+        console.error("Login failed:", e);
+      }
+      lucide.createIcons();
+    }
+
+    function manualLoginSubmit() {
+      const email = document.getElementById('manualEmail').value.toLowerCase();
+      if (email.includes('sarah') || email.includes('doc')) {
+        loginWithRole('doctor');
+      } else if (email.includes('ramesh') || email.includes('pat') || email.includes('gmail')) {
+        loginWithRole('patient');
+      } else if (email.includes('alex') || email.includes('lab')) {
+        loginWithRole('lab');
+      } else {
+        loginWithRole('coordinator');
+      }
+    }
+
+    async function logout() {
+      try {
+        await fetch('/api/auth/logout', { method: 'POST' });
+      } catch (e) {}
+      document.getElementById('mainDashboard').classList.add('hidden');
+      document.getElementById('authScreen').classList.remove('hidden');
+      switchAuthTab('signin');
+      lucide.createIcons();
+    }
+
+    let uploadedScanName = "Patient_Knee_MRI_Scan.pdf";
+
+    function handlePatientFileSelect(e) {
+      if (e.target.files && e.target.files[0]) {
+        uploadedScanName = e.target.files[0].name;
+        document.getElementById('patientFileLabel').innerText = `Attached: ${uploadedScanName} ✓`;
+      }
+    }
+
+    async function registerNewPatient() {
+      const name = document.getElementById('regName').value || 'New Patient';
+      const dob = document.getElementById('regDob').value || '1984-06-15';
+      const phone = document.getElementById('regPhone').value || '+1 (555) 782-9011';
+      const payer = document.getElementById('regPayer').value || 'Anthem Blue Cross';
+      const policyId = document.getElementById('regPolicy').value || 'POL-882194';
+      const complaint = document.getElementById('regComplaint').value || 'Knee pain and joint locking';
+
+      try {
+        const res = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            name: name,
+            dob: dob,
+            phone: phone,
+            insurance_provider: payer,
+            policy_id: policyId,
+            chief_complaint: complaint,
+            report_filename: uploadedScanName,
+            report_type: 'Patient Uploaded Scan'
+          })
+        });
+        const data = await res.json();
+        currentPatientId = data.patient.id;
+        
+        alert(`🎉 Welcome to CareAuth, ${name}!\n\nYour account and uploaded diagnostic file (${uploadedScanName}) have been created and linked to MRN: ${data.patient.mrn}.\n\nLogging in to your personal patient portal now...`);
+        
+        await loginWithRole('patient');
+        loadPatientPortal(currentPatientId);
+      } catch (e) {
+        console.error("Registration error:", e);
+        alert("Registration completed! Logging in...");
+        loginWithRole('patient');
+      }
+    }
+
+    // 2. Main Coordinator Workflow
     async function initDashboard() {
       try {
         const res = await fetch('/api/cases');
         currentCases = await res.json();
         renderPatientCards();
         loadCase(0);
-        setInterval(fetchTelemetry, 3000);
       } catch (e) {
-        console.error("Dashboard initialization error:", e);
+        console.error("Dashboard error:", e);
+      }
+    }
+
+    function switchCoordinatorView(view) {
+      const cockpitBtn = document.getElementById('coordTabCockpit');
+      const policiesBtn = document.getElementById('coordTabPolicies');
+      const cockpitView = document.getElementById('coordViewCockpit');
+      const policiesView = document.getElementById('coordViewPolicies');
+
+      if (view === 'cockpit') {
+        cockpitBtn.className = 'w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-teal-50 text-teal-700 font-bold border border-teal-100 text-left transition';
+        policiesBtn.className = 'w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-500 hover:bg-slate-50 text-left transition';
+        cockpitView.classList.remove('hidden');
+        policiesView.classList.add('hidden');
+      } else {
+        policiesBtn.className = 'w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-teal-50 text-teal-700 font-bold border border-teal-100 text-left transition';
+        cockpitBtn.className = 'w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-500 hover:bg-slate-50 text-left transition';
+        policiesView.classList.remove('hidden');
+        cockpitView.classList.add('hidden');
+        loadPayerPolicies();
+      }
+      lucide.createIcons();
+    }
+
+    async function loadPayerPolicies() {
+      try {
+        const res = await fetch('/api/policies');
+        const policies = await res.json();
+        const container = document.getElementById('policyCardsContainer');
+        container.innerHTML = `
+          <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold font-mono text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">CG-SURG-01</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Anthem Blue Cross</span>
+            </div>
+            <h4 class="font-bold text-sm text-slate-900">${policies.anthem_cg_surg_01.title}</h4>
+            <div class="text-xs text-slate-600">Covered CPTs: <span class="font-mono font-bold">${policies.anthem_cg_surg_01.cpt_codes.join(', ')}</span></div>
+            <div class="space-y-1.5 pt-2 border-t border-slate-200 text-xs">
+              ${policies.anthem_cg_surg_01.criteria_clauses.map(c => `
+                <div class="flex items-start gap-1.5 text-slate-700">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-teal-600 shrink-0 mt-0.5"></i>
+                  <span>${c}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">LCD L33777</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Medicare CMS</span>
+            </div>
+            <h4 class="font-bold text-sm text-slate-900">${policies.medicare_lcd_l33777.title}</h4>
+            <div class="text-xs text-slate-600">Covered HCPCS: <span class="font-mono font-bold">${policies.medicare_lcd_l33777.hcpcs_codes.join(', ')}</span></div>
+            <div class="space-y-1.5 pt-2 border-t border-slate-200 text-xs">
+              ${policies.medicare_lcd_l33777.criteria_clauses.map(c => `
+                <div class="flex items-start gap-1.5 text-slate-700">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5"></i>
+                  <span>${c}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+      } catch (e) {
+        console.error("Policies loading failed:", e);
       }
     }
 
@@ -542,19 +907,19 @@
       const caseBadges = ['Clean Approval', 'Step-Therapy Gap', 'Denial Appeal'];
       
       container.innerHTML = currentCases.map((c, idx) => `
-        <div onclick="loadCase(${idx})" class="p-5 rounded-2xl bg-white border cursor-pointer transition ${idx === activeCaseIndex ? 'border-teal-500 ring-2 ring-teal-500/20 shadow-md' : 'border-slate-200 hover:border-slate-300 shadow-sm'}">
-          <div class="flex items-center justify-between mb-2">
+        <div onclick="loadCase(${idx})" class="p-4 rounded-2xl bg-white border cursor-pointer transition ${idx === activeCaseIndex ? 'border-teal-500 ring-2 ring-teal-500/20 shadow-sm' : 'border-slate-200 hover:border-slate-300'}">
+          <div class="flex items-center justify-between mb-1.5">
             <span class="text-xs font-mono font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
               ${caseIcons[idx]}
             </span>
-            <span class="text-[11px] font-semibold px-2 py-0.5 rounded ${c.color === 'emerald' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : (c.color === 'amber' ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-indigo-50 text-indigo-700 border border-indigo-200')}">
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${c.color === 'emerald' ? 'bg-emerald-50 text-emerald-700' : (c.color === 'amber' ? 'bg-amber-50 text-amber-700' : 'bg-indigo-50 text-indigo-700')}">
               ${caseBadges[idx]}
             </span>
           </div>
-          <div class="font-bold text-sm text-slate-800">${c.title.split(':')[1]?.split('(')[0] || c.title}</div>
-          <div class="text-xs text-slate-500 mt-1">${c.procedure}</div>
-          <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="text-slate-400 font-medium">Confidence:</span>
+          <div class="font-bold text-xs text-slate-800 truncate">${c.title.split(':')[1]?.split('(')[0] || c.title}</div>
+          <div class="text-[11px] text-slate-500 truncate mt-0.5">${c.procedure}</div>
+          <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+            <span class="text-slate-400">Confidence:</span>
             <span class="font-bold font-mono ${c.color === 'emerald' ? 'text-emerald-600' : (c.color === 'amber' ? 'text-amber-600' : 'text-indigo-600')}">${c.confidence_expected}</span>
           </div>
         </div>
@@ -573,7 +938,7 @@
     async function runAdjudication() {
       const docText = document.getElementById('documentInput').value;
       const btn = document.getElementById('runAdjudicateBtn');
-      btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Reasoning on Policy Guidelines...`;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Reasoning on AMD...`;
       lucide.createIcons();
 
       try {
@@ -588,48 +953,29 @@
       } catch (err) {
         console.error("Adjudication failed:", err);
       } finally {
-        btn.innerHTML = `<i data-lucide="play" class="w-5 h-5 fill-current"></i> Run Multi-Agent Adjudication`;
+        btn.innerHTML = `<i data-lucide="play" class="w-4 h-4 fill-current"></i> Run Multi-Agent Adjudication on AMD`;
         lucide.createIcons();
       }
     }
 
     function renderAdjudicationResults(data) {
       const adj = data.adjudication_analysis;
-      const ext = data.extracted_clinical_facts;
-
-      document.getElementById('targetPolicyTag').innerText = ext.target_policy || "Payer Policy Rulebook";
-
       const scorePct = Math.round(adj.overall_confidence * 100);
-      const scoreBadge = document.getElementById('overallScoreBadge');
-      scoreBadge.innerText = `${scorePct}%`;
-      if (scorePct >= 85) {
-        scoreBadge.className = 'text-2xl font-black font-mono text-emerald-600';
-      } else if (scorePct >= 70) {
-        scoreBadge.className = 'text-2xl font-black font-mono text-amber-600';
-      } else {
-        scoreBadge.className = 'text-2xl font-black font-mono text-red-600';
-      }
-
-      const pillContainer = document.getElementById('extractedPillRack');
-      pillContainer.innerHTML = `
-        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-mono text-[11px] font-medium border border-slate-200">CPT: ${ext.cpt_codes?.join(', ')}</span>
-        <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-mono text-[11px] font-medium border border-slate-200">ICD-10: ${ext.icd10_codes?.join(', ')}</span>
-        <span class="px-2.5 py-1 rounded-md bg-teal-50 text-teal-700 font-mono text-[11px] font-semibold border border-teal-200">${ext.conservative_therapy?.duration_months ? ext.conservative_therapy.duration_months + ' Mo PT Verified ✓' : 'PT Evaluated'}</span>
-      `;
+      document.getElementById('overallScoreBadge').innerText = `${scorePct}%`;
+      document.getElementById('decisionStatusTag').innerText = adj.adjudication_status;
+      document.getElementById('decisionTitle').innerText = adj.decision_title;
+      document.getElementById('decisionDesc').innerText = adj.decision_summary;
 
       const matrixContainer = document.getElementById('criteriaMatrixContainer');
       matrixContainer.innerHTML = adj.criteria_matrix.map(c => `
-        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col gap-1 hover:border-slate-300 transition">
-          <div class="flex items-center justify-between gap-2">
-            <span class="font-bold text-xs text-slate-800">${c.clause_title}</span>
-            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded shrink-0 ${c.status === 'MET' || c.status === 'VERIFIED' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+        <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-1">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-slate-800">${c.clause_title}</span>
+            <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded ${c.status === 'MET' || c.status === 'VERIFIED' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
               ${c.status} (${Math.round(c.confidence_score * 100)}%)
             </span>
           </div>
-          <div class="text-[11px] text-slate-600 leading-relaxed">${c.extracted_evidence}</div>
-          <div class="text-[10px] text-teal-700 font-mono flex items-center gap-1.5 mt-0.5">
-            <i data-lucide="bookmark" class="w-3 h-3 text-teal-600"></i> ${c.policy_citation}
-          </div>
+          <div class="text-[11px] text-slate-600">${c.extracted_evidence}</div>
         </div>
       `).join('');
 
@@ -637,15 +983,11 @@
       if (adj.evidence_gaps && adj.evidence_gaps.length > 0) {
         gapBox.classList.remove('hidden');
         document.getElementById('evidenceGapText').innerHTML = adj.evidence_gaps.map(g => `
-          <strong>• ${g.item}:</strong> ${g.description} <br><em>Remediation: ${g.remediation}</em>
-        `).join('<br><br>');
+          <strong>• ${g.item}:</strong> ${g.description}
+        `).join('<br>');
       } else {
         gapBox.classList.add('hidden');
       }
-
-      document.getElementById('decisionStatusTag').innerText = adj.adjudication_status;
-      document.getElementById('decisionTitle').innerText = adj.decision_title;
-      document.getElementById('decisionDesc').innerText = adj.decision_summary;
 
       switchOutputTab('formal');
       lucide.createIcons();
@@ -660,13 +1002,13 @@
       const langSel = document.getElementById('langSelector');
 
       if (tab === 'formal') {
-        formalBtn.className = 'text-xs font-bold px-3 py-1.5 rounded-lg bg-white text-slate-800 shadow-sm transition';
-        patientBtn.className = 'text-xs font-medium px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition';
+        formalBtn.className = 'font-bold px-3 py-1 rounded-lg bg-white text-slate-800 shadow-sm transition';
+        patientBtn.className = 'font-medium px-3 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition';
         langSel.classList.add('hidden');
         box.innerText = packets.formal_packet_markdown;
       } else {
-        patientBtn.className = 'text-xs font-bold px-3 py-1.5 rounded-lg bg-white text-slate-800 shadow-sm transition';
-        formalBtn.className = 'text-xs font-medium px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 transition';
+        patientBtn.className = 'font-bold px-3 py-1 rounded-lg bg-white text-slate-800 shadow-sm transition';
+        formalBtn.className = 'font-medium px-3 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition';
         langSel.classList.remove('hidden');
         setPatientLang(currentPatientLang);
       }
@@ -677,50 +1019,385 @@
       if (!currentAdjudication) return;
       const packets = currentAdjudication.generated_packets;
       const box = document.getElementById('outputContentBox');
-      
       ['en', 'es', 'hi'].forEach(l => {
         const btn = document.getElementById(`btnLang${l.charAt(0).toUpperCase() + l.slice(1)}`);
-        if (l === lang) {
-          btn.className = 'px-2.5 py-1 rounded-lg bg-white text-teal-700 font-bold shadow-sm';
-        } else {
-          btn.className = 'px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800';
-        }
+        if (btn) btn.className = l === lang ? 'px-2 py-0.5 rounded bg-white text-teal-700 font-bold border' : 'px-2 py-0.5 rounded text-slate-500';
       });
-
       if (lang === 'en') box.innerText = packets.patient_friendly_en;
       if (lang === 'es') box.innerText = packets.patient_friendly_es;
       if (lang === 'hi') box.innerText = packets.patient_friendly_hi;
     }
 
-    function copyOutputContent() {
-      const text = document.getElementById('outputContentBox').innerText;
-      navigator.clipboard.writeText(text);
-      alert("Prior Authorization Packet copied to clipboard!");
-    }
-
-    function togglePhiMask() {
+    async function togglePhiMask() {
       isMasked = !isMasked;
       document.getElementById('toggleMaskBtn').innerText = isMasked ? 'Raw View' : 'Masked View';
       const input = document.getElementById('documentInput');
-      if (!isMasked && currentCases[activeCaseIndex]) {
+      if (isMasked && currentCases[activeCaseIndex]) {
+        try {
+          const res = await fetch('/api/phi-sanitize', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ text: currentCases[activeCaseIndex].content })
+          });
+          const data = await res.json();
+          input.value = data.sanitized_text;
+        } catch (e) {
+          input.value = currentCases[activeCaseIndex].content;
+        }
+      } else if (currentCases[activeCaseIndex]) {
         input.value = currentCases[activeCaseIndex].content;
       }
     }
 
-    async function signOffCase(actionType) {
-      if (!currentAdjudication) return;
-      const caseId = currentAdjudication.extracted_clinical_facts.case_id;
-      const res = await fetch('/api/sign-off', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          case_id: caseId,
-          physician_name: "Dr. Deepak Kannan, MD",
-          action: actionType
-        })
+    // 3. Doctor Portal Functions
+    async function loadDoctorQueue() {
+      try {
+        const res = await fetch('/api/doctor/queue');
+        const queue = await res.json();
+        const container = document.getElementById('doctorQueueContainer');
+        container.innerHTML = queue.map(c => `
+          <div class="p-5 rounded-2xl border ${c.signed ? 'border-emerald-300 bg-emerald-50/30' : 'border-slate-200 bg-slate-50/50'} flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold font-mono text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">${c.case_id.toUpperCase()}</span>
+                <span class="text-xs font-bold text-slate-800">${c.patient_name} (MRN: ${c.mrn})</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded ${c.confidence > 0.8 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'} font-mono">
+                  ${Math.round(c.confidence * 100)}% CONFIDENCE
+                </span>
+              </div>
+              <div class="text-xs text-slate-600 mt-1">${c.procedure} — <span class="font-semibold text-slate-700">${c.payer}</span></div>
+              <div class="text-[11px] ${c.confidence < 0.8 ? 'text-amber-700 font-semibold' : 'text-slate-500'} mt-0.5">${c.criteria_summary}</div>
+              ${c.signed ? `<div class="text-[10px] font-mono font-bold text-emerald-700 mt-1.5 flex items-center gap-1"><i data-lucide="check-check" class="w-3.5 h-3.5"></i> ${c.signature_stamp}</div>` : ''}
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              ${c.case_id === 'case2' && !c.signed ? `
+                <button onclick="openDoctorNoteModal('${c.case_id}')" class="px-4 py-2.5 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl shadow-sm transition">
+                  Document Contraindication
+                </button>
+              ` : ''}
+              ${c.signed ? `
+                <span class="px-4 py-2 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-xl flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4"></i> Certified & Transmitted
+                </span>
+              ` : `
+                <button onclick="signDoctorCase('${c.case_id}')" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition">
+                  <i data-lucide="check" class="w-4 h-4"></i> 1-Click Electronic Attestation
+                </button>
+              `}
+            </div>
+          </div>
+        `).join('');
+        lucide.createIcons();
+      } catch (e) {
+        console.error("Doctor queue error:", e);
+      }
+    }
+
+    async function signDoctorCase(caseId) {
+      try {
+        const res = await fetch('/api/doctor/sign-off', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            case_id: caseId,
+            physician_name: "Dr. Sarah Jenkins, MD",
+            action: "APPROVED_SUBMIT"
+          })
+        });
+        const data = await res.json();
+        alert(`[TRANSMITTED TO PAYER CLEARINGHOUSE]\n\n${data.message}\nDigital Attestation Stamp: ${data.digital_attestation_hash}`);
+        loadDoctorQueue();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function openDoctorNoteModal(caseId) {
+      activeDoctorNoteCase = caseId;
+      document.getElementById('modalDoctorNote').classList.remove('hidden');
+    }
+
+    function closeDoctorNoteModal() {
+      document.getElementById('modalDoctorNote').classList.add('hidden');
+    }
+
+    async function submitDoctorNote() {
+      const note = document.getElementById('doctorNoteText').value;
+      try {
+        const res = await fetch('/api/doctor/note', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ case_id: activeDoctorNoteCase, note: note })
+        });
+        const data = await res.json();
+        alert(data.message);
+        closeDoctorNoteModal();
+        loadDoctorQueue();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // 4. Patient Portal Functions
+    let currentPatientData = null;
+
+    async function loadPatientPortal(patId) {
+      try {
+        const res = await fetch(`/api/patient/${patId}`);
+        const patient = await res.json();
+        currentPatientData = patient;
+
+        document.getElementById('patientGreeting').innerText = `Hello, ${patient.name} 👋`;
+        document.getElementById('patientProcedureTitle').innerText = patient.procedure;
+        
+        const badge = document.getElementById('patientStatusBadge');
+        if (patient.adjudication_status === 'APPROVED' || patient.adjudication_status === 'PHYSICIAN_CERTIFIED') {
+          badge.className = 'text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800';
+          badge.innerText = 'Paperwork Approved & Ready';
+        } else if (patient.adjudication_status === 'NEEDS_INFO') {
+          badge.className = 'text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800';
+          badge.innerText = 'Information Requested';
+        } else {
+          badge.className = 'text-xs font-bold px-3 py-1 rounded-full bg-indigo-100 text-indigo-800';
+          badge.innerText = 'In Clinical Review';
+        }
+
+        setPatientPortalLang('en');
+
+        // Render Reports List
+        renderPatientReportsList(patient.diagnostic_reports || []);
+
+        // Render Billing
+        const billing = patient.billing || {};
+        document.getElementById('billTotalCost').innerText = `$${(billing.facility_cost || 4200).toFixed(2)}`;
+        document.getElementById('billInsurancePaid').innerText = `-$${(billing.insurance_covered || 3950).toFixed(2)}`;
+        document.getElementById('billCopayDue').innerText = `$${(billing.copay_balance || 0).toFixed(2)}`;
+
+        const payBtn = document.getElementById('payBillBtn');
+        const successBox = document.getElementById('paymentSuccessNotice');
+        if (billing.is_paid) {
+          successBox.classList.remove('hidden');
+          document.getElementById('paymentReceiptText').innerText = `Receipt #${billing.receipt_id} — Paid at ${billing.paid_at}`;
+          payBtn.disabled = true;
+          payBtn.className = 'w-full mt-3 py-3 bg-slate-200 text-slate-400 font-bold rounded-xl cursor-not-allowed';
+          payBtn.innerText = 'Co-Pay Paid in Full ✓';
+        } else {
+          successBox.classList.add('hidden');
+          payBtn.disabled = false;
+          payBtn.className = 'w-full mt-3 py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow-sm transition flex items-center justify-center gap-2';
+          payBtn.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i> Pay Co-Pay Balance ($${(billing.copay_balance || 250).toFixed(2)})`;
+        }
+
+        lucide.createIcons();
+      } catch (e) {
+        console.error("Patient portal load error:", e);
+      }
+    }
+
+    function renderPatientReportsList(reports) {
+      const container = document.getElementById('patientReportsList');
+      if (!reports || reports.length === 0) {
+        container.innerHTML = '<div class="text-slate-400 py-4 text-center">No diagnostic reports uploaded yet.</div>';
+        return;
+      }
+      container.innerHTML = reports.map((r, i) => `
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <div>
+            <div class="font-bold text-slate-800">${r.title}</div>
+            <div class="text-[11px] text-slate-400">${r.type} • ${r.date}</div>
+          </div>
+          <button onclick="viewReportDetail(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="text-teal-600 font-bold hover:underline flex items-center gap-1 text-xs">
+            View <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function setPatientPortalLang(lang) {
+      if (!currentPatientData) return;
+      ['en', 'es', 'hi'].forEach(l => {
+        const btn = document.getElementById(`ptLang${l.charAt(0).toUpperCase() + l.slice(1)}`);
+        if (btn) btn.className = l === lang ? 'px-2 py-0.5 rounded bg-white text-teal-700 font-bold border border-teal-200 shadow-sm' : 'px-2 py-0.5 rounded text-slate-500 hover:text-slate-800';
       });
-      const data = await res.json();
-      alert(`[TRANSMITTED TO PAYER CLEARINGHOUSE]\n\n${data.message}\nElectronic Signature of Dr. Deepak Kannan Verified.`);
+
+      const body = document.getElementById('patientPlainBody');
+      const nextSteps = document.getElementById('patientNextSteps');
+
+      if (lang === 'es') {
+        body.innerText = "¡Buenas noticias! La solicitud de su médico para la artroscopia de rodilla izquierda ha sido revisada y aprobada por Anthem Blue Cross. Nuestro sistema médico verificó sus 6 meses de fisioterapia y confirmó que su resonancia magnética muestra una rotura de cartílago. Anthem cubrirá su parte de las facturas. La oficina de su cirujano le llamará en un plazo de 2 días hábiles para programar su cirugía.";
+        nextSteps.innerText = "1. Espere una llamada de la clínica de la Dra. Jenkins.\n2. Revise su lista de verificación antes de la cirugía.\n3. Pague su copago ($250.00) en línea.";
+      } else if (lang === 'hi') {
+        body.innerText = "अच्छी खबर! आपके बाएं घुटने की आर्थ्रोस्कोपी के लिए डॉक्टर के अनुरोध को एंथेम ब्लू क्रॉस द्वारा अनुमोदित कर दिया गया है। हमारे मेडिकल सिस्टम ने आपकी 6 महीने की फिजियोथेरेपी की जांच की और पुष्टि की कि आपके एमआरआई में कार्टिलेज का फटना दिखाई दे रहा है। बीमा अस्पताल के बिलों का भुगतान करेगा। सर्जरी की तारीख तय करने के लिए आपका डॉक्टर 2 दिनों में फोन करेगा।";
+        nextSteps.innerText = "1. डॉक्टर की क्लिनिक से कॉल का इंतजार करें।\n2. अपनी चेकलिस्ट की समीक्षा करें।\n3. अपना कोपे ($250.00) ऑनलाइन कभी भी जमा करें।";
+      } else {
+        body.innerText = currentPatientData.plain_english_summary?.body || "Your request is in review with your healthcare provider.";
+        nextSteps.innerText = currentPatientData.plain_english_summary?.next_steps || "1. Awaiting physician review.";
+      }
+    }
+
+    async function processPatientPayment() {
+      const btn = document.getElementById('payBillBtn');
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Processing Payment...`;
+      lucide.createIcons();
+
+      try {
+        const res = await fetch(`/api/patient/${currentPatientId}/pay`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ amount: 250.00 })
+        });
+        const data = await res.json();
+        alert(`🎉 Payment Successful!\n\nReceipt Number: ${data.receipt_id}\nAmount Paid: $${data.amount_paid.toFixed(2)}\n\nYour copay balance is now $0.00.`);
+        loadPatientPortal(currentPatientId);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function openPatientUploadModal() {
+      const filename = prompt("Enter the name of your outside scan or document to attach (e.g. Outside_Hospital_Knee_MRI.pdf):", "Outside_Knee_MRI.pdf");
+      if (filename) {
+        fetch(`/api/patient/${currentPatientId}/upload-report`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            title: filename,
+            type: "Patient Uploaded Scan",
+            summary: "Uploaded by patient for clinical prior-authorization review."
+          })
+        }).then(res => res.json()).then(data => {
+          alert(`Document '${filename}' attached to your patient chart!`);
+          loadPatientPortal(currentPatientId);
+        });
+      }
+    }
+
+    // 5. Lab Tech Portal Functions
+    async function loadLabPortal() {
+      try {
+        const res = await fetch('/api/lab/patients');
+        labPatients = await res.json();
+        renderLabPatientList();
+        if (labPatients.length > 0) {
+          selectLabPatient(labPatients[0].id);
+        }
+      } catch (e) {
+        console.error("Lab portal error:", e);
+      }
+    }
+
+    function renderLabPatientList() {
+      const container = document.getElementById('labPatientListContainer');
+      container.innerHTML = labPatients.map(p => `
+        <div onclick="selectLabPatient('${p.id}')" class="p-3.5 rounded-2xl border cursor-pointer transition ${p.id === selectedLabPatientId ? 'border-teal-500 bg-teal-50/50 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'}">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-800">${p.name}</span>
+            <span class="text-[10px] font-mono font-bold text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded border border-teal-200">MRN: ${p.mrn}</span>
+          </div>
+          <div class="text-[11px] text-slate-500 truncate mt-0.5">${p.procedure}</div>
+          <div class="text-[10px] text-slate-400 mt-1 flex items-center justify-between">
+            <span>${p.report_count} Diagnostic Tests</span>
+            <span class="text-teal-600 font-semibold">${p.insurance}</span>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    async function selectLabPatient(patId) {
+      selectedLabPatientId = patId;
+      renderLabPatientList();
+      try {
+        const res = await fetch(`/api/lab/patients/${patId}/reports`);
+        const data = await res.json();
+        document.getElementById('labSelectedPatientName').innerText = `${data.name}`;
+        document.getElementById('labSelectedMrn').innerText = `MRN: ${data.mrn}`;
+        
+        const pat = labPatients.find(p => p.id === patId);
+        document.getElementById('labSelectedProcedure').innerText = pat ? pat.procedure : 'Diagnostic Workup';
+
+        const reportsContainer = document.getElementById('labSelectedReportsContainer');
+        if (!data.reports || data.reports.length === 0) {
+          reportsContainer.innerHTML = '<div class="text-slate-400 py-6 text-center">No lab or imaging reports found for this patient.</div>';
+          return;
+        }
+
+        reportsContainer.innerHTML = data.reports.map(r => `
+          <div class="p-4 rounded-xl border border-slate-200 bg-white space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-900">${r.title}</span>
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                ${r.status}
+              </span>
+            </div>
+            <div class="text-[11px] text-slate-500">${r.type} • Performed: ${r.date} • ${r.doctor}</div>
+            <p class="text-xs text-slate-700 bg-slate-50 p-2.5 rounded-lg border border-slate-100">${r.summary}</p>
+            <div class="pt-1 flex justify-end">
+              <button onclick="viewReportDetail(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="text-xs font-bold text-teal-600 hover:text-teal-700 flex items-center gap-1">
+                <i data-lucide="eye" class="w-3.5 h-3.5"></i> Inspect Imaging / Lab Values
+              </button>
+            </div>
+          </div>
+        `).join('');
+        lucide.createIcons();
+      } catch (e) {
+        console.error("Failed to load patient reports for lab:", e);
+      }
+    }
+
+    function openLabUploadModal() {
+      const select = document.getElementById('labUploadPatientSelect');
+      select.innerHTML = labPatients.map(p => `
+        <option value="${p.id}" ${p.id === selectedLabPatientId ? 'selected' : ''}>${p.name} (MRN: ${p.mrn})</option>
+      `).join('');
+      document.getElementById('modalLabUpload').classList.remove('hidden');
+    }
+
+    function closeLabUploadModal() {
+      document.getElementById('modalLabUpload').classList.add('hidden');
+    }
+
+    async function submitLabUpload() {
+      const patId = document.getElementById('labUploadPatientSelect').value;
+      const title = document.getElementById('labUploadTitle').value;
+      const testType = document.getElementById('labUploadType').value;
+      const findings = document.getElementById('labUploadFindings').value;
+
+      try {
+        const res = await fetch('/api/lab/upload', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            patient_id: patId,
+            test_title: title,
+            test_type: testType,
+            summary_findings: findings,
+            technician_name: "Alex Chen"
+          })
+        });
+        const data = await res.json();
+        alert(data.message);
+        closeLabUploadModal();
+        loadLabPortal();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // 6. Generic Modals
+    function viewReportDetail(report) {
+      document.getElementById('modalReportTitle').innerText = report.title;
+      document.getElementById('modalReportDate').innerText = `Date: ${report.date}`;
+      document.getElementById('modalReportDoctor').innerText = report.doctor;
+      document.getElementById('modalReportPreview').innerText = `[${report.image_preview || 'Digital DICOM Image Series Verified'}]`;
+      document.getElementById('modalReportSummary').innerText = report.summary;
+      document.getElementById('modalReportViewer').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeReportModal() {
+      document.getElementById('modalReportViewer').classList.add('hidden');
     }
 
     window.onload = () => {
