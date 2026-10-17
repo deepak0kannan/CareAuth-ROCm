@@ -6,7 +6,7 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.enum.shapes import MSO_SHAPE
 
-def create_deck():
+def create_master_deck():
     prs = Presentation()
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
@@ -33,7 +33,6 @@ def create_deck():
         return bg
 
     def add_header(slide, title, category="CAREAUTH-ROCM CLINICAL INTELLIGENCE", tracker="TRACK 2: HEALTH & WELLBEING | EVOLUS ON AMD"):
-        # Category / Tracker Pill
         tracker_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.4), Inches(11.733), Inches(0.35))
         tf_tr = tracker_box.text_frame
         tf_tr.word_wrap = True
@@ -44,7 +43,6 @@ def create_deck():
         p_tr.font.bold = True
         p_tr.font.color.rgb = COLOR_AMD_RED
 
-        # Title
         title_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.7), Inches(11.733), Inches(0.7))
         tf_t = title_box.text_frame
         tf_t.word_wrap = True
@@ -55,7 +53,6 @@ def create_deck():
         p_t.font.bold = True
         p_t.font.color.rgb = COLOR_TEXT_WHITE
 
-        # Divider line
         line = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0.8), Inches(1.4), Inches(11.733), Inches(0.02))
         line.fill.solid()
         line.fill.fore_color.rgb = COLOR_CARD_BORDER
@@ -78,13 +75,11 @@ def create_deck():
     s1 = prs.slides.add_slide(blank_layout)
     set_slide_background(s1)
 
-    # Accent Red Bar on Left
     accent = s1.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0.8), Inches(1.2), Inches(0.15), Inches(5.0))
     accent.fill.solid()
     accent.fill.fore_color.rgb = COLOR_AMD_RED
     accent.line.fill.background()
 
-    # Title & Subtitle Box
     tbox = s1.shapes.add_textbox(Inches(1.2), Inches(1.2), Inches(11.3), Inches(3.2))
     tf = tbox.text_frame
     tf.word_wrap = True
@@ -106,10 +101,9 @@ def create_deck():
     p1.space_after = Pt(10)
 
     p2 = tf.add_paragraph()
-    p2.text = "Autonomous Clinical Prior-Authorization & Payer-Policy Adjudication Agent"
+    p2.text = "Autonomous Healthcare Prior-Authorization & Payer-Policy Adjudication Agent"
     p2.font.name = "Segoe UI"
     p2.font.size = Pt(20)
-    p2.font.bold = False
     p2.font.color.rgb = COLOR_TEXT_MUTED
     p2.space_after = Pt(10)
 
@@ -120,7 +114,6 @@ def create_deck():
     p3.font.bold = True
     p3.font.color.rgb = COLOR_TEAL
 
-    # 3 Badges at the bottom
     badges = [
         ("HIPAA COMPLIANT", "Local PHI Sanitization on AMD", COLOR_TEAL),
         ("VISIBLE UNCERTAINTY", "Evidence Gap & Confidence Matrix", COLOR_YELLOW),
@@ -128,12 +121,10 @@ def create_deck():
     ]
     for i, (b_title, b_sub, b_col) in enumerate(badges):
         bx = Inches(1.2 + i * 3.8)
-        card = add_card(s1, bx, Inches(4.8), Inches(3.6), Inches(1.5))
-        
+        add_card(s1, bx, Inches(4.8), Inches(3.6), Inches(1.5))
         cbox = s1.shapes.add_textbox(bx + Inches(0.2), Inches(4.9), Inches(3.2), Inches(1.3))
         ctf = cbox.text_frame
         ctf.word_wrap = True
-        
         cp0 = ctf.paragraphs[0]
         cp0.text = b_title
         cp0.font.name = "Segoe UI"
@@ -141,7 +132,6 @@ def create_deck():
         cp0.font.bold = True
         cp0.font.color.rgb = b_col
         cp0.space_after = Pt(4)
-
         cp1 = ctf.add_paragraph()
         cp1.text = b_sub
         cp1.font.name = "Segoe UI"
@@ -149,11 +139,10 @@ def create_deck():
         cp1.font.bold = True
         cp1.font.color.rgb = COLOR_TEXT_WHITE
 
-    # Author footer
     foot = s1.shapes.add_textbox(Inches(1.2), Inches(6.6), Inches(11.0), Inches(0.5))
     ftf = foot.text_frame
     ftp = ftf.paragraphs[0]
-    ftp.text = "Team Techtors  |  Live Prototype Demonstration  |  October 2026"
+    ftp.text = "Team Techtors  |  5-Minute Prototype Master Deck  |  October 2026"
     ftp.font.name = "Segoe UI"
     ftp.font.size = Pt(11)
     ftp.font.color.rgb = COLOR_TEXT_MUTED
@@ -165,13 +154,12 @@ def create_deck():
     )
 
     # =========================================================================
-    # SLIDE 2: THE HEALTHCARE CRISIS (PROBLEM STATEMENT)
+    # SLIDE 2: THE HEALTHCARE CRISIS
     # =========================================================================
     s2 = prs.slides.add_slide(blank_layout)
     set_slide_background(s2)
     add_header(s2, "The Crisis: 14 Hours of Paperwork vs. Patient Healing", category="THE PROBLEM")
 
-    # 3 Stat Cards
     stats = [
         ("14+ Hours / Week", "Physician Administrative Burden", "Doctors spend nearly 2 full workdays every week filling out prior-authorization insurance forms instead of caring for patients.", COLOR_AMD_RED),
         ("$31 Billion", "Annual US Administrative Waste", "Direct administrative overhead wasted annually on manual chart review, faxes, portal entries, and insurance phone queues.", COLOR_YELLOW),
@@ -180,11 +168,9 @@ def create_deck():
     for i, (val, label, desc, col) in enumerate(stats):
         cx = Inches(0.8 + i * 3.97)
         add_card(s2, cx, Inches(1.7), Inches(3.8), Inches(2.5))
-        
         box = s2.shapes.add_textbox(cx + Inches(0.2), Inches(1.8), Inches(3.4), Inches(2.3))
         btf = box.text_frame
         btf.word_wrap = True
-        
         p = btf.paragraphs[0]
         p.text = val
         p.font.name = "Segoe UI"
@@ -192,7 +178,6 @@ def create_deck():
         p.font.bold = True
         p.font.color.rgb = col
         p.space_after = Pt(4)
-
         p2 = btf.add_paragraph()
         p2.text = label.upper()
         p2.font.name = "Segoe UI"
@@ -200,19 +185,16 @@ def create_deck():
         p2.font.bold = True
         p2.font.color.rgb = COLOR_TEXT_WHITE
         p2.space_after = Pt(8)
-
         p3 = btf.add_paragraph()
         p3.text = desc
         p3.font.name = "Segoe UI"
         p3.font.size = Pt(12)
         p3.font.color.rgb = COLOR_TEXT_MUTED
 
-    # Root Cause Breakdown Box
     add_card(s2, Inches(0.8), Inches(4.5), Inches(11.733), Inches(2.4))
     rbox = s2.shapes.add_textbox(Inches(1.1), Inches(4.6), Inches(11.1), Inches(2.2))
     rtf = rbox.text_frame
     rtf.word_wrap = True
-
     rp0 = rtf.paragraphs[0]
     rp0.text = "WHY HAS TRADITIONAL SOFTWARE FAILED TO FIX THIS?"
     rp0.font.name = "Segoe UI"
@@ -233,8 +215,6 @@ def create_deck():
         p.font.size = Pt(13)
         p.font.bold = True
         p.font.color.rgb = COLOR_TEXT_WHITE
-        
-        # Add descriptive part
         run = p.add_run()
         run.text = desc
         run.font.bold = False
@@ -243,8 +223,7 @@ def create_deck():
 
     s2.notes_slide.notes_text_frame.text = (
         "Every physician understands this pain. In the United States, doctors spend 14 hours every single week fighting prior-authorizations. "
-        "It costs $31 billion in pure waste. Why? Because insurance guidelines are 80-page legal documents and patient charts are unstructured PDFs. "
-        "CareAuth-ROCm solves this at the root."
+        "It costs $31 billion in pure waste. Why? Because insurance guidelines are 80-page legal documents and patient charts are unstructured PDFs."
     )
 
     # =========================================================================
@@ -265,13 +244,10 @@ def create_deck():
         row_idx = i // 2
         cx = Inches(0.8 + col_idx * 5.97)
         cy = Inches(1.7 + row_idx * 2.65)
-        
         add_card(s3, cx, cy, Inches(5.76), Inches(2.45))
-        
         pbox = s3.shapes.add_textbox(cx + Inches(0.25), cy + Inches(0.2), Inches(5.26), Inches(2.1))
         ptf = pbox.text_frame
         ptf.word_wrap = True
-        
         p = ptf.paragraphs[0]
         p.text = p_title.upper()
         p.font.name = "Segoe UI"
@@ -279,7 +255,6 @@ def create_deck():
         p.font.bold = True
         p.font.color.rgb = col
         p.space_after = Pt(2)
-
         p2 = ptf.add_paragraph()
         p2.text = p_sub
         p2.font.name = "Segoe UI"
@@ -287,7 +262,6 @@ def create_deck():
         p2.font.bold = True
         p2.font.color.rgb = COLOR_TEXT_WHITE
         p2.space_after = Pt(8)
-
         p3 = ptf.add_paragraph()
         p3.text = p_desc
         p3.font.name = "Segoe UI"
@@ -300,18 +274,16 @@ def create_deck():
     )
 
     # =========================================================================
-    # SLIDE 4: DUAL-JUDGE ARCHITECTURE (EVOLUS + AMD ROCM)
+    # SLIDE 4: DUAL-JUDGE ARCHITECTURE
     # =========================================================================
     s4 = prs.slides.add_slide(blank_layout)
     set_slide_background(s4)
     add_header(s4, "The Dual-Judge Architecture: Evolus Front + AMD ROCm Core", category="SYSTEM ARCHITECTURE")
 
-    # Front of House Card (Evolus)
     add_card(s4, Inches(0.8), Inches(1.7), Inches(5.76), Inches(5.2))
     f_box = s4.shapes.add_textbox(Inches(1.1), Inches(1.9), Inches(5.16), Inches(4.8))
     f_tf = f_box.text_frame
     f_tf.word_wrap = True
-
     p = f_tf.paragraphs[0]
     p.text = "FRONT-OF-HOUSE: EVOLUS PLATFORM"
     p.font.name = "Segoe UI"
@@ -319,7 +291,6 @@ def create_deck():
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
     p.space_after = Pt(6)
-
     p2 = f_tf.add_paragraph()
     p2.text = "Autonomous Healthcare Business Agent Workflow"
     p2.font.name = "Segoe UI"
@@ -347,12 +318,10 @@ def create_deck():
         run.font.color.rgb = COLOR_TEXT_MUTED
         p.space_after = Pt(8)
 
-    # Back of House Card (AMD ROCm)
     add_card(s4, Inches(6.77), Inches(1.7), Inches(5.76), Inches(5.2))
     b_box = s4.shapes.add_textbox(Inches(7.07), Inches(1.9), Inches(5.16), Inches(4.8))
     b_tf = b_box.text_frame
     b_tf.word_wrap = True
-
     p = b_tf.paragraphs[0]
     p.text = "BACK-OF-HOUSE: AMD ROCm INFRASTRUCTURE"
     p.font.name = "Segoe UI"
@@ -360,7 +329,6 @@ def create_deck():
     p.font.bold = True
     p.font.color.rgb = COLOR_AMD_RED
     p.space_after = Pt(6)
-
     p2 = b_tf.add_paragraph()
     p2.text = "High-Throughput Private Clinical Inference"
     p2.font.name = "Segoe UI"
@@ -410,11 +378,9 @@ def create_deck():
     for i, (stage, name, desc, col) in enumerate(pipeline_steps):
         cx = Inches(0.8 + i * 2.98)
         add_card(s5, cx, Inches(1.8), Inches(2.8), Inches(4.8))
-        
         box = s5.shapes.add_textbox(cx + Inches(0.15), Inches(2.0), Inches(2.5), Inches(4.4))
         btf = box.text_frame
         btf.word_wrap = True
-        
         p = btf.paragraphs[0]
         p.text = stage
         p.font.name = "Segoe UI"
@@ -422,7 +388,6 @@ def create_deck():
         p.font.bold = True
         p.font.color.rgb = col
         p.space_after = Pt(4)
-
         p2 = btf.add_paragraph()
         p2.text = name
         p2.font.name = "Segoe UI"
@@ -430,15 +395,12 @@ def create_deck():
         p2.font.bold = True
         p2.font.color.rgb = COLOR_TEXT_WHITE
         p2.space_after = Pt(12)
-
         p3 = btf.add_paragraph()
         p3.text = desc
         p3.font.name = "Segoe UI"
         p3.font.size = Pt(12)
         p3.font.color.rgb = COLOR_TEXT_MUTED
         p3.space_after = Pt(16)
-
-        # Bottom Sub-bullets
         p4 = btf.add_paragraph()
         p4.text = "KEY CAPABILITIES:"
         p4.font.name = "Segoe UI"
@@ -446,7 +408,6 @@ def create_deck():
         p4.font.bold = True
         p4.font.color.rgb = COLOR_TEXT_WHITE
         p4.space_after = Pt(6)
-
         sub_items = [
             ["• Safe Harbor HIPAA", "• Synthetic token mapping", "• 0% external cloud leakage"],
             ["• CPT / HCPCS mapping", "• Duration tracking", "• Lab baseline verification"],
@@ -468,18 +429,81 @@ def create_deck():
     )
 
     # =========================================================================
-    # SLIDE 6: MAKING UNCERTAINTY VISIBLE (TRACK 2 CORE REQUIREMENT)
+    # SLIDE 6: ENTERPRISE MULTI-ROLE CLINICAL PORTAL (NEW FOR 5-MIN DECK)
     # =========================================================================
     s6 = prs.slides.add_slide(blank_layout)
     set_slide_background(s6)
-    add_header(s6, "Making Uncertainty Visible: The Clinical Confidence Matrix", category="CLINICAL SAFETY & ETHICS")
+    add_header(s6, "Enterprise Role-Based Access Control (RBAC)", category="HEALTHCARE WORKFLOW INTEGRATION")
 
-    # Left card: The 3 Tier Confidence Gate
-    add_card(s6, Inches(0.8), Inches(1.7), Inches(5.76), Inches(5.2))
-    l_box = s6.shapes.add_textbox(Inches(1.1), Inches(1.9), Inches(5.16), Inches(4.8))
+    roles = [
+        ("COORDINATOR PORTAL", "Deepak Kannan (Prior-Auth Lead)", "Full AI Cockpit, case intake, multi-agent trigger, Evidence Gap Matrix, CMS-1500 packet generator, and nurse escalation queue.", COLOR_TEAL),
+        ("DOCTOR PORTAL", "Dr. Aris Thorne, MD (Attending)", "Physician sign-off queue, clause evidence review, clinical override annotations, and 1-Click Electronic Signature transmission.", COLOR_CYAN),
+        ("PATIENT PORTAL", "Eleanor Vance (Patient View)", "Transparent coverage status, 6th-grade plain language explanation, multilingual translations (EN, ES, HI), and out-of-pocket estimates.", COLOR_PURPLE),
+        ("LAB TECH PORTAL", "Diagnostic & PACS Ingestion", "Secure uploading of DICOM MRI scans, X-rays, pathology reports, and blood panels directly into the patient's EHR file.", COLOR_YELLOW)
+    ]
+    for i, (r_name, r_user, r_desc, col) in enumerate(roles):
+        cx = Inches(0.8 + i * 2.98)
+        add_card(s6, cx, Inches(1.8), Inches(2.8), Inches(4.8))
+        box = s6.shapes.add_textbox(cx + Inches(0.15), Inches(2.0), Inches(2.5), Inches(4.4))
+        btf = box.text_frame
+        btf.word_wrap = True
+        p = btf.paragraphs[0]
+        p.text = r_name
+        p.font.name = "Segoe UI"
+        p.font.size = Pt(11)
+        p.font.bold = True
+        p.font.color.rgb = col
+        p.space_after = Pt(4)
+        p2 = btf.add_paragraph()
+        p2.text = r_user
+        p2.font.name = "Segoe UI"
+        p2.font.size = Pt(15)
+        p2.font.bold = True
+        p2.font.color.rgb = COLOR_TEXT_WHITE
+        p2.space_after = Pt(12)
+        p3 = btf.add_paragraph()
+        p3.text = r_desc
+        p3.font.name = "Segoe UI"
+        p3.font.size = Pt(11)
+        p3.font.color.rgb = COLOR_TEXT_MUTED
+        p3.space_after = Pt(16)
+        p4 = btf.add_paragraph()
+        p4.text = "HEALTHCARE IMPACT:"
+        p4.font.name = "Segoe UI"
+        p4.font.size = Pt(10)
+        p4.font.bold = True
+        p4.font.color.rgb = COLOR_TEXT_WHITE
+        p4.space_after = Pt(6)
+        impact_items = [
+            ["• 98.6% faster prep", "• Unified clinical queue", "• Zero faxing needed"],
+            ["• 1-Click legal sign", "• Audit compliance", "• Full physician control"],
+            ["• Health equity focus", "• Plain 6th-grade summary", "• 3 languages supported"],
+            ["• Direct DICOM feed", "• Structured lab ingestion", "• Immediate agent parsing"]
+        ]
+        for item in impact_items[i]:
+            ps = btf.add_paragraph()
+            ps.text = item
+            ps.font.name = "Segoe UI"
+            ps.font.size = Pt(10)
+            ps.font.color.rgb = COLOR_TEXT_MUTED
+            ps.space_after = Pt(4)
+
+    s6.notes_slide.notes_text_frame.text = (
+        "CareAuth-ROCm is a true enterprise platform. We built complete Role-Based Access Control: Coordinators manage cases, "
+        "Doctors sign off legally, Patients understand their care in their native tongue, and Lab Techs feed diagnostic scans directly."
+    )
+
+    # =========================================================================
+    # SLIDE 7: MAKING UNCERTAINTY VISIBLE (TRACK 2 CORE REQUIREMENT)
+    # =========================================================================
+    s7 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s7)
+    add_header(s7, "Making Uncertainty Visible: The Clinical Confidence Matrix", category="CLINICAL SAFETY & ETHICS")
+
+    add_card(s7, Inches(0.8), Inches(1.7), Inches(5.76), Inches(5.2))
+    l_box = s7.shapes.add_textbox(Inches(1.1), Inches(1.9), Inches(5.16), Inches(4.8))
     l_tf = l_box.text_frame
     l_tf.word_wrap = True
-
     p = l_tf.paragraphs[0]
     p.text = "EVIDENCE GAP & CONFIDENCE TIERS"
     p.font.name = "Segoe UI"
@@ -487,7 +511,6 @@ def create_deck():
     p.font.bold = True
     p.font.color.rgb = COLOR_YELLOW
     p.space_after = Pt(6)
-
     p2 = l_tf.add_paragraph()
     p2.text = "Eliminating Hallucinations in Patient Care"
     p2.font.name = "Segoe UI"
@@ -509,7 +532,6 @@ def create_deck():
         p.font.bold = True
         p.font.color.rgb = col
         p.space_after = Pt(2)
-        
         p_sub_par = l_tf.add_paragraph()
         p_sub_par.text = f"{t_sub}: {t_desc}"
         p_sub_par.font.name = "Segoe UI"
@@ -517,12 +539,10 @@ def create_deck():
         p_sub_par.font.color.rgb = COLOR_TEXT_MUTED
         p_sub_par.space_after = Pt(8)
 
-    # Right Card: Human-in-the-Loop Workflow
-    add_card(s6, Inches(6.77), Inches(1.7), Inches(5.76), Inches(5.2))
-    r_box = s6.shapes.add_textbox(Inches(7.07), Inches(1.9), Inches(5.16), Inches(4.8))
+    add_card(s7, Inches(6.77), Inches(1.7), Inches(5.76), Inches(5.2))
+    r_box = s7.shapes.add_textbox(Inches(7.07), Inches(1.9), Inches(5.16), Inches(4.8))
     r_tf = r_box.text_frame
     r_tf.word_wrap = True
-
     p = r_tf.paragraphs[0]
     p.text = "HUMAN-IN-THE-LOOP CONTROL"
     p.font.name = "Segoe UI"
@@ -530,7 +550,6 @@ def create_deck():
     p.font.bold = True
     p.font.color.rgb = COLOR_CYAN
     p.space_after = Pt(6)
-
     p2 = r_tf.add_paragraph()
     p2.text = "Doctors Always Hold the Final Sign-Off"
     p2.font.name = "Segoe UI"
@@ -557,18 +576,17 @@ def create_deck():
         run.font.color.rgb = COLOR_TEXT_MUTED
         p.space_after = Pt(10)
 
-    s6.notes_slide.notes_text_frame.text = (
+    s7.notes_slide.notes_text_frame.text = (
         "Crucial for Track 2: We strictly enforce visible uncertainty. When evidence is incomplete—such as in step-therapy—the agent "
-        "never hallucinates an approval. It drops confidence to yellow, isolates the exact missing clause, and presents an actionable remediation "
-        "path for the clinic nurse."
+        "never hallucinates an approval. It drops confidence to yellow, isolates the exact missing clause, and presents an actionable remediation path."
     )
 
     # =========================================================================
-    # SLIDE 7: LIVE PROTOTYPE DEMONSTRATION (THE 3 GOLDEN CASES)
+    # SLIDE 8: PROTOTYPE VALIDATION (THE 3 GOLDEN CASES)
     # =========================================================================
-    s7 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s7)
-    add_header(s7, "Prototype Validation: The 3 Golden Clinical Scenarios", category="LIVE DEMONSTRATION")
+    s8 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s8)
+    add_header(s8, "Prototype Validation: The 3 Golden Clinical Scenarios", category="LIVE DEMONSTRATION")
 
     cases = [
         ("CASE 1: KNEE ARTHROSCOPY", "Clean Auto-Approval", "CPT 29881 | Left Meniscectomy", "96% Confidence (Green)", "11.4 Seconds", "All 4 Anthem CG-SURG-01 criteria satisfied (6 mo PT, failed NSAIDs, MRI Grade III tear). Instant CMS-1500 packet generated.", COLOR_GREEN),
@@ -577,12 +595,10 @@ def create_deck():
     ]
     for i, (c_name, c_badge, c_sub, c_conf, c_time, c_desc, col) in enumerate(cases):
         cx = Inches(0.8 + i * 3.97)
-        add_card(s7, cx, Inches(1.7), Inches(3.8), Inches(5.2))
-        
-        box = s7.shapes.add_textbox(cx + Inches(0.2), Inches(1.9), Inches(3.4), Inches(4.8))
+        add_card(s8, cx, Inches(1.7), Inches(3.8), Inches(5.2))
+        box = s8.shapes.add_textbox(cx + Inches(0.2), Inches(1.9), Inches(3.4), Inches(4.8))
         btf = box.text_frame
         btf.word_wrap = True
-        
         p = btf.paragraphs[0]
         p.text = c_name
         p.font.name = "Segoe UI"
@@ -590,7 +606,6 @@ def create_deck():
         p.font.bold = True
         p.font.color.rgb = col
         p.space_after = Pt(2)
-
         p2 = btf.add_paragraph()
         p2.text = c_badge
         p2.font.name = "Segoe UI"
@@ -598,7 +613,6 @@ def create_deck():
         p2.font.bold = True
         p2.font.color.rgb = COLOR_TEXT_WHITE
         p2.space_after = Pt(4)
-
         p3 = btf.add_paragraph()
         p3.text = c_sub
         p3.font.name = "Segoe UI"
@@ -606,14 +620,13 @@ def create_deck():
         p3.font.color.rgb = COLOR_TEXT_MUTED
         p3.space_after = Pt(12)
 
-        # Metrics box inside card
-        m_card = s7.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, cx + Inches(0.15), Inches(3.2), Inches(3.5), Inches(0.9))
+        m_card = s8.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, cx + Inches(0.15), Inches(3.2), Inches(3.5), Inches(0.9))
         m_card.fill.solid()
         m_card.fill.fore_color.rgb = COLOR_BG_DARK
         m_card.line.color.rgb = col
         m_card.line.width = Pt(1)
         
-        m_box = s7.shapes.add_textbox(cx + Inches(0.25), Inches(3.25), Inches(3.3), Inches(0.8))
+        m_box = s8.shapes.add_textbox(cx + Inches(0.25), Inches(3.25), Inches(3.3), Inches(0.8))
         mtf = m_box.text_frame
         mtf.word_wrap = True
         mp1 = mtf.paragraphs[0]
@@ -629,7 +642,6 @@ def create_deck():
         mp2.font.size = Pt(10)
         mp2.font.color.rgb = COLOR_TEXT_MUTED
 
-        # Description text
         p4 = btf.add_paragraph()
         p4.space_before = Pt(85)
         p4.text = "OUTCOME & IMPACT:"
@@ -638,32 +650,115 @@ def create_deck():
         p4.font.bold = True
         p4.font.color.rgb = COLOR_TEXT_WHITE
         p4.space_after = Pt(4)
-
         p5 = btf.add_paragraph()
         p5.text = c_desc
         p5.font.name = "Segoe UI"
         p5.font.size = Pt(11)
         p5.font.color.rgb = COLOR_TEXT_MUTED
 
-    s7.notes_slide.notes_text_frame.text = (
+    s8.notes_slide.notes_text_frame.text = (
         "We tested CareAuth-ROCm across three end-to-end clinical scenarios: Case 1 is a clean auto-approval in 11.4 seconds. "
         "Case 2 demonstrates our visible uncertainty gate, catching a step-therapy violation in Humira. "
-        "Case 3 showcases our appeal agent overturning a prior denial by finding a clinical exemption buried in a 45-page transfer chart."
+        "Case 3 showcases our appeal agent overturning a prior denial."
     )
 
     # =========================================================================
-    # SLIDE 8: PATIENT EMPOWERMENT & MULTILINGUAL HEALTH EQUITY
+    # SLIDE 9: PHYSICIAN OVERSIGHT & 1-CLICK SIGN-OFF (NEW FOR 5-MIN DECK)
     # =========================================================================
-    s8 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s8)
-    add_header(s8, "Patient Empowerment & Multilingual Health Equity", category="HEALTH EQUITY & ACCESSIBILITY")
+    s9 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s9)
+    add_header(s9, "Physician Oversight: 1-Click Sign-Off & Transmit", category="CLINICAL GOVERNANCE")
 
-    # Left Card: The Problem of Jargon
-    add_card(s8, Inches(0.8), Inches(1.7), Inches(5.76), Inches(5.2))
-    pl_box = s8.shapes.add_textbox(Inches(1.1), Inches(1.9), Inches(5.16), Inches(4.8))
+    add_card(s9, Inches(0.8), Inches(1.7), Inches(5.76), Inches(5.2))
+    d_box = s9.shapes.add_textbox(Inches(1.1), Inches(1.9), Inches(5.16), Inches(4.8))
+    d_tf = d_box.text_frame
+    d_tf.word_wrap = True
+    p = d_tf.paragraphs[0]
+    p.text = "DOCTOR REVIEW QUEUE (DR. ARIS THORNE, MD)"
+    p.font.name = "Segoe UI"
+    p.font.size = Pt(14)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_CYAN
+    p.space_after = Pt(6)
+    p2 = d_tf.add_paragraph()
+    p2.text = "Zero Faxes, Zero Wait, 100% Medical Authority"
+    p2.font.name = "Segoe UI"
+    p2.font.size = Pt(18)
+    p2.font.bold = True
+    p2.font.color.rgb = COLOR_TEXT_WHITE
+    p2.space_after = Pt(14)
+
+    doc_items = [
+        ("Evidence Clause Inspection: ", "The physician sees exact page numbers, radiology quotes, and physical therapy dates mapped to payer policy clauses."),
+        ("Clinical Comment Override: ", "Physicians can append specific surgical urgency notes or override policy caveats with clinical justification."),
+        ("1-Click Cryptographic Sign: ", "Generates an electronic signature conforming to 42 CFR § 495.4 and state electronic prescribing standards.")
+    ]
+    for t, d in doc_items:
+        p = d_tf.add_paragraph()
+        p.text = f"✔  {t}"
+        p.font.name = "Segoe UI"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = COLOR_TEAL
+        run = p.add_run()
+        run.text = d
+        run.font.bold = False
+        run.font.color.rgb = COLOR_TEXT_MUTED
+        p.space_after = Pt(10)
+
+    add_card(s9, Inches(6.77), Inches(1.7), Inches(5.76), Inches(5.2))
+    p_box = s9.shapes.add_textbox(Inches(7.07), Inches(1.9), Inches(5.16), Inches(4.8))
+    p_tf = p_box.text_frame
+    p_tf.word_wrap = True
+    p = p_tf.paragraphs[0]
+    p.text = "CLEARINGHOUSE TRANSMISSION & AUDITING"
+    p.font.name = "Segoe UI"
+    p.font.size = Pt(14)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_GREEN
+    p.space_after = Pt(6)
+    p2 = p_tf.add_paragraph()
+    p2.text = "Instant Electronic Payer Submission"
+    p2.font.name = "Segoe UI"
+    p2.font.size = Pt(18)
+    p2.font.bold = True
+    p2.font.color.rgb = COLOR_TEXT_WHITE
+    p2.space_after = Pt(14)
+
+    audit_items = [
+        ("Direct EDI 278 Packet Creation: ", "Converts clinical notes into formal ANSI X12 278 healthcare services review transactions."),
+        ("Immutable Ledger Logging: ", "Every agent prompt, confidence calculation, hardware telemetry snapshot, and human approval is timestamped."),
+        ("Audit-Proof Traceability: ", "Hospital compliance officers can replay any prior-auth decision years later with complete proof.")
+    ]
+    for t, d in audit_items:
+        p = p_tf.add_paragraph()
+        p.text = f"⚡  {t}"
+        p.font.name = "Segoe UI"
+        p.font.size = Pt(12)
+        p.font.bold = True
+        p.font.color.rgb = COLOR_GREEN
+        run = p.add_run()
+        run.text = d
+        run.font.bold = False
+        run.font.color.rgb = COLOR_TEXT_MUTED
+        p.space_after = Pt(10)
+
+    s9.notes_slide.notes_text_frame.text = (
+        "The doctor is always in control. Our Doctor Portal gives surgeons and attending physicians a streamlined review queue. "
+        "With one click, they electronically sign the CMS-1500 packet and transmit it to payer clearinghouses."
+    )
+
+    # =========================================================================
+    # SLIDE 10: PATIENT EMPOWERMENT & MULTILINGUAL HEALTH EQUITY
+    # =========================================================================
+    s10 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s10)
+    add_header(s10, "Patient Empowerment & Multilingual Health Equity", category="HEALTH EQUITY & ACCESSIBILITY")
+
+    add_card(s10, Inches(0.8), Inches(1.7), Inches(5.76), Inches(5.2))
+    pl_box = s10.shapes.add_textbox(Inches(1.1), Inches(1.9), Inches(5.16), Inches(4.8))
     pl_tf = pl_box.text_frame
     pl_tf.word_wrap = True
-
     p = pl_tf.paragraphs[0]
     p.text = "TRADITIONAL PAYER LETTERS"
     p.font.name = "Segoe UI"
@@ -671,7 +766,6 @@ def create_deck():
     p.font.bold = True
     p.font.color.rgb = COLOR_AMD_RED
     p.space_after = Pt(6)
-
     p2 = pl_tf.add_paragraph()
     p2.text = "Confusing Jargon & Patient Anxiety"
     p2.font.name = "Segoe UI"
@@ -688,11 +782,10 @@ def create_deck():
     p3.font.color.rgb = COLOR_YELLOW
     p3.space_after = Pt(6)
 
-    quote_box = s8.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(1.1), Inches(3.2), Inches(5.16), Inches(1.8))
+    quote_box = s10.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(1.1), Inches(3.2), Inches(5.16), Inches(1.8))
     quote_box.fill.solid()
     quote_box.fill.fore_color.rgb = COLOR_BG_DARK
     quote_box.line.color.rgb = COLOR_CARD_BORDER
-    
     qtf = quote_box.text_frame
     qtf.word_wrap = True
     qp = qtf.paragraphs[0]
@@ -709,12 +802,10 @@ def create_deck():
     p4.font.size = Pt(12)
     p4.font.color.rgb = COLOR_TEXT_MUTED
 
-    # Right Card: Multilingual Plain Language Solution
-    add_card(s8, Inches(6.77), Inches(1.7), Inches(5.76), Inches(5.2))
-    pr_box = s8.shapes.add_textbox(Inches(7.07), Inches(1.9), Inches(5.16), Inches(4.8))
+    add_card(s10, Inches(6.77), Inches(1.7), Inches(5.76), Inches(5.2))
+    pr_box = s10.shapes.add_textbox(Inches(7.07), Inches(1.9), Inches(5.16), Inches(4.8))
     pr_tf = pr_box.text_frame
     pr_tf.word_wrap = True
-
     p = pr_tf.paragraphs[0]
     p.text = "CAREAUTH-ROCM PATIENT TAB"
     p.font.name = "Segoe UI"
@@ -722,7 +813,6 @@ def create_deck():
     p.font.bold = True
     p.font.color.rgb = COLOR_TEAL
     p.space_after = Pt(6)
-
     p2 = pr_tf.add_paragraph()
     p2.text = "6th-Grade Reading Level in 3 Languages"
     p2.font.name = "Segoe UI"
@@ -744,7 +834,6 @@ def create_deck():
         p.font.bold = True
         p.font.color.rgb = COLOR_CYAN
         p.space_after = Pt(2)
-        
         pr_text = pr_tf.add_paragraph()
         pr_text.text = text
         pr_text.font.name = "Segoe UI"
@@ -752,17 +841,17 @@ def create_deck():
         pr_text.font.color.rgb = COLOR_TEXT_MUTED
         pr_text.space_after = Pt(8)
 
-    s8.notes_slide.notes_text_frame.text = (
+    s10.notes_slide.notes_text_frame.text = (
         "Health equity was a core design goal. Instead of terrifying patients with cold medical jargon, CareAuth translates "
         "every adjudication into plain 6th-grade English, Spanish, and Hindi, empowering patients to understand their treatment plan."
     )
 
     # =========================================================================
-    # SLIDE 9: AMD SILICON & HARDWARE EXPLOITATION
+    # SLIDE 11: AMD SILICON & HARDWARE EXPLOITATION
     # =========================================================================
-    s9 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s9)
-    add_header(s9, "AMD Instinct™ MI300X: Why Silicon Matters in Healthcare", category="AMD HARDWARE BENCHMARKS")
+    s11 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s11)
+    add_header(s11, "AMD Instinct™ MI300X: Why Silicon Matters in Healthcare", category="AMD HARDWARE BENCHMARKS")
 
     amd_benchmarks = [
         ("192 GB HBM3", "Zero Lossy Chunking", "Allows holding entire 45-page patient records and 80-page payer manuals simultaneously in high-bandwidth memory.", COLOR_AMD_RED),
@@ -772,12 +861,10 @@ def create_deck():
     ]
     for i, (stat, title, desc, col) in enumerate(amd_benchmarks):
         cx = Inches(0.8 + i * 2.98)
-        add_card(s9, cx, Inches(1.8), Inches(2.8), Inches(2.4))
-        
-        box = s9.shapes.add_textbox(cx + Inches(0.15), Inches(1.9), Inches(2.5), Inches(2.2))
+        add_card(s11, cx, Inches(1.8), Inches(2.8), Inches(2.4))
+        box = s11.shapes.add_textbox(cx + Inches(0.15), Inches(1.9), Inches(2.5), Inches(2.2))
         btf = box.text_frame
         btf.word_wrap = True
-        
         p = btf.paragraphs[0]
         p.text = stat
         p.font.name = "Segoe UI"
@@ -785,7 +872,6 @@ def create_deck():
         p.font.bold = True
         p.font.color.rgb = col
         p.space_after = Pt(2)
-
         p2 = btf.add_paragraph()
         p2.text = title.upper()
         p2.font.name = "Segoe UI"
@@ -793,19 +879,16 @@ def create_deck():
         p2.font.bold = True
         p2.font.color.rgb = COLOR_TEXT_WHITE
         p2.space_after = Pt(6)
-
         p3 = btf.add_paragraph()
         p3.text = desc
         p3.font.name = "Segoe UI"
         p3.font.size = Pt(11)
         p3.font.color.rgb = COLOR_TEXT_MUTED
 
-    # Bottom Technical Architecture Details
-    add_card(s9, Inches(0.8), Inches(4.5), Inches(11.733), Inches(2.4))
-    abox = s9.shapes.add_textbox(Inches(1.1), Inches(4.6), Inches(11.1), Inches(2.2))
+    add_card(s11, Inches(0.8), Inches(4.5), Inches(11.733), Inches(2.4))
+    abox = s11.shapes.add_textbox(Inches(1.1), Inches(4.6), Inches(11.1), Inches(2.2))
     atf = abox.text_frame
     atf.word_wrap = True
-
     ap0 = atf.paragraphs[0]
     ap0.text = "ROCm SOFTWARE STACK & DEPLOYMENT ARCHITECTURE"
     ap0.font.name = "Segoe UI"
@@ -832,25 +915,22 @@ def create_deck():
         run.font.color.rgb = COLOR_TEXT_MUTED
         p.space_after = Pt(6)
 
-    s9.notes_slide.notes_text_frame.text = (
+    s11.notes_slide.notes_text_frame.text = (
         "Why AMD? In healthcare AI, memory capacity is king. Patient charts and insurance guidelines are massive. "
-        "With the AMD Instinct MI300X's 192GB of HBM3 memory, we avoid lossy chunking entirely, achieving 86 tokens per second "
-        "with sub-200ms initial response time."
+        "With the AMD Instinct MI300X's 192GB of HBM3 memory, we avoid lossy chunking entirely, achieving 86 tokens per second."
     )
 
     # =========================================================================
-    # SLIDE 10: MEASURABLE IMPACT & CLINICAL ROI
+    # SLIDE 12: MEASURABLE IMPACT & CLINICAL ROI
     # =========================================================================
-    s10 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s10)
-    add_header(s10, "Measurable Impact & Clinical ROI", category="BUSINESS & CLINICAL VALUE")
+    s12 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s12)
+    add_header(s12, "Measurable Impact & Clinical ROI", category="BUSINESS & CLINICAL VALUE")
 
-    # Left: Impact Comparison Table Card
-    add_card(s10, Inches(0.8), Inches(1.7), Inches(7.5), Inches(5.2))
-    tbl_box = s10.shapes.add_textbox(Inches(1.1), Inches(1.9), Inches(6.9), Inches(4.8))
+    add_card(s12, Inches(0.8), Inches(1.7), Inches(7.5), Inches(5.2))
+    tbl_box = s12.shapes.add_textbox(Inches(1.1), Inches(1.9), Inches(6.9), Inches(4.8))
     tbl_tf = tbl_box.text_frame
     tbl_tf.word_wrap = True
-
     p = tbl_tf.paragraphs[0]
     p.text = "BENCHMARK: MANUAL VS. CAREAUTH-ROCM"
     p.font.name = "Segoe UI"
@@ -873,26 +953,22 @@ def create_deck():
         p.font.size = Pt(12)
         p.font.bold = True
         p.font.color.rgb = COLOR_TEXT_WHITE
-        
         r1 = p.add_run()
         r1.text = f"{manual}  ➔  "
         r1.font.bold = False
         r1.font.color.rgb = COLOR_TEXT_MUTED
-
         r2 = p.add_run()
         r2.text = f"{careauth} "
         r2.font.bold = True
         r2.font.color.rgb = COLOR_TEAL
-
         r3 = p.add_run()
         r3.text = f"({imp})"
         r3.font.bold = True
         r3.font.color.rgb = COLOR_GREEN
         p.space_after = Pt(12)
 
-    # Right: Clinic ROI Cards
-    add_card(s10, Inches(8.55), Inches(1.7), Inches(3.98), Inches(2.45))
-    r1_box = s10.shapes.add_textbox(Inches(8.75), Inches(1.85), Inches(3.58), Inches(2.1))
+    add_card(s12, Inches(8.55), Inches(1.7), Inches(3.98), Inches(2.45))
+    r1_box = s12.shapes.add_textbox(Inches(8.75), Inches(1.85), Inches(3.58), Inches(2.1))
     r1_tf = r1_box.text_frame
     r1_tf.word_wrap = True
     rp1 = r1_tf.paragraphs[0]
@@ -910,13 +986,13 @@ def create_deck():
     rp2.font.color.rgb = COLOR_TEXT_WHITE
     rp2.space_after = Pt(6)
     rp3 = r1_tf.add_paragraph()
-    rp3.text = "Eliminating 14 hours/week of physician administrative overtime across a 10-provider orthopedic or rheumatology practice."
+    rp3.text = "Eliminating 14 hours/week of physician administrative overtime across a 10-provider practice."
     rp3.font.name = "Segoe UI"
     rp3.font.size = Pt(11)
     rp3.font.color.rgb = COLOR_TEXT_MUTED
 
-    add_card(s10, Inches(8.55), Inches(4.45), Inches(3.98), Inches(2.45))
-    r2_box = s10.shapes.add_textbox(Inches(8.75), Inches(4.6), Inches(3.58), Inches(2.1))
+    add_card(s12, Inches(8.55), Inches(4.45), Inches(3.98), Inches(2.45))
+    r2_box = s12.shapes.add_textbox(Inches(8.75), Inches(4.6), Inches(3.58), Inches(2.1))
     r2_tf = r2_box.text_frame
     r2_tf.word_wrap = True
     r2p1 = r2_tf.paragraphs[0]
@@ -934,22 +1010,22 @@ def create_deck():
     r2p2.font.color.rgb = COLOR_TEXT_WHITE
     r2p2.space_after = Pt(6)
     r2p3 = r2_tf.add_paragraph()
-    r2p3.text = "Catching evidence gaps and step-therapy issues before filing eliminates 74% of initial insurer rejections and costly rework."
+    r2p3.text = "Catching evidence gaps and step-therapy issues before filing eliminates 74% of initial insurer rejections."
     r2p3.font.name = "Segoe UI"
     r2p3.font.size = Pt(11)
     r2p3.font.color.rgb = COLOR_TEXT_MUTED
 
-    s10.notes_slide.notes_text_frame.text = (
+    s12.notes_slide.notes_text_frame.text = (
         "The return on investment is immediate. We cut review time from 45 minutes down to 11.4 seconds—a 98.6% reduction. "
         "For a typical 10-physician clinic, this recovers $182,000 in lost productivity and prevents 74% of initial denials."
     )
 
     # =========================================================================
-    # SLIDE 11: PRODUCTION ROADMAP & FUTURE VISION
+    # SLIDE 13: PRODUCTION ROADMAP & FUTURE VISION
     # =========================================================================
-    s11 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s11)
-    add_header(s11, "Production Roadmap & Clinical Deployment", category="FUTURE ROADMAP")
+    s13 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s13)
+    add_header(s13, "Production Roadmap & Clinical Deployment", category="FUTURE ROADMAP")
 
     roadmap_stages = [
         ("PHASE 1: PROTOTYPE (COMPLETED)", "Hackathon Working MVP", [
@@ -957,7 +1033,8 @@ def create_deck():
             "✔ AMD Instinct MI300X vLLM backend",
             "✔ Evidence Gap & Confidence Matrix",
             "✔ 3 Golden Clinical Scenarios tested",
-            "✔ Multilingual Patient summaries"
+            "✔ Multilingual Patient summaries",
+            "✔ RBAC: Doctor, Patient, Lab Portals"
         ], COLOR_GREEN),
         ("PHASE 2: PILOT (Q1 2027)", "EHR & Clearinghouse Integration", [
             "• FHIR & HL7 v2 connectors (Epic / Cerner)",
@@ -976,12 +1053,10 @@ def create_deck():
     ]
     for i, (stage, sub, items, col) in enumerate(roadmap_stages):
         cx = Inches(0.8 + i * 3.97)
-        add_card(s11, cx, Inches(1.7), Inches(3.8), Inches(5.2))
-        
-        box = s11.shapes.add_textbox(cx + Inches(0.2), Inches(1.9), Inches(3.4), Inches(4.8))
+        add_card(s13, cx, Inches(1.7), Inches(3.8), Inches(5.2))
+        box = s13.shapes.add_textbox(cx + Inches(0.2), Inches(1.9), Inches(3.4), Inches(4.8))
         btf = box.text_frame
         btf.word_wrap = True
-        
         p = btf.paragraphs[0]
         p.text = stage
         p.font.name = "Segoe UI"
@@ -989,7 +1064,6 @@ def create_deck():
         p.font.bold = True
         p.font.color.rgb = col
         p.space_after = Pt(2)
-
         p2 = btf.add_paragraph()
         p2.text = sub
         p2.font.name = "Segoe UI"
@@ -997,7 +1071,6 @@ def create_deck():
         p2.font.bold = True
         p2.font.color.rgb = COLOR_TEXT_WHITE
         p2.space_after = Pt(16)
-
         for item in items:
             pi = btf.add_paragraph()
             pi.text = item
@@ -1006,21 +1079,20 @@ def create_deck():
             pi.font.color.rgb = COLOR_TEXT_MUTED if not item.startswith("✔") else COLOR_TEXT_WHITE
             pi.space_after = Pt(8)
 
-    s11.notes_slide.notes_text_frame.text = (
+    s13.notes_slide.notes_text_frame.text = (
         "Phase 1 is fully built and working today. Phase 2 connects CareAuth directly into Epic and Cerner via FHIR APIs, "
         "and Phase 3 expands our autonomous agents into oncology, cardiology, and predictive denial management."
     )
 
     # =========================================================================
-    # SLIDE 12: CONCLUSION & SUMMARY
+    # SLIDE 14: CONCLUSION & SUMMARY
     # =========================================================================
-    s12 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s12)
-    add_header(s12, "Summary: Transforming Healthcare Administration with AMD", category="CONCLUSION")
+    s14 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s14)
+    add_header(s14, "Summary: Transforming Healthcare Administration with AMD", category="CONCLUSION")
 
-    # Big Summary Card
-    add_card(s12, Inches(0.8), Inches(1.7), Inches(11.733), Inches(5.2))
-    sum_box = s12.shapes.add_textbox(Inches(1.2), Inches(1.9), Inches(10.9), Inches(4.8))
+    add_card(s14, Inches(0.8), Inches(1.7), Inches(11.733), Inches(5.2))
+    sum_box = s14.shapes.add_textbox(Inches(1.2), Inches(1.9), Inches(10.9), Inches(4.8))
     stf = sum_box.text_frame
     stf.word_wrap = True
 
@@ -1059,7 +1131,6 @@ def create_deck():
         run.font.color.rgb = COLOR_TEXT_MUTED
         p.space_after = Pt(10)
 
-    # Final Team Callout
     callout = stf.add_paragraph()
     callout.space_before = Pt(12)
     callout.text = "Team Techtors  |  Built with ❤️ for AMD Developer Hackathon: ACT III  |  October 2026"
@@ -1068,7 +1139,7 @@ def create_deck():
     callout.font.bold = True
     callout.font.color.rgb = COLOR_CYAN
 
-    s12.notes_slide.notes_text_frame.text = (
+    s14.notes_slide.notes_text_frame.text = (
         "Judges, CareAuth-ROCm proves that autonomous agents and specialized hardware can solve healthcare's greatest administrative crisis. "
         "Built on Evolus and powered by AMD Instinct MI300X, we replace bureaucratic burnout with instant, transparent care. "
         "Thank you, and we welcome your questions!"
@@ -1076,7 +1147,7 @@ def create_deck():
 
     output_path = os.path.join(os.getcwd(), "CareAuth_ROCm_Prototype_Presentation.pptx")
     prs.save(output_path)
-    print(f"Presentation successfully created at: {output_path}")
+    print(f"Master 14-slide presentation successfully created at: {output_path}")
 
 if __name__ == "__main__":
-    create_deck()
+    create_master_deck()
