@@ -112,8 +112,8 @@ To strictly satisfy the hackathon's requirement (*"Show a realistic case from fi
 
 ### 1. Installation
 ```bash
-git clone https://github.com/<your-username>/careauth-rocm.git
-cd careauth-rocm
+git clone https://github.com/deepak0kannan/CareAuth-ROCm.git
+cd CareAuth-ROCm
 pip install -r requirements.txt
 ```
 
@@ -122,7 +122,7 @@ Copy the `.env.example` file:
 ```bash
 cp .env.example .env
 ```
-*(The repository runs seamlessly out of the box with offline mock mode enabled. To connect live AMD Cloud / Evolus endpoints, fill in your API keys in `.env`)*.
+*(The repository runs seamlessly out of the box with realistic offline simulation mode enabled. To connect live AMD Cloud / Evolus endpoints, fill in your API keys in `.env`)*.
 
 ### 3. Launch the Application
 ```bash
@@ -130,6 +130,32 @@ python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 Open your browser and navigate to:
 👉 **`http://localhost:8000`**
+
+---
+
+## 🖥️ The 4 Role-Based Clinical Portals
+
+CareAuth-ROCm delivers tailor-made interactive experiences for every healthcare stakeholder:
+
+1. **Prior-Auth Coordinator Cockpit:** Full multi-agent AI pipeline execution, policy library search, evidence gap matrix, and real-time AMD Instinct MI300X telemetry.
+2. **Physician Certification Station:** Doctor queue with clinical EHR notes, 6th-grade patient explanations in 3 languages, interactive diagnostic PACS scans, policy criteria review, and 1-click cryptographic electronic signature sign-off.
+3. **MyCare Patient Portal:** 6th-grade plain-language summaries (English, Spanish, Hindi), personal diagnostic scan reports with PACS imaging viewer, procedure status tracker, and working online co-pay billing checkout. Includes 1-click patient switching between preloaded clinical cases.
+4. **Diagnostic & Radiology Lab Station:** Patient list management, diagnostic record inspection, PACS series linking, and direct clinical test result uploading.
+
+---
+
+## 🩻 High-Fidelity PACS Medical Imaging & Diagnostic Viewer
+
+CareAuth-ROCm features an embedded DICOM 3.0 standard viewer with Invert, Zoom, and Reset controls:
+- **Knee 3.0T MRI:** Sagittal T2-FS cross-section highlighting Grade III meniscal tear with targeted crosshair HUD.
+- **Physical Therapy Summary:** 24-week goniometric Range-of-Motion (ROM) deficit curve chart (showing 95° mechanical plateau vs. 135° normal) with protocol exhaustion seal.
+- **Standing Knee X-Rays:** Weight-bearing radiograph confirming intact joint space (4.8mm) and KL Grade 1.
+- **Pre-Op Hematology & Metabolic Panel:** Automated Sysmex analyzer readout with physiological bar meters and ASA Class I clearance.
+- **Rheumatoid Serology:** Anti-CCP (>250 U/mL) and RF (112 IU/mL) ELISA titration curves.
+- **QuantiFERON-TB Gold Plus:** 4-tube optical density IGRA assay proving latent TB negative status for safe biologic initiation.
+- **Hands & Wrists Radiography:** PA digital radiograph with targeted crosshairs on 2nd and 3rd MCP joint erosions.
+- **Liver Transaminase Assay:** AST (184 U/L) and ALT (210 U/L) kinetic elevation bars proving statutory exception to Methotrexate.
+- **Tertiary Rheumatology Consult:** Official clinical consult note with DAS28-CRP 5.8 severe disease gauge and digital physician certification.
 
 ---
 
@@ -144,3 +170,4 @@ Open your browser and navigate to:
 ## 👥 Team Techtors
 * **Project:** CareAuth-ROCm
 * **Event:** AMD Developer Hackathon: ACT III (October 2026)
+* **Repository:** [https://github.com/deepak0kannan/CareAuth-ROCm](https://github.com/deepak0kannan/CareAuth-ROCm)
