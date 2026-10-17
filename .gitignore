@@ -25,3 +25,8 @@ sample_checkpoints.py
 inspect_video.ps1
 generate_docx.py
 CareAuth_ROCm_Demo_With_Voiceover/
+
+# Exclude local narration scripts and cover image from repo
+CareAuth_ROCm_Video_Narration_Script.docx
+VIDEO_PRESENTATION_SCRIPT.md
+careauth_rocm_cover_16_9.jpg
