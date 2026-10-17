@@ -57,7 +57,7 @@
           <i data-lucide="heart-pulse" class="w-8 h-8"></i>
         </div>
         <h1 class="text-2xl font-black text-slate-900 tracking-tight">CareAuth <span class="text-teal-600 font-mono text-lg">AI</span></h1>
-        <p class="text-xs text-slate-500 mt-1 font-medium">Enterprise Healthcare Prior-Authorization & Patient Care Management</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium">Enterprise Healthcare Prior-Authorization & Clinical Management Portal</p>
       </div>
 
       <!-- Auth Mode Switcher -->
@@ -70,72 +70,80 @@
         </button>
       </div>
 
-      <!-- 1. SIGN IN FORM WITH 1-CLICK ROLE DEMO LOGINS -->
+      <!-- 1. SIGN IN FORM WITH ROLE SELECTION -->
       <div id="formSignIn" class="space-y-5">
         
         <div>
-          <div class="text-xs uppercase font-bold text-slate-400 tracking-wider mb-2.5 flex items-center justify-between">
-            <span>Select Your Portal Role (1-Click Demo)</span>
-            <span class="text-[10px] text-teal-600 font-semibold bg-teal-50 px-2 py-0.5 rounded">Quick Access</span>
+          <label class="block text-xs uppercase font-bold text-slate-400 tracking-wider mb-2">
+            1. Select Your Hospital Role
+          </label>
+          <div class="grid grid-cols-2 gap-2.5" id="roleSelectorGrid">
+            
+            <!-- Role 1: Coordinator -->
+            <div onclick="selectRole('coordinator')" id="roleCard-coordinator" class="p-3.5 rounded-2xl border-2 border-teal-500 bg-teal-50/50 cursor-pointer transition flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <i data-lucide="layout-grid" class="w-4 h-4 text-teal-600"></i> Coordinator
+                </div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Full AI Cockpit</div>
+              </div>
+              <div class="w-4 h-4 rounded-full border-2 border-teal-600 bg-teal-600 flex items-center justify-center text-white text-[10px]">✓</div>
+            </div>
+
+            <!-- Role 2: Doctor -->
+            <div onclick="selectRole('doctor')" id="roleCard-doctor" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <i data-lucide="stethoscope" class="w-4 h-4 text-slate-400"></i> Doctor
+                </div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Sign-Off Queue</div>
+              </div>
+              <div class="w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center text-[10px]"></div>
+            </div>
+
+            <!-- Role 3: Patient -->
+            <div onclick="selectRole('patient')" id="roleCard-patient" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <i data-lucide="user" class="w-4 h-4 text-slate-400"></i> Patient
+                </div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Scans & Billing</div>
+              </div>
+              <div class="w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center text-[10px]"></div>
+            </div>
+
+            <!-- Role 4: Lab Tech -->
+            <div onclick="selectRole('lab')" id="roleCard-lab" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <i data-lucide="microscope" class="w-4 h-4 text-slate-400"></i> Lab Tech
+                </div>
+                <div class="text-[10px] text-slate-400 mt-0.5">PACS & Lab Uploads</div>
+              </div>
+              <div class="w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center text-[10px]"></div>
+            </div>
+
           </div>
-          <div class="grid grid-cols-2 gap-2.5">
-            <button onclick="loginWithRole('coordinator')" class="p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 text-left transition group">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-800 group-hover:text-teal-700">Prior-Auth Coordinator</span>
-                <i data-lucide="layout-grid" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
-              </div>
-              <div class="text-[10px] text-slate-400 mt-1">Full AI Cockpit & Payer Policies</div>
-            </button>
-
-            <button onclick="loginWithRole('doctor')" class="p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 text-left transition group">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-800 group-hover:text-teal-700">Attending Physician</span>
-                <i data-lucide="stethoscope" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
-              </div>
-              <div class="text-[10px] text-slate-400 mt-1">1-Click Sign-Off & Review Queue</div>
-            </button>
-
-            <button onclick="loginWithRole('patient')" class="p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 text-left transition group">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-800 group-hover:text-teal-700">Patient Portal</span>
-                <i data-lucide="user" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
-              </div>
-              <div class="text-[10px] text-slate-400 mt-1">6th-Std Reports, Scans & Billing</div>
-            </button>
-
-            <button onclick="loginWithRole('lab')" class="p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 text-left transition group">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-800 group-hover:text-teal-700">Diagnostic / Lab Tech</span>
-                <i data-lucide="microscope" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
-              </div>
-              <div class="text-[10px] text-slate-400 mt-1">Patient List, MRI & Scan Uploads</div>
-            </button>
-          </div>
-        </div>
-
-        <div class="relative flex py-1 items-center">
-          <div class="flex-grow border-t border-slate-200"></div>
-          <span class="flex-shrink mx-4 text-slate-400 text-[10px] uppercase font-bold tracking-wider">Or Sign In with Hospital Credentials</span>
-          <div class="flex-grow border-t border-slate-200"></div>
         </div>
 
         <div class="space-y-3 text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Email / Hospital ID</label>
-            <input type="text" id="manualEmail" value="deepak.kannan@hospital.org" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+            <label class="block font-bold text-slate-700 mb-1">2. Email / Hospital ID</label>
+            <input type="text" id="loginEmail" value="deepak.kannan@hospital.org" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500 font-mono">
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Password</label>
-            <input type="password" id="manualPass" value="••••••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+            <label class="block font-bold text-slate-700 mb-1">3. Password</label>
+            <input type="password" id="loginPass" value="••••••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
           </div>
-          <button onclick="manualLoginSubmit()" class="w-full py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
-            <i data-lucide="log-in" class="w-4 h-4"></i> Sign In to Hospital Portal
+          
+          <button onclick="submitSignIn()" id="btnSignInSubmit" class="w-full mt-2 py-3.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
+            <i data-lucide="log-in" class="w-4 h-4"></i> Sign In to Portal
           </button>
         </div>
 
       </div>
 
-      <!-- 2. NEW PATIENT REGISTRATION FORM -->
+      <!-- 2. NEW PATIENT REGISTRATION FORM (NO SCAN UPLOAD AT REGISTRATION) -->
       <div id="formSignUp" class="space-y-4 text-xs hidden">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Full Legal Name *</label>
@@ -171,21 +179,16 @@
 
         <div>
           <label class="block font-bold text-slate-700 mb-1">Reason for Visit / Chief Complaint *</label>
-          <input type="text" id="regComplaint" placeholder="e.g. Chronic left knee pain and locking after meniscus injury" value="Persistent knee pain and difficulty walking for 6 months" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
+          <input type="text" id="regComplaint" placeholder="e.g. Chronic left knee pain and joint locking" value="Persistent left knee pain and mechanical joint locking for 6 months" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-teal-500">
         </div>
 
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Attach Your Prior Medical Scans or Lab Reports</label>
-          <div class="border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center bg-slate-50/70 hover:bg-slate-100/60 transition cursor-pointer relative" onclick="document.getElementById('patientFileInput').click()">
-            <input type="file" id="patientFileInput" class="hidden" onchange="handlePatientFileSelect(event)">
-            <i data-lucide="upload-cloud" class="w-7 h-7 text-teal-600 mx-auto mb-1"></i>
-            <span id="patientFileLabel" class="text-slate-600 font-semibold text-xs block">Click to select MRI scans, X-rays, or Lab PDFs</span>
-            <span class="text-[10px] text-slate-400 mt-0.5 block">Simulates automatic attachment to your hospital medical record</span>
-          </div>
+        <div class="p-3 bg-teal-50/70 border border-teal-100 rounded-xl text-teal-800 text-[11px] flex items-start gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-teal-600 shrink-0 mt-0.5"></i>
+          <span>Once your account is created, you can upload all your MRI scans, X-rays, and prior medical records directly from your personal Patient Dashboard.</span>
         </div>
 
         <button onclick="registerNewPatient()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center justify-center gap-2">
-          <i data-lucide="user-plus" class="w-4 h-4"></i> Complete Registration & Enter My Patient Portal
+          <i data-lucide="user-plus" class="w-4 h-4"></i> Complete Registration & Open My Patient Portal
         </button>
       </div>
 
@@ -197,7 +200,7 @@
   <!-- ======================================================== -->
   <div id="mainDashboard" class="min-h-screen flex flex-col hidden">
 
-    <!-- UNIVERSAL TOP HEADER -->
+    <!-- UNIVERSAL TOP HEADER (WITHOUT ROLE-SWITCHING TABS) -->
     <header class="h-20 bg-white border-b border-slate-200/80 px-8 flex items-center justify-between gap-6 shrink-0 sticky top-0 z-40 shadow-sm">
       
       <!-- Brand & Active Portal Badge -->
@@ -218,19 +221,9 @@
         </div>
       </div>
 
-      <!-- Quick Role Switcher Pill & Profile with LOGOUT -->
+      <!-- Attending User Profile with LOGOUT Button ONLY -->
       <div class="flex items-center gap-4 text-xs">
-        
-        <!-- Switch Role Dropdown (For convenience during demo / presentations) -->
-        <div class="hidden md:flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl">
-          <button onclick="loginWithRole('coordinator')" id="pillCoord" class="px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition">Coordinator</button>
-          <button onclick="loginWithRole('doctor')" id="pillDoctor" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition">Doctor</button>
-          <button onclick="loginWithRole('patient')" id="pillPatient" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition">Patient</button>
-          <button onclick="loginWithRole('lab')" id="pillLab" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition">Lab Tech</button>
-        </div>
-
-        <!-- Attending User Profile with LOGOUT Button -->
-        <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+        <div class="flex items-center gap-3 pl-4">
           <div id="userAvatar" class="w-9 h-9 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-xs shadow-sm">
             DK
           </div>
@@ -240,12 +233,11 @@
           </div>
           
           <!-- Explicit Logout Button -->
-          <button onclick="logout()" title="Sign Out & Return to Login" class="px-3 py-1.5 rounded-xl text-slate-600 hover:text-red-600 hover:bg-red-50 border border-slate-200 transition flex items-center gap-1.5 font-semibold">
+          <button onclick="logout()" title="Sign Out & Return to Login" class="px-3.5 py-2 rounded-xl text-slate-600 hover:text-red-600 hover:bg-red-50 border border-slate-200 transition flex items-center gap-1.5 font-semibold ml-2">
             <i data-lucide="log-out" class="w-4 h-4 text-red-500"></i>
             <span class="hidden sm:inline">Logout</span>
           </button>
         </div>
-
       </div>
 
     </header>
@@ -467,8 +459,8 @@
               <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
                 <i data-lucide="file-check" class="w-4 h-4 text-teal-600"></i> My Scan & Diagnostic Reports
               </h4>
-              <button onclick="openPatientUploadModal()" class="text-xs font-semibold text-teal-600 hover:text-teal-700 flex items-center gap-1">
-                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Upload Scan
+              <button onclick="openPatientUploadModal()" class="px-2.5 py-1 bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 rounded-lg text-xs font-semibold flex items-center gap-1 transition">
+                <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i> Upload Scan
               </button>
             </div>
             <div class="space-y-2 text-xs" id="patientReportsList">
@@ -573,37 +565,127 @@
   <!-- MODALS                                                   -->
   <!-- ======================================================== -->
 
-  <!-- Modal 1: Report Inspection Viewer Modal -->
-  <div id="modalReportViewer" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+  <!-- Modal 1: Comprehensive Medical Scan & PACS Image Viewer Modal -->
+  <div id="modalReportViewer" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
+      
+      <!-- Modal Header -->
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-        <h3 class="text-base font-bold text-slate-900" id="modalReportTitle">Diagnostic Scan Report</h3>
-        <button onclick="closeReportModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="text-base font-bold text-slate-900" id="modalReportTitle">Diagnostic Scan</h3>
+            <span id="modalReportBadge" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">VERIFIED</span>
+          </div>
+          <div class="text-xs text-slate-400 mt-0.5" id="modalReportSub">Date: 2026-09-18 • Dr. Robert Vance, MD</div>
+        </div>
+        <button onclick="closeReportModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- View Mode Tabs (Image PACS View vs Clinical Findings) -->
+      <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl text-xs">
+        <button id="btnModalViewImage" onclick="switchModalView('image')" class="flex-1 py-1.5 font-bold rounded-lg bg-white text-slate-800 shadow-sm transition flex items-center justify-center gap-1.5">
+          <i data-lucide="image" class="w-3.5 h-3.5 text-teal-600"></i> Diagnostic Scan Image (PACS View)
+        </button>
+        <button id="btnModalViewText" onclick="switchModalView('text')" class="flex-1 py-1.5 font-medium rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center justify-center gap-1.5">
+          <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Clinical Findings & Impression
+        </button>
+      </div>
+
+      <!-- View 1: Visual PACS Image Canvas -->
+      <div id="modalImageView" class="flex-1 flex flex-col space-y-2">
+        
+        <!-- DICOM Medical Viewer Screen -->
+        <div id="pacsViewerCanvas" class="w-full h-72 rounded-2xl bg-slate-950 border border-slate-800 p-4 relative overflow-hidden flex items-center justify-center select-none shadow-inner">
+          <!-- Rendered dynamically by renderPacsImage() -->
+        </div>
+
+        <!-- PACS Image Controls Strip -->
+        <div class="flex items-center justify-between text-[11px] text-slate-500 px-1 pt-1">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-slate-400">DICOM 3.0 Standard</span>
+            <span class="text-slate-300">•</span>
+            <span id="pacsSeriesMeta" class="text-slate-500 font-mono">Series #4/16</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <button onclick="invertPacsImage()" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium">Invert</button>
+            <button onclick="zoomPacsImage(1.1)" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium">Zoom +</button>
+            <button onclick="zoomPacsImage(1.0)" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium">Reset</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- View 2: Written Clinical Findings -->
+      <div id="modalTextView" class="space-y-3 text-xs hidden">
+        <div>
+          <div class="font-bold text-slate-800 mb-1">Radiologist / Pathologist Impression:</div>
+          <div id="modalReportSummary" class="text-slate-700 bg-slate-50 p-4 rounded-2xl border border-slate-200 leading-relaxed font-sans"></div>
+        </div>
+        <div class="p-3 bg-teal-50/60 rounded-xl border border-teal-100 text-teal-800 text-[11px]">
+          <strong>Corroboration Status:</strong> Digitally verified and linked to clinical prior-authorization record.
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end">
+        <button onclick="closeReportModal()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+          Close Viewer
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 2: Patient Upload Report Modal (From Inside Patient Portal) -->
+  <div id="modalPatientUpload" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Upload Diagnostic Scan or Lab Report</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Attach medical records directly to your chart.</p>
+        </div>
+        <button onclick="closePatientUploadModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
       <div class="space-y-3 text-xs">
-        <div class="flex justify-between text-slate-500">
-          <span id="modalReportDate">Date: 2026-09-18</span>
-          <span id="modalReportDoctor" class="font-semibold text-slate-700">Dr. Robert Vance, MD</span>
-        </div>
-        <div class="p-4 bg-slate-900 text-teal-400 rounded-2xl font-mono text-[11px] flex items-center justify-center min-h-[120px] text-center border border-slate-800" id="modalReportPreview">
-          [Digital DICOM 3.0T High-Contrast MRI Series Corroborated]
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Report / Test Name *</label>
+          <input type="text" id="patientUploadTitle" placeholder="e.g. Left Knee 3.0T MRI Repeat" value="Outside Clinic Left Knee MRI" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-teal-500 font-medium">
         </div>
         <div>
-          <div class="font-bold text-slate-800 mb-1">Radiologist / Pathologist Findings:</div>
-          <p id="modalReportSummary" class="text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-200 leading-relaxed"></p>
+          <label class="block font-bold text-slate-700 mb-1">Test Category / Modality *</label>
+          <select id="patientUploadType" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800">
+            <option value="Radiology / MRI">Radiology / MRI Scan</option>
+            <option value="Radiology / X-Ray">Radiology / X-Ray</option>
+            <option value="Pathology / Blood">Pathology / Blood Panel</option>
+            <option value="Rehabilitation Record">Physical Therapy / Rehab Record</option>
+            <option value="Specialist Referral">Specialist Consultation Letter</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Select File (PDF, DICOM, or Image)</label>
+          <div class="border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center bg-slate-50/70 hover:bg-slate-100 transition cursor-pointer" onclick="document.getElementById('patientModalFileInput').click()">
+            <input type="file" id="patientModalFileInput" class="hidden" onchange="handlePatientModalFile(event)">
+            <i data-lucide="upload-cloud" class="w-6 h-6 text-teal-600 mx-auto mb-1"></i>
+            <span id="patientModalFileLabel" class="text-slate-700 font-semibold block text-xs">Click to browse file</span>
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Doctor Notes / Reason for Upload</label>
+          <textarea id="patientUploadSummary" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 h-16 resize-none">Submitted for review to verify meniscus tear tear boundaries.</textarea>
         </div>
       </div>
-      <div class="pt-2 flex justify-end">
-        <button onclick="closeReportModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">
-          Close Report
-        </button>
+      <div class="pt-2 flex justify-end gap-2">
+        <button onclick="closePatientUploadModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Cancel</button>
+        <button onclick="submitPatientUpload()" class="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs rounded-xl">Save & Link to My Chart</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal 2: Lab Scan Upload Modal -->
+  <!-- Modal 3: Lab Scan Upload Modal (From Lab Portal) -->
   <div id="modalLabUpload" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
@@ -643,7 +725,7 @@
     </div>
   </div>
 
-  <!-- Modal 3: Doctor Contraindication Note Modal -->
+  <!-- Modal 4: Doctor Contraindication Note Modal -->
   <div id="modalDoctorNote" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
@@ -665,6 +747,7 @@
 
   <!-- JAVASCRIPT APP CONTROLLER -->
   <script>
+    let selectedLoginRole = 'coordinator';
     let currentRole = 'coordinator';
     let currentCases = [];
     let activeCaseIndex = 0;
@@ -675,8 +758,46 @@
     let activeDoctorNoteCase = 'case2';
     let labPatients = [];
     let selectedLabPatientId = 'pat_10492';
+    let currentViewingReport = null;
+    let pacsInverted = false;
+    let pacsZoom = 1.0;
 
-    // 1. Role Switching & Auth
+    // 1. Role Selection & Sign In
+    const roleProfiles = {
+      coordinator: { email: 'deepak.kannan@hospital.org', roleName: 'Coordinator' },
+      doctor: { email: 'sarah.jenkins@hospital.org', roleName: 'Doctor' },
+      patient: { email: 'ramesh.patel@gmail.com', roleName: 'Patient' },
+      lab: { email: 'alex.chen@hospital.org', roleName: 'Lab Tech' }
+    };
+
+    function selectRole(role) {
+      selectedLoginRole = role;
+      
+      // Update visual selection on cards
+      ['coordinator', 'doctor', 'patient', 'lab'].forEach(r => {
+        const card = document.getElementById(`roleCard-${r}`);
+        const check = card.querySelector('div:last-child');
+        const icon = card.querySelector('i');
+        
+        if (r === role) {
+          card.className = 'p-3.5 rounded-2xl border-2 border-teal-500 bg-teal-50/50 cursor-pointer transition flex items-center justify-between';
+          check.className = 'w-4 h-4 rounded-full border-2 border-teal-600 bg-teal-600 flex items-center justify-center text-white text-[10px]';
+          check.innerText = '✓';
+          if (icon) icon.className = 'w-4 h-4 text-teal-600';
+        } else {
+          card.className = 'p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition flex items-center justify-between';
+          check.className = 'w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center text-[10px]';
+          check.innerText = '';
+          if (icon) icon.className = 'w-4 h-4 text-slate-400';
+        }
+      });
+
+      // Pre-fill corresponding email
+      document.getElementById('loginEmail').value = roleProfiles[role].email;
+      document.getElementById('btnSignInSubmit').innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i> Sign In as ${roleProfiles[role].roleName}`;
+      lucide.createIcons();
+    }
+
     function switchAuthTab(tab) {
       if (tab === 'signin') {
         document.getElementById('formSignIn').classList.remove('hidden');
@@ -692,7 +813,11 @@
       lucide.createIcons();
     }
 
-    async function loginWithRole(role) {
+    async function submitSignIn() {
+      await authenticateAndLaunch(selectedLoginRole);
+    }
+
+    async function authenticateAndLaunch(role) {
       currentRole = role;
       try {
         const res = await fetch('/api/auth/login', {
@@ -711,12 +836,6 @@
         document.getElementById('portalPatient').classList.add('hidden');
         document.getElementById('portalLab').classList.add('hidden');
 
-        // Reset pill styles
-        ['Coord', 'Doctor', 'Patient', 'Lab'].forEach(p => {
-          const el = document.getElementById(`pill${p}`);
-          if (el) el.className = 'px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800 transition';
-        });
-
         // Set user profile info
         document.getElementById('userNameDisplay').innerText = data.user.name;
         document.getElementById('userRoleDisplay').innerText = data.user.role_title;
@@ -724,25 +843,21 @@
 
         if (role === 'coordinator') {
           document.getElementById('portalCoordinator').classList.remove('hidden');
-          document.getElementById('pillCoord').className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition';
           document.getElementById('roleHeaderBadge').innerText = 'Prior-Auth Coordinator Portal';
           document.getElementById('portalSubText').innerText = 'Full AI Adjudication & Payer Policy Matrix';
           switchCoordinatorView('cockpit');
         } else if (role === 'doctor') {
           document.getElementById('portalDoctor').classList.remove('hidden');
-          document.getElementById('pillDoctor').className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition';
           document.getElementById('roleHeaderBadge').innerText = 'Physician Certification Station';
           document.getElementById('portalSubText').innerText = '1-Click Clinical Attestation & Electronic Sign-off';
           loadDoctorQueue();
         } else if (role === 'patient') {
           document.getElementById('portalPatient').classList.remove('hidden');
-          document.getElementById('pillPatient').className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition';
           document.getElementById('roleHeaderBadge').innerText = 'MyCare Patient Portal';
           document.getElementById('portalSubText').innerText = 'Personalized Treatment Status, Scans & Billing';
           loadPatientPortal(currentPatientId);
         } else if (role === 'lab') {
           document.getElementById('portalLab').classList.remove('hidden');
-          document.getElementById('pillLab').className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-sm transition';
           document.getElementById('roleHeaderBadge').innerText = 'Diagnostic & Radiology Lab Station';
           document.getElementById('portalSubText').innerText = 'Patient List, PACS Scans & Pathology Linking';
           loadLabPortal();
@@ -753,19 +868,6 @@
       lucide.createIcons();
     }
 
-    function manualLoginSubmit() {
-      const email = document.getElementById('manualEmail').value.toLowerCase();
-      if (email.includes('sarah') || email.includes('doc')) {
-        loginWithRole('doctor');
-      } else if (email.includes('ramesh') || email.includes('pat') || email.includes('gmail')) {
-        loginWithRole('patient');
-      } else if (email.includes('alex') || email.includes('lab')) {
-        loginWithRole('lab');
-      } else {
-        loginWithRole('coordinator');
-      }
-    }
-
     async function logout() {
       try {
         await fetch('/api/auth/logout', { method: 'POST' });
@@ -773,18 +875,11 @@
       document.getElementById('mainDashboard').classList.add('hidden');
       document.getElementById('authScreen').classList.remove('hidden');
       switchAuthTab('signin');
+      selectRole(currentRole);
       lucide.createIcons();
     }
 
-    let uploadedScanName = "Patient_Knee_MRI_Scan.pdf";
-
-    function handlePatientFileSelect(e) {
-      if (e.target.files && e.target.files[0]) {
-        uploadedScanName = e.target.files[0].name;
-        document.getElementById('patientFileLabel').innerText = `Attached: ${uploadedScanName} ✓`;
-      }
-    }
-
+    // 2. New Patient Registration (Without Initial Upload)
     async function registerNewPatient() {
       const name = document.getElementById('regName').value || 'New Patient';
       const dob = document.getElementById('regDob').value || '1984-06-15';
@@ -803,26 +898,23 @@
             phone: phone,
             insurance_provider: payer,
             policy_id: policyId,
-            chief_complaint: complaint,
-            report_filename: uploadedScanName,
-            report_type: 'Patient Uploaded Scan'
+            chief_complaint: complaint
           })
         });
         const data = await res.json();
         currentPatientId = data.patient.id;
         
-        alert(`🎉 Welcome to CareAuth, ${name}!\n\nYour account and uploaded diagnostic file (${uploadedScanName}) have been created and linked to MRN: ${data.patient.mrn}.\n\nLogging in to your personal patient portal now...`);
+        alert(`🎉 Welcome to CareAuth, ${name}!\n\nYour account has been created with MRN: ${data.patient.mrn}.\n\nLogging in to your personal patient portal now... You can upload your medical scans directly from your dashboard!`);
         
-        await loginWithRole('patient');
-        loadPatientPortal(currentPatientId);
+        await authenticateAndLaunch('patient');
       } catch (e) {
         console.error("Registration error:", e);
         alert("Registration completed! Logging in...");
-        loginWithRole('patient');
+        authenticateAndLaunch('patient');
       }
     }
 
-    // 2. Main Coordinator Workflow
+    // 3. Coordinator Workflow
     async function initDashboard() {
       try {
         const res = await fetch('/api/cases');
@@ -863,7 +955,7 @@
         container.innerHTML = `
           <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold font-mono text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">CG-SURG-01</span>
+              <span class="text-xs font-mono font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">CG-SURG-01</span>
               <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Anthem Blue Cross</span>
             </div>
             <h4 class="font-bold text-sm text-slate-900">${policies.anthem_cg_surg_01.title}</h4>
@@ -1049,7 +1141,7 @@
       }
     }
 
-    // 3. Doctor Portal Functions
+    // 4. Doctor Portal Functions
     async function loadDoctorQueue() {
       try {
         const res = await fetch('/api/doctor/queue');
@@ -1138,7 +1230,7 @@
       }
     }
 
-    // 4. Patient Portal Functions
+    // 5. Patient Portal Functions
     let currentPatientData = null;
 
     async function loadPatientPortal(patId) {
@@ -1197,7 +1289,14 @@
     function renderPatientReportsList(reports) {
       const container = document.getElementById('patientReportsList');
       if (!reports || reports.length === 0) {
-        container.innerHTML = '<div class="text-slate-400 py-4 text-center">No diagnostic reports uploaded yet.</div>';
+        container.innerHTML = `
+          <div class="text-slate-400 py-6 text-center border-2 border-dashed border-slate-200 rounded-2xl">
+            <i data-lucide="file-question" class="w-6 h-6 mx-auto mb-1 text-slate-300"></i>
+            <div>No diagnostic scans uploaded yet.</div>
+            <button onclick="openPatientUploadModal()" class="mt-2 text-xs text-teal-600 font-bold hover:underline">Click here to upload your MRI or X-ray</button>
+          </div>
+        `;
+        lucide.createIcons();
         return;
       }
       container.innerHTML = reports.map((r, i) => `
@@ -1206,8 +1305,8 @@
             <div class="font-bold text-slate-800">${r.title}</div>
             <div class="text-[11px] text-slate-400">${r.type} • ${r.date}</div>
           </div>
-          <button onclick="viewReportDetail(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="text-teal-600 font-bold hover:underline flex items-center gap-1 text-xs">
-            View <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          <button onclick="openReportModal(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="px-3 py-1.5 bg-white border border-slate-200 hover:border-teal-500 text-teal-700 font-bold rounded-lg shadow-sm flex items-center gap-1.5 text-xs transition">
+            <i data-lucide="eye" class="w-3.5 h-3.5 text-teal-600"></i> View Scan
           </button>
         </div>
       `).join('');
@@ -1255,25 +1354,50 @@
       }
     }
 
+    // Patient Upload Inside Portal
+    let patientSelectedFileName = "Outside_Clinic_Knee_MRI.pdf";
+
     function openPatientUploadModal() {
-      const filename = prompt("Enter the name of your outside scan or document to attach (e.g. Outside_Hospital_Knee_MRI.pdf):", "Outside_Knee_MRI.pdf");
-      if (filename) {
-        fetch(`/api/patient/${currentPatientId}/upload-report`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            title: filename,
-            type: "Patient Uploaded Scan",
-            summary: "Uploaded by patient for clinical prior-authorization review."
-          })
-        }).then(res => res.json()).then(data => {
-          alert(`Document '${filename}' attached to your patient chart!`);
-          loadPatientPortal(currentPatientId);
-        });
+      document.getElementById('modalPatientUpload').classList.remove('hidden');
+    }
+
+    function closePatientUploadModal() {
+      document.getElementById('modalPatientUpload').classList.add('hidden');
+    }
+
+    function handlePatientModalFile(e) {
+      if (e.target.files && e.target.files[0]) {
+        patientSelectedFileName = e.target.files[0].name;
+        document.getElementById('patientModalFileLabel').innerText = `Selected: ${patientSelectedFileName} ✓`;
+        document.getElementById('patientUploadTitle').value = patientSelectedFileName.replace(/\.[^/.]+$/, "");
       }
     }
 
-    // 5. Lab Tech Portal Functions
+    async function submitPatientUpload() {
+      const title = document.getElementById('patientUploadTitle').value || patientSelectedFileName;
+      const docType = document.getElementById('patientUploadType').value;
+      const summary = document.getElementById('patientUploadSummary').value;
+
+      try {
+        const res = await fetch(`/api/patient/${currentPatientId}/upload-report`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            title: title,
+            type: docType,
+            summary: summary
+          })
+        });
+        const data = await res.json();
+        alert(`✅ Medical Report '${title}' successfully uploaded and linked to your chart!`);
+        closePatientUploadModal();
+        loadPatientPortal(currentPatientId);
+      } catch (e) {
+        console.error("Upload error:", e);
+      }
+    }
+
+    // 6. Lab Tech Portal Functions
     async function loadLabPortal() {
       try {
         const res = await fetch('/api/lab/patients');
@@ -1334,8 +1458,8 @@
             <div class="text-[11px] text-slate-500">${r.type} • Performed: ${r.date} • ${r.doctor}</div>
             <p class="text-xs text-slate-700 bg-slate-50 p-2.5 rounded-lg border border-slate-100">${r.summary}</p>
             <div class="pt-1 flex justify-end">
-              <button onclick="viewReportDetail(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="text-xs font-bold text-teal-600 hover:text-teal-700 flex items-center gap-1">
-                <i data-lucide="eye" class="w-3.5 h-3.5"></i> Inspect Imaging / Lab Values
+              <button onclick="openReportModal(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="px-3.5 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 rounded-lg text-xs font-bold flex items-center gap-1.5 transition">
+                <i data-lucide="eye" class="w-3.5 h-3.5 text-teal-600"></i> Inspect Imaging (PACS Scan)
               </button>
             </div>
           </div>
@@ -1385,13 +1509,18 @@
       }
     }
 
-    // 6. Generic Modals
-    function viewReportDetail(report) {
+    // 7. Visual Medical Scan & PACS Image Viewer
+    function openReportModal(report) {
+      currentViewingReport = report;
+      pacsInverted = false;
+      pacsZoom = 1.0;
+
       document.getElementById('modalReportTitle').innerText = report.title;
-      document.getElementById('modalReportDate').innerText = `Date: ${report.date}`;
-      document.getElementById('modalReportDoctor').innerText = report.doctor;
-      document.getElementById('modalReportPreview').innerText = `[${report.image_preview || 'Digital DICOM Image Series Verified'}]`;
+      document.getElementById('modalReportSub').innerText = `${report.type} • Date: ${report.date} • Ordering: ${report.doctor}`;
+      document.getElementById('modalReportBadge').innerText = report.status || 'VERIFIED';
       document.getElementById('modalReportSummary').innerText = report.summary;
+
+      switchModalView('image');
       document.getElementById('modalReportViewer').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -1400,8 +1529,196 @@
       document.getElementById('modalReportViewer').classList.add('hidden');
     }
 
+    function switchModalView(mode) {
+      const btnImg = document.getElementById('btnModalViewImage');
+      const btnTxt = document.getElementById('btnModalViewText');
+      const viewImg = document.getElementById('modalImageView');
+      const viewTxt = document.getElementById('modalTextView');
+
+      if (mode === 'image') {
+        btnImg.className = 'flex-1 py-1.5 font-bold rounded-lg bg-white text-slate-800 shadow-sm transition flex items-center justify-center gap-1.5';
+        btnTxt.className = 'flex-1 py-1.5 font-medium rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center justify-center gap-1.5';
+        viewImg.classList.remove('hidden');
+        viewTxt.classList.add('hidden');
+        renderPacsImage();
+      } else {
+        btnTxt.className = 'flex-1 py-1.5 font-bold rounded-lg bg-white text-slate-800 shadow-sm transition flex items-center justify-center gap-1.5';
+        btnImg.className = 'flex-1 py-1.5 font-medium rounded-lg text-slate-500 hover:text-slate-800 transition flex items-center justify-center gap-1.5';
+        viewTxt.classList.remove('hidden');
+        viewImg.classList.add('hidden');
+      }
+    }
+
+    function invertPacsImage() {
+      pacsInverted = !pacsInverted;
+      renderPacsImage();
+    }
+
+    function zoomPacsImage(level) {
+      pacsZoom = level;
+      renderPacsImage();
+    }
+
+    function renderPacsImage() {
+      if (!currentViewingReport) return;
+      const canvas = document.getElementById('pacsViewerCanvas');
+      const kind = currentViewingReport.image_kind || 'mri_knee';
+      const meta = document.getElementById('pacsSeriesMeta');
+
+      const filterStyle = `filter: ${pacsInverted ? 'invert(1) hue-rotate(180deg)' : 'none'}; transform: scale(${pacsZoom}); transition: transform 0.2s ease, filter 0.2s ease;`;
+
+      if (kind === 'mri_knee') {
+        meta.innerText = 'TR: 2400ms | TE: 85ms | Slice: 3.0mm | Series: #4 Sagittal T2';
+        canvas.innerHTML = `
+          <!-- PACS DICOM HUD Overlay -->
+          <div class="absolute top-3 left-3 text-[10px] font-mono text-cyan-400 space-y-0.5 pointer-events-none z-10">
+            <div class="font-bold">CAREAUTH PACS - STATION 02</div>
+            <div>MRN: 882194 | RAMESH PATEL</div>
+            <div>SAG T2-FS KNEE 3.0T</div>
+            <div>FOV: 160mm | SLICE: 3.0mm</div>
+          </div>
+          <div class="absolute top-3 right-3 text-[10px] font-mono text-cyan-400 text-right pointer-events-none z-10">
+            <div class="font-bold text-emerald-400">FINDING: GRADE III TEAR</div>
+            <div>POSTERIOR HORN MEDIAL MENISCUS</div>
+            <div>TR: 2400 | TE: 85</div>
+          </div>
+
+          <!-- MRI Sagittal Knee Anatomy SVG Visualization -->
+          <svg style="${filterStyle}" viewBox="0 0 400 240" class="w-full h-full max-h-64">
+            <rect width="400" height="240" fill="#020617"/>
+            <!-- Soft Tissue Field -->
+            <ellipse cx="200" cy="120" rx="150" ry="90" fill="#0f172a" opacity="0.6"/>
+            <!-- Distal Femur Bone -->
+            <path d="M 120,20 Q 150,70 180,85 Q 220,90 260,75 Q 280,30 280,20 Z" fill="#334155" stroke="#64748b" stroke-width="2"/>
+            <!-- Proximal Tibia Bone -->
+            <path d="M 130,220 Q 160,150 190,145 Q 240,145 270,160 Q 280,210 280,220 Z" fill="#334155" stroke="#64748b" stroke-width="2"/>
+            <!-- Patella Knee Cap -->
+            <ellipse cx="300" cy="85" rx="20" ry="30" fill="#475569" stroke="#94a3b8" stroke-width="1.5"/>
+            <!-- Cruciate Ligaments (ACL/PCL) -->
+            <line x1="180" y1="85" x2="230" y2="145" stroke="#10b981" stroke-width="3" stroke-dasharray="4"/>
+            <!-- Medial Meniscus Cushion -->
+            <path d="M 155,115 Q 170,110 185,115 Q 175,128 155,125 Z" fill="#64748b" stroke="#cbd5e1" stroke-width="1"/>
+            <!-- TEAR HIGHLIGHT (RED FLASH) -->
+            <line x1="168" y1="112" x2="178" y2="124" stroke="#ef4444" stroke-width="3"/>
+            <!-- Crosshair Target on Tear -->
+            <circle cx="173" cy="118" r="14" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="2"/>
+            <line x1="173" y1="98" x2="173" y2="138" stroke="#ef4444" stroke-width="1"/>
+            <line x1="153" y1="118" x2="193" y2="118" stroke="#ef4444" stroke-width="1"/>
+            <!-- Callout Tag -->
+            <rect x="205" y="108" width="130" height="22" rx="4" fill="#7f1d1d" stroke="#ef4444" stroke-width="1"/>
+            <text x="212" y="123" fill="#fecaca" font-size="9" font-family="JetBrains Mono" font-weight="bold">Grade III Meniscal Tear</text>
+          </svg>
+        `;
+      } else if (kind === 'xray_knee') {
+        meta.innerText = 'Radiology AP Standing | 75 kVp | 12 mAs | Kellgren-Lawrence Grade 1';
+        canvas.innerHTML = `
+          <div class="absolute top-3 left-3 text-[10px] font-mono text-slate-300 pointer-events-none z-10">
+            <div>AP WEIGHT-BEARING KNEE RADIOGRAPH</div>
+            <div>JOINT SPACE: PRESERVED (KL GRADE 1)</div>
+          </div>
+          <svg style="${filterStyle}" viewBox="0 0 400 240" class="w-full h-full max-h-64">
+            <rect width="400" height="240" fill="#000000"/>
+            <!-- Bone Radiographic Contours -->
+            <path d="M 140,10 Q 150,90 190,100 Q 230,100 250,90 L 260,10 Z" fill="#94a3b8" opacity="0.85"/>
+            <path d="M 145,230 Q 150,135 195,128 Q 230,128 255,135 L 260,230 Z" fill="#94a3b8" opacity="0.85"/>
+            <!-- Preserved Joint Space Gap -->
+            <line x1="155" y1="114" x2="245" y2="114" stroke="#10b981" stroke-width="2"/>
+            <rect x="255" y="105" width="125" height="20" rx="4" fill="#064e3b" stroke="#10b981"/>
+            <text x="262" y="119" fill="#a7f3d0" font-size="9" font-family="JetBrains Mono" font-weight="bold">Joint Space Intact (4.8mm)</text>
+          </svg>
+        `;
+      } else if (kind === 'blood_rheum' || kind === 'blood_cbc') {
+        meta.innerText = 'Automated Clinical Chemistry Analyzer | High-Titration Serology';
+        canvas.innerHTML = `
+          <div class="w-full h-full p-4 flex flex-col justify-center space-y-3 font-mono text-xs">
+            <div class="text-teal-400 font-bold border-b border-slate-800 pb-1.5 flex justify-between">
+              <span>SPECIALTY BIOMARKER TITRATION PANEL</span>
+              <span class="text-red-400">HIGH CRITICAL</span>
+            </div>
+            <div class="space-y-2">
+              <div>
+                <div class="flex justify-between text-slate-300 text-[11px] mb-1">
+                  <span>Anti-CCP Antibody (Ref: < 20 U/mL)</span>
+                  <span class="text-red-400 font-bold">> 250 U/mL (CRITICAL HIGH)</span>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                  <div class="bg-red-500 h-full w-[96%]"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-300 text-[11px] mb-1">
+                  <span>Rheumatoid Factor (Ref: < 14 IU/mL)</span>
+                  <span class="text-red-400 font-bold">112 IU/mL (HIGH)</span>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                  <div class="bg-amber-500 h-full w-[80%]"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-300 text-[11px] mb-1">
+                  <span>C-Reactive Protein (Ref: < 3.0 mg/L)</span>
+                  <span class="text-amber-400 font-bold">24.2 mg/L (ELEVATED)</span>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                  <div class="bg-amber-400 h-full w-[65%]"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (kind === 'liver_panel') {
+        meta.innerText = 'Hepatic Panel | STAT Kinetic Analyzer | Elevated Transaminases';
+        canvas.innerHTML = `
+          <div class="w-full h-full p-4 flex flex-col justify-center space-y-3 font-mono text-xs">
+            <div class="text-amber-400 font-bold border-b border-slate-800 pb-1.5 flex justify-between">
+              <span>HEPATIC ENZYME TRANSAMINASE ASSAY</span>
+              <span class="text-amber-300">STATUTORY EXEMPTION MET</span>
+            </div>
+            <div class="space-y-2">
+              <div>
+                <div class="flex justify-between text-slate-300 text-[11px] mb-1">
+                  <span>AST (Aspartate Aminotransferase) [ULN: 40 U/L]</span>
+                  <span class="text-amber-400 font-bold">184 U/L (>4.5x ULN)</span>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                  <div class="bg-amber-500 h-full w-[90%]"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-300 text-[11px] mb-1">
+                  <span>ALT (Alanine Aminotransferase) [ULN: 56 U/L]</span>
+                  <span class="text-amber-400 font-bold">210 U/L (>3.7x ULN)</span>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                  <div class="bg-amber-500 h-full w-[94%]"></div>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 rounded bg-amber-950/80 border border-amber-700 text-amber-200 text-[10px]">
+              ⚠️ Frank Hepatotoxicity confirms absolute statutory contraindication to Methotrexate under LCD §4.2.1.
+            </div>
+          </div>
+        `;
+      } else {
+        // Generic Scanned Document Preview
+        meta.innerText = 'Scanned Medical Record | Digital Hash Verified';
+        canvas.innerHTML = `
+          <div class="w-full h-full p-6 flex flex-col items-center justify-center text-center space-y-2 bg-slate-900 font-mono">
+            <i data-lucide="file-check-2" class="w-10 h-10 text-teal-400 mb-1"></i>
+            <div class="text-teal-200 text-sm font-bold">${currentViewingReport.title}</div>
+            <div class="text-slate-400 text-xs">Category: ${currentViewingReport.type}</div>
+            <div class="text-emerald-400 text-[11px] bg-emerald-950/80 border border-emerald-800 px-3 py-1 rounded-full mt-2">
+              Verified Digital Record Linked to Hospital PACS
+            </div>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+
     window.onload = () => {
       initDashboard();
+      selectRole('coordinator');
       lucide.createIcons();
     };
   </script>

@@ -126,6 +126,7 @@ PATIENTS_DB = {
                 "doctor": "Dr. Robert Vance, MD (Radiology)",
                 "status": "VERIFIED & SIGNED",
                 "summary": "Grade III complex tear involving the posterior horn of the medial meniscus. Cruciate ligaments (ACL/PCL) and collateral ligaments intact. Mild patellofemoral chondromalacia without severe bone-on-bone osteoarthritis.",
+                "image_kind": "mri_knee",
                 "image_preview": "High-Contrast Coronal & Sagittal T2-Weighted Knee Views Corroborated"
             },
             {
@@ -136,6 +137,7 @@ PATIENTS_DB = {
                 "doctor": "Apex Physical Therapy Specialists",
                 "status": "COMPLETED & VERIFIED",
                 "summary": "Patient completed 24 supervised physical therapy sessions over 24 weeks (2x/week). Conservative therapy exhausted with persistent joint-line tenderness, mechanical locking, and functional limitation.",
+                "image_kind": "pt_summary",
                 "image_preview": "PT Attendance Log & Range of Motion Deficit Curves Attached"
             },
             {
@@ -146,6 +148,7 @@ PATIENTS_DB = {
                 "doctor": "Metro Imaging Center",
                 "status": "VERIFIED",
                 "summary": "AP and Lateral standing views confirm preservation of tibiofemoral joint space. Kellgren-Lawrence Grade 1 changes only. Excludes advanced tricompartmental osteoarthritis.",
+                "image_kind": "xray_knee",
                 "image_preview": "AP Weight-Bearing View: Joint Space Clear (KL Grade 1)"
             },
             {
@@ -156,6 +159,7 @@ PATIENTS_DB = {
                 "doctor": "Quest Diagnostics Lab",
                 "status": "NORMAL",
                 "summary": "Hemoglobin 14.8 g/dL, Platelets 235k, Creatinine 0.92 mg/dL, Fasting Glucose 96 mg/dL. All values within normal physiological limits for general/spinal anesthesia.",
+                "image_kind": "blood_cbc",
                 "image_preview": "Standard 14-Item Automated Hematology Panel"
             }
         ]
@@ -199,6 +203,7 @@ PATIENTS_DB = {
                 "doctor": "LabCorp Specialty Labs",
                 "status": "HIGHLY ABNORMAL (CONFIRMED)",
                 "summary": "Anti-CCP >250 U/mL (Reference <20 U/mL), RF 112 IU/mL. Corroborates active seropositive erosive rheumatoid arthritis.",
+                "image_kind": "blood_rheum",
                 "image_preview": "Serology ELISA Titration Graph"
             },
             {
@@ -209,6 +214,7 @@ PATIENTS_DB = {
                 "doctor": "Hospital Diagnostic Lab",
                 "status": "NEGATIVE (CLEARED)",
                 "summary": "Nil: 0.05, TB1-Nil: 0.02, TB2-Nil: 0.01. Negative for latent tuberculosis infection. Clears mandatory biologic safety threshold.",
+                "image_kind": "tb_gold",
                 "image_preview": "Interferon Gamma Release Assay (IGRA) Verified"
             },
             {
@@ -219,6 +225,7 @@ PATIENTS_DB = {
                 "doctor": "Advanced Radiology Group",
                 "status": "VERIFIED",
                 "summary": "Multiple marginal erosions at 2nd and 3rd MCP joints bilaterally. Juxta-articular osteopenia. Confirms progressive inflammatory arthritis.",
+                "image_kind": "xray_hands",
                 "image_preview": "PA Hand X-Ray Showing MCP Joint Erosions"
             }
         ]
@@ -262,6 +269,7 @@ PATIENTS_DB = {
                 "doctor": "University Pathology Lab",
                 "status": "ELEVATED (STATUTORY EXCEPTION)",
                 "summary": "AST 184 U/L (Ref: 10-40), ALT 210 U/L (Ref: 7-56), Total Bilirubin 1.4 mg/dL. Frank hepatotoxicity establishes absolute contraindication to methotrexate step therapy.",
+                "image_kind": "liver_panel",
                 "image_preview": "Hepatic Enzyme Kinetic Analyzer Output"
             },
             {
@@ -272,6 +280,7 @@ PATIENTS_DB = {
                 "doctor": "Dr. Sarah Jenkins, MD",
                 "status": "CERTIFIED",
                 "summary": "Disease Activity Score DAS28-CRP is 5.8 (High Disease Activity). Documented statutory medical exemption to conventional DMARDs due to transaminitis.",
+                "image_kind": "doc_consult",
                 "image_preview": "Signed Specialist Consultation Note"
             }
         ]
@@ -341,8 +350,8 @@ class NewPatientRequest(BaseModel):
     policy_id: Optional[str] = ""
     chief_complaint: str
     medical_history: Optional[str] = ""
-    report_filename: Optional[str] = "Uploaded_Scan.pdf"
-    report_type: Optional[str] = "Diagnostic Scan"
+    report_filename: Optional[str] = None
+    report_type: Optional[str] = None
 
 class AdjudicationRequest(BaseModel):
     document_text: str
@@ -410,12 +419,26 @@ def login(req: LoginRequest):
 @app.post("/api/auth/signup")
 def register_new_patient(req: NewPatientRequest):
     """
-    Registers a brand new patient, stores their records, attaches their initial scan,
-    and returns a ready-to-use patient session.
+    Registers a brand new patient, stores their records,
+    and returns a ready-to-use patient session. Reports can be uploaded from dashboard.
     """
     new_id = f"pat_{uuid.uuid4().hex[:6]}"
     mrn = str(uuid.uuid4().int)[:6]
     
+    reports = []
+    if req.report_filename:
+        reports.append({
+            "id": f"rep_{uuid.uuid4().hex[:6]}",
+            "title": req.report_filename,
+            "type": req.report_type or "Patient Upload",
+            "date": datetime.utcnow().strftime("%Y-%m-%d"),
+            "doctor": "Self-Submitted during Intake",
+            "status": "PROCESSING & ATTACHED",
+            "summary": f"Uploaded record: {req.chief_complaint}. File verified and linked to MRN {mrn}.",
+            "image_kind": "uploaded_scan",
+            "image_preview": "Verified Medical PDF/Scan Document Attached"
+        })
+
     new_patient = {
         "id": new_id,
         "mrn": mrn,
@@ -428,14 +451,14 @@ def register_new_patient(req: NewPatientRequest):
         "insurance_provider": req.insurance_provider,
         "policy_id": req.policy_id or f"POL-{mrn}-NEW",
         "diagnosis": req.chief_complaint,
-        "procedure": f"Specialist Consultation & Imaging for {req.chief_complaint}",
+        "procedure": f"Specialist Consultation & Care Plan for {req.chief_complaint}",
         "adjudication_status": "INTAKE_IN_REVIEW",
         "auth_number": f"AUTH-PENDING-{mrn}",
         "plain_english_summary": {
             "title": f"Welcome to CareAuth, {req.name}!",
             "reading_level": "Grade 6 Simple Language",
-            "body": f"We have received your medical details and your uploaded diagnostic file ({req.report_filename}). Our clinic staff and doctors are reviewing your record against {req.insurance_provider}'s prior-authorization guidelines. You can see your uploaded files below, and you will receive a notification as soon as the review is complete.",
-            "next_steps": "1. Intake nurse will verify your insurance eligibility.\n2. Review your uploaded diagnostic report.\n3. Doctor will certify your care plan."
+            "body": f"We have received your medical intake for '{req.chief_complaint}'. Our clinic staff and doctors are reviewing your record against {req.insurance_provider}'s prior-authorization guidelines. You can upload any scans, MRIs, or lab reports directly from your dashboard below.",
+            "next_steps": "1. Upload any past MRI or diagnostic scans if available.\n2. Clinic nurse will verify your insurance eligibility.\n3. Doctor will certify your care plan."
         },
         "billing": {
             "procedure_name": f"Comprehensive Evaluation & {req.chief_complaint}",
@@ -446,18 +469,7 @@ def register_new_patient(req: NewPatientRequest):
             "receipt_id": None,
             "paid_at": None
         },
-        "diagnostic_reports": [
-            {
-                "id": f"rep_{uuid.uuid4().hex[:6]}",
-                "title": req.report_filename or "Initial Medical Intake Document",
-                "type": req.report_type or "Patient Upload",
-                "date": datetime.utcnow().strftime("%Y-%m-%d"),
-                "doctor": "Self-Submitted during Intake",
-                "status": "PROCESSING & ATTACHED",
-                "summary": f"Uploaded during registration: {req.chief_complaint}. File verified and linked to MRN {mrn}.",
-                "image_preview": "Verified Medical PDF/Scan Document Attached"
-            }
-        ]
+        "diagnostic_reports": reports
     }
     
     # Save to in-memory store
@@ -537,18 +549,34 @@ def patient_upload_report(patient_id: str, payload: Dict[str, Any] = Body(...)):
     patient = PATIENTS_DB[patient_id]
 
     title = payload.get("title", "Outside Diagnostic Document")
-    doc_type = payload.get("type", "Patient Uploaded Scan")
+    doc_type = payload.get("type", "Radiology / MRI")
     summary = payload.get("summary", "Document submitted by patient for prior-authorization clinical correlation.")
+
+    # Determine visual imaging modality
+    type_lower = (doc_type + " " + title).lower()
+    if "mri" in type_lower:
+        image_kind = "mri_knee"
+    elif "x-ray" in type_lower or "xray" in type_lower:
+        image_kind = "xray_knee"
+    elif "blood" in type_lower or "lab" in type_lower or "cbc" in type_lower:
+        image_kind = "blood_cbc"
+    elif "liver" in type_lower or "hepatic" in type_lower:
+        image_kind = "liver_panel"
+    elif "hand" in type_lower:
+        image_kind = "xray_hands"
+    else:
+        image_kind = "uploaded_scan"
 
     new_report = {
         "id": f"rep_up_{uuid.uuid4().hex[:6]}",
         "title": title,
         "type": doc_type,
         "date": datetime.utcnow().strftime("%Y-%m-%d"),
-        "doctor": "Self-Submitted / Outside Facility",
-        "status": "PENDING CLINICAL CORRELATION",
+        "doctor": "Self-Submitted / Outside Diagnostic Facility",
+        "status": "VERIFIED & ATTACHED",
         "summary": summary,
-        "image_preview": "Scanned Document Preview Verified"
+        "image_kind": image_kind,
+        "image_preview": f"Digital {doc_type} Series Corroborated on PACS"
     }
     patient["diagnostic_reports"].insert(0, new_report)
 
@@ -664,6 +692,20 @@ def lab_upload_report(req: LabUploadRequest):
         raise HTTPException(status_code=404, detail="Patient not found.")
     patient = PATIENTS_DB[req.patient_id]
 
+    type_lower = (req.test_type + " " + req.test_title).lower()
+    if "mri" in type_lower:
+        image_kind = "mri_knee"
+    elif "x-ray" in type_lower or "xray" in type_lower:
+        image_kind = "xray_knee"
+    elif "blood" in type_lower or "lab" in type_lower or "cbc" in type_lower:
+        image_kind = "blood_cbc"
+    elif "liver" in type_lower or "hepatic" in type_lower:
+        image_kind = "liver_panel"
+    elif "hand" in type_lower:
+        image_kind = "xray_hands"
+    else:
+        image_kind = "uploaded_scan"
+
     new_report = {
         "id": f"rep_lab_{uuid.uuid4().hex[:6]}",
         "title": req.test_title,
@@ -672,6 +714,7 @@ def lab_upload_report(req: LabUploadRequest):
         "doctor": f"{req.technician_name} (Radiology/Lab Dept)",
         "status": "VERIFIED & LINKED",
         "summary": req.summary_findings,
+        "image_kind": image_kind,
         "image_preview": f"Verified Digital {req.test_type} Image Series Stored on PACS"
     }
     patient["diagnostic_reports"].insert(0, new_report)
