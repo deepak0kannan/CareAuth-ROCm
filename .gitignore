@@ -9,3 +9,19 @@ venv/
 env/
 .DS_Store
 *.log
+
+# Ignore large media recordings to prevent GitHub 100MB limit errors
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.mpeg
+*.wav
+*.mp3
+analyze_recording.py
+check_transitions.py
+extract_fine_frames.py
+sample_checkpoints.py
+inspect_video.ps1
+generate_docx.py
+CareAuth_ROCm_Demo_With_Voiceover/
