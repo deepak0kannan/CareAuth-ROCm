@@ -340,6 +340,7 @@ class LoginRequest(BaseModel):
     role: Optional[str] = "coordinator"
     email: Optional[str] = ""
     password: Optional[str] = ""
+    patient_id: Optional[str] = None
 
 class NewPatientRequest(BaseModel):
     name: str
@@ -405,14 +406,45 @@ def get_telemetry():
 def login(req: LoginRequest):
     """
     Authenticates a user via role or email/password and returns role-specific profile.
+    Supports specific existing patient resolution (Ramesh, Sophia, Emily, or newly registered).
     """
     role = req.role if req.role in USERS_DB else "coordinator"
-    user_info = USERS_DB[role]
+    user_info = dict(USERS_DB[role])
+    patient_id = None
+
+    if role == "patient":
+        pid = req.patient_id
+        if not pid and req.email:
+            em = req.email.lower()
+            if "sophia" in em or "492011" in em:
+                pid = "pat_15489"
+            elif "emily" in em or "109482" in em:
+                pid = "pat_78596"
+            elif "ramesh" in em or "882194" in em:
+                pid = "pat_10492"
+        
+        if not pid:
+            pid = "pat_10492"
+
+        if pid in PATIENTS_DB:
+            pat = PATIENTS_DB[pid]
+            patient_id = pat["id"]
+            user_info = {
+                "id": pat["id"],
+                "username": pat["email"],
+                "name": pat["name"],
+                "role": "patient",
+                "role_title": f"Verified Patient (MRN: {pat['mrn']})",
+                "department": pat["diagnosis"],
+                "avatar": "".join([part[0] for part in pat["name"].split()[:2]]).upper() or "PT"
+            }
+
     return {
         "success": True,
         "token": f"jwt_{role}_{uuid.uuid4().hex[:12]}",
         "user": user_info,
         "role": role,
+        "patient_id": patient_id,
         "timestamp": datetime.utcnow().isoformat()
     }
 

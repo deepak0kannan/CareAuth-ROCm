@@ -126,6 +126,28 @@
           </div>
         </div>
 
+        <!-- Patient Account Quick Selector (visible when Patient role chosen) -->
+        <div id="patientAccountPicker" class="hidden p-3 rounded-2xl bg-teal-50 border border-teal-200 space-y-1.5">
+          <div class="flex items-center justify-between text-[11px] font-bold text-teal-900">
+            <span>Select Existing Patient Record:</span>
+            <span class="text-[10px] text-teal-600 font-normal">Preloaded Cases</span>
+          </div>
+          <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+            <button type="button" onclick="pickLoginPatient('pat_10492', 'ramesh.patel@gmail.com')" id="pickPt-pat_10492" class="p-2 rounded-xl bg-white border-2 border-teal-500 font-bold text-teal-800 text-left shadow-sm">
+              <div class="truncate">Ramesh Patel</div>
+              <div class="text-[9px] text-slate-500 font-normal">Knee MRI (4 Scans)</div>
+            </button>
+            <button type="button" onclick="pickLoginPatient('pat_15489', 'sophia.martinez@gmail.com')" id="pickPt-pat_15489" class="p-2 rounded-xl bg-teal-100/50 border border-teal-200 text-teal-900 text-left hover:bg-white">
+              <div class="font-bold truncate">Sophia Martinez</div>
+              <div class="text-[9px] text-slate-500 font-normal">Biologic / X-Ray (3)</div>
+            </button>
+            <button type="button" onclick="pickLoginPatient('pat_78596', 'emily.davis@gmail.com')" id="pickPt-pat_78596" class="p-2 rounded-xl bg-teal-100/50 border border-teal-200 text-teal-900 text-left hover:bg-white">
+              <div class="font-bold truncate">Emily Davis</div>
+              <div class="text-[9px] text-slate-500 font-normal">Appeal / Liver (2)</div>
+            </button>
+          </div>
+        </div>
+
         <div class="space-y-3 text-xs">
           <div>
             <label class="block font-bold text-slate-700 mb-1">2. Email / Hospital ID</label>
@@ -510,16 +532,21 @@
     <div id="portalPatient" class="flex-1 p-8 space-y-6 overflow-y-auto hidden">
       <div class="max-w-4xl mx-auto space-y-6">
         
-        <!-- Welcome Card -->
-        <div class="bg-gradient-to-r from-teal-600 to-emerald-600 rounded-3xl p-6 text-white shadow-md">
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="text-xs font-bold text-teal-100 uppercase tracking-wider">Patient Care Portal</span>
-              <h2 id="patientGreeting" class="text-2xl font-black mt-1">Hello, Ramesh Patel 👋</h2>
-              <p class="text-xs text-teal-50 mt-1">Here is your easy-to-read treatment progress, scan reports, and bill status.</p>
+        <!-- Welcome Card with Patient Switcher -->
+        <div class="bg-gradient-to-r from-teal-600 to-emerald-600 rounded-3xl p-6 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold text-teal-100 uppercase tracking-wider">Patient Care Portal</span>
+            <h2 id="patientGreeting" class="text-2xl font-black mt-1">Hello, Ramesh Patel 👋</h2>
+            <p class="text-xs text-teal-50 mt-1">Here is your easy-to-read treatment progress, scan reports, and bill status.</p>
+          </div>
+          <div class="bg-black/20 backdrop-blur-md p-3 rounded-2xl border border-white/20 space-y-1.5 shrink-0">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-teal-100 flex items-center gap-1">
+              <i data-lucide="users" class="w-3 h-3"></i> Switch Patient Chart:
             </div>
-            <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
-              <i data-lucide="shield-check" class="w-8 h-8 text-white"></i>
+            <div class="flex items-center gap-1.5">
+              <button onclick="switchPatientPortal('pat_10492')" id="btnPtSwitch-pat_10492" class="px-2.5 py-1 rounded-lg bg-white text-teal-800 font-bold shadow-sm transition text-[11px]">Ramesh Patel</button>
+              <button onclick="switchPatientPortal('pat_15489')" id="btnPtSwitch-pat_15489" class="px-2.5 py-1 rounded-lg bg-teal-800/60 hover:bg-white hover:text-teal-800 text-white font-medium transition text-[11px]">Sophia Martinez</button>
+              <button onclick="switchPatientPortal('pat_78596')" id="btnPtSwitch-pat_78596" class="px-2.5 py-1 rounded-lg bg-teal-800/60 hover:bg-white hover:text-teal-800 text-white font-medium transition text-[11px]">Emily Davis</button>
             </div>
           </div>
         </div>
@@ -873,6 +900,21 @@
       lab: { email: 'alex.chen@hospital.org', roleName: 'Lab Tech' }
     };
 
+    function pickLoginPatient(pid, email) {
+      currentPatientId = pid;
+      document.getElementById('loginEmail').value = email;
+      ['pat_10492', 'pat_15489', 'pat_78596'].forEach(id => {
+        const btn = document.getElementById(`pickPt-${id}`);
+        if (btn) {
+          if (id === pid) {
+            btn.className = 'p-2 rounded-xl bg-white border-2 border-teal-500 font-bold text-teal-800 text-left shadow-sm';
+          } else {
+            btn.className = 'p-2 rounded-xl bg-teal-100/50 border border-teal-200 text-teal-900 text-left hover:bg-white';
+          }
+        }
+      });
+    }
+
     function selectRole(role) {
       selectedLoginRole = role;
       
@@ -895,8 +937,16 @@
         }
       });
 
-      // Pre-fill corresponding email
-      document.getElementById('loginEmail').value = roleProfiles[role].email;
+      // Toggle patient picker
+      const ptPicker = document.getElementById('patientAccountPicker');
+      if (role === 'patient') {
+        if (ptPicker) ptPicker.classList.remove('hidden');
+        pickLoginPatient('pat_10492', 'ramesh.patel@gmail.com');
+      } else {
+        if (ptPicker) ptPicker.classList.add('hidden');
+        document.getElementById('loginEmail').value = roleProfiles[role].email;
+      }
+
       document.getElementById('btnSignInSubmit').innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i> Sign In as ${roleProfiles[role].roleName}`;
       lucide.createIcons();
     }
@@ -923,12 +973,14 @@
     async function authenticateAndLaunch(role) {
       currentRole = role;
       try {
+        const email = document.getElementById('loginEmail').value;
         const res = await fetch('/api/auth/login', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ role: role })
+          body: JSON.stringify({ role: role, email: email, patient_id: currentPatientId })
         });
         const data = await res.json();
+        if (data.patient_id) currentPatientId = data.patient_id;
         
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('mainDashboard').classList.remove('hidden');
@@ -1354,7 +1406,7 @@
           reportsGrid.innerHTML = '<div class="text-slate-400 py-6 text-center col-span-2">No diagnostic scans available for this patient.</div>';
         } else {
           reportsGrid.innerHTML = reports.map(r => `
-            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2 flex flex-col justify-between">
+            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2 flex flex-col justify-between hover:border-teal-400 transition">
               <div>
                 <div class="flex items-center justify-between">
                   <span class="text-xs font-bold text-slate-900">${r.title}</span>
@@ -1363,6 +1415,9 @@
                   </span>
                 </div>
                 <div class="text-[11px] text-slate-500 mt-0.5">${r.type} • ${r.date} • ${r.doctor}</div>
+                <div class="text-[10px] font-mono text-teal-700 bg-teal-50/90 px-2 py-0.5 rounded border border-teal-200 flex items-center gap-1 w-fit my-1.5">
+                  <i data-lucide="image" class="w-3 h-3 text-teal-600"></i> ${r.image_preview || 'PACS Series Attached'}
+                </div>
                 <p class="text-xs text-slate-600 mt-2 bg-white p-2.5 rounded-lg border border-slate-200 leading-relaxed font-sans">${r.summary}</p>
               </div>
               <div class="pt-3 border-t border-slate-200 flex justify-end">
@@ -1490,11 +1545,29 @@
     // 5. Patient Portal Functions
     let currentPatientData = null;
 
+    function switchPatientPortal(patId) {
+      currentPatientId = patId;
+      loadPatientPortal(patId);
+    }
+
     async function loadPatientPortal(patId) {
       try {
+        currentPatientId = patId;
         const res = await fetch(`/api/patient/${patId}`);
         const patient = await res.json();
         currentPatientData = patient;
+
+        // Update active switch button state
+        ['pat_10492', 'pat_15489', 'pat_78596'].forEach(id => {
+          const btn = document.getElementById(`btnPtSwitch-${id}`);
+          if (btn) {
+            if (id === patId) {
+              btn.className = 'px-2.5 py-1 rounded-lg bg-white text-teal-800 font-bold shadow-sm transition text-[11px]';
+            } else {
+              btn.className = 'px-2.5 py-1 rounded-lg bg-teal-800/60 hover:bg-white hover:text-teal-800 text-white font-medium transition text-[11px]';
+            }
+          }
+        });
 
         document.getElementById('patientGreeting').innerText = `Hello, ${patient.name} 👋`;
         document.getElementById('patientProcedureTitle').innerText = patient.procedure;
@@ -1557,13 +1630,26 @@
         return;
       }
       container.innerHTML = reports.map((r, i) => `
-        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <div>
-            <div class="font-bold text-slate-800">${r.title}</div>
-            <div class="text-[11px] text-slate-400">${r.type} • ${r.date}</div>
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-teal-400 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-teal-100/70 border border-teal-200 flex items-center justify-center shrink-0 text-teal-700 mt-0.5">
+              <i data-lucide="${(r.type || '').toLowerCase().includes('mri') || (r.type || '').toLowerCase().includes('x-ray') || (r.type || '').toLowerCase().includes('radiology') ? 'scan' : 'file-check-2'}" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-800 text-xs">${r.title}</span>
+                <span class="text-[9px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                  ${r.status || 'VERIFIED'}
+                </span>
+              </div>
+              <div class="text-[11px] text-slate-400 mt-0.5">${r.type} • Performed: ${r.date} • ${r.doctor || 'Hospital Diagnostic Center'}</div>
+              <div class="text-[10px] text-teal-700 font-mono mt-1 flex items-center gap-1 bg-teal-50 px-2 py-0.5 rounded border border-teal-100 w-fit">
+                <i data-lucide="image" class="w-3 h-3 text-teal-600"></i> ${r.image_preview || 'Digital Image Series Stored on PACS'}
+              </div>
+            </div>
           </div>
-          <button onclick="openReportModal(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="px-3 py-1.5 bg-white border border-slate-200 hover:border-teal-500 text-teal-700 font-bold rounded-lg shadow-sm flex items-center gap-1.5 text-xs transition">
-            <i data-lucide="eye" class="w-3.5 h-3.5 text-teal-600"></i> View Scan
+          <button onclick="openReportModal(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="px-3.5 py-1.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-lg shadow-sm flex items-center justify-center gap-1.5 text-xs transition shrink-0">
+            <i data-lucide="eye" class="w-3.5 h-3.5"></i> View Scan & Image
           </button>
         </div>
       `).join('');
@@ -1705,7 +1791,7 @@
         }
 
         reportsContainer.innerHTML = data.reports.map(r => `
-          <div class="p-4 rounded-xl border border-slate-200 bg-white space-y-2">
+          <div class="p-4 rounded-xl border border-slate-200 bg-white space-y-2 hover:border-teal-300 transition">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-900">${r.title}</span>
               <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -1713,10 +1799,13 @@
               </span>
             </div>
             <div class="text-[11px] text-slate-500">${r.type} • Performed: ${r.date} • ${r.doctor}</div>
+            <div class="text-[10px] font-mono text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 flex items-center gap-1 w-fit">
+              <i data-lucide="image" class="w-3 h-3 text-teal-600"></i> ${r.image_preview || 'Digital Image Series Stored on PACS'}
+            </div>
             <p class="text-xs text-slate-700 bg-slate-50 p-2.5 rounded-lg border border-slate-100">${r.summary}</p>
             <div class="pt-1 flex justify-end">
-              <button onclick="openReportModal(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="px-3.5 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 rounded-lg text-xs font-bold flex items-center gap-1.5 transition">
-                <i data-lucide="eye" class="w-3.5 h-3.5 text-teal-600"></i> Inspect Imaging (PACS Scan)
+              <button onclick="openReportModal(${JSON.stringify(r).replace(/"/g, '&quot;')})" class="px-3.5 py-1.5 bg-teal-600 hover:bg-teal-500 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm transition">
+                <i data-lucide="eye" class="w-3.5 h-3.5"></i> Inspect Imaging (PACS Scan)
               </button>
             </div>
           </div>
@@ -1825,7 +1914,7 @@
       const filterStyle = `filter: ${pacsInverted ? 'invert(1) hue-rotate(180deg)' : 'none'}; transform: scale(${pacsZoom}); transition: transform 0.2s ease, filter 0.2s ease;`;
 
       if (kind === 'mri_knee') {
-        meta.innerText = 'TR: 2400ms | TE: 85ms | Slice: 3.0mm | Series: #4 Sagittal T2';
+        meta.innerText = 'TR: 2400ms | TE: 85ms | Slice: 3.0mm | Series: #4 Sagittal T2-FS Knee';
         canvas.innerHTML = `
           <!-- PACS DICOM HUD Overlay -->
           <div class="absolute top-3 left-3 text-[10px] font-mono text-cyan-400 space-y-0.5 pointer-events-none z-10">
@@ -1835,7 +1924,7 @@
             <div>FOV: 160mm | SLICE: 3.0mm</div>
           </div>
           <div class="absolute top-3 right-3 text-[10px] font-mono text-cyan-400 text-right pointer-events-none z-10">
-            <div class="font-bold text-emerald-400">FINDING: GRADE III TEAR</div>
+            <div class="font-bold text-red-400">FINDING: GRADE III TEAR</div>
             <div>POSTERIOR HORN MEDIAL MENISCUS</div>
             <div>TR: 2400 | TE: 85</div>
           </div>
@@ -1866,6 +1955,58 @@
             <text x="212" y="123" fill="#fecaca" font-size="9" font-family="JetBrains Mono" font-weight="bold">Grade III Meniscal Tear</text>
           </svg>
         `;
+      } else if (kind === 'pt_summary') {
+        meta.innerText = 'Rehab Medicine | Goniometric Knee ROM Analysis | 24 Sessions Verified';
+        canvas.innerHTML = `
+          <div class="w-full h-full p-3.5 flex flex-col justify-between font-mono text-xs text-slate-200" style="${filterStyle}">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5 text-[11px]">
+              <span class="text-teal-400 font-bold">METRO PHYSICAL THERAPY: KNEE ROM DEFICIT CURVE</span>
+              <span class="text-red-400 font-bold">CONSERVATIVE THERAPY EXHAUSTED</span>
+            </div>
+            
+            <!-- Visual SVG Goniometric Curve Chart -->
+            <svg viewBox="0 0 380 130" class="w-full h-32 my-1">
+              <rect width="380" height="130" fill="#090d16" rx="8"/>
+              <!-- Axes & Grid -->
+              <line x1="40" y1="20" x2="40" y2="110" stroke="#334155" stroke-width="1"/>
+              <line x1="40" y1="110" x2="360" y2="110" stroke="#334155" stroke-width="1"/>
+              <line x1="40" y1="35" x2="360" y2="35" stroke="#1e293b" stroke-dasharray="2"/>
+              <line x1="40" y1="70" x2="360" y2="70" stroke="#1e293b" stroke-dasharray="2"/>
+
+              <!-- Axis Labels -->
+              <text x="8" y="38" fill="#10b981" font-size="8">135°</text>
+              <text x="8" y="73" fill="#ef4444" font-size="8">95°</text>
+              <text x="8" y="112" fill="#64748b" font-size="8">0°</text>
+              <text x="45" y="122" fill="#64748b" font-size="8">W0</text>
+              <text x="100" y="122" fill="#64748b" font-size="8">W6</text>
+              <text x="160" y="122" fill="#64748b" font-size="8">W12</text>
+              <text x="220" y="122" fill="#64748b" font-size="8">W18</text>
+              <text x="300" y="122" fill="#64748b" font-size="8">W24 (Discharge)</text>
+
+              <!-- Target Normal Flexion Line (135°) -->
+              <line x1="40" y1="35" x2="360" y2="35" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4"/>
+              <text x="240" y="30" fill="#a7f3d0" font-size="7.5" font-weight="bold">Target Normal Flexion: 135°</text>
+
+              <!-- Shaded Persistent Deficit Zone -->
+              <polygon points="100,70 360,70 360,35 100,35" fill="#ef4444" opacity="0.15"/>
+              <text x="130" y="55" fill="#fca5a5" font-size="8">Persistent 40° Flexion Deficit (Mechanical Lock)</text>
+
+              <!-- Actual Patient Progression Curve (Plateaued at 95°) -->
+              <path d="M 40,105 Q 70,80 100,70 L 160,70 L 220,70 L 360,70" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+              <circle cx="40" cy="105" r="3" fill="#ef4444"/>
+              <circle cx="100" cy="70" r="3" fill="#ef4444"/>
+              <circle cx="220" cy="70" r="3" fill="#ef4444"/>
+              <circle cx="360" cy="70" r="4" fill="#ef4444" stroke="#ffffff" stroke-width="1.5"/>
+            </svg>
+
+            <!-- Bottom Compliance & Pain Tracker -->
+            <div class="flex items-center justify-between text-[10px] bg-slate-900 p-2 rounded-lg border border-slate-800">
+              <span class="text-emerald-400 font-bold">✓ 24 / 24 Supervised Sessions Attended</span>
+              <span class="text-amber-300 font-mono">VAS Pain: 8/10 → 7/10 (Intractable)</span>
+              <span class="text-red-400 font-bold">LCD Protocol Satisfied</span>
+            </div>
+          </div>
+        `;
       } else if (kind === 'xray_knee') {
         meta.innerText = 'Radiology AP Standing | 75 kVp | 12 mAs | Kellgren-Lawrence Grade 1';
         canvas.innerHTML = `
@@ -1884,13 +2025,65 @@
             <text x="262" y="119" fill="#a7f3d0" font-size="9" font-family="JetBrains Mono" font-weight="bold">Joint Space Intact (4.8mm)</text>
           </svg>
         `;
-      } else if (kind === 'blood_rheum' || kind === 'blood_cbc') {
+      } else if (kind === 'blood_cbc') {
+        meta.innerText = 'Automated Hematology Analyzer | Sysmex XN-9000 | Pre-Op Anesthesia Clearance';
+        canvas.innerHTML = `
+          <div class="w-full h-full p-4 flex flex-col justify-center space-y-2.5 font-mono text-xs" style="${filterStyle}">
+            <div class="text-teal-400 font-bold border-b border-slate-800 pb-1.5 flex justify-between">
+              <span>PRE-OPERATIVE AUTOMATED CBC & METABOLIC PANEL</span>
+              <span class="text-emerald-400 font-bold">✓ ALL EUVOLEMIC (NORMAL)</span>
+            </div>
+            <div class="space-y-2">
+              <div>
+                <div class="flex justify-between text-slate-300 text-[11px] mb-0.5">
+                  <span>Hemoglobin (Ref: 13.5 - 17.5 g/dL)</span>
+                  <span class="text-emerald-400 font-bold">14.8 g/dL (NORMAL)</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-500 h-full w-[75%]"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-300 text-[11px] mb-0.5">
+                  <span>Platelet Count (Ref: 150 - 450 x10³/µL)</span>
+                  <span class="text-emerald-400 font-bold">235 x10³/µL (NORMAL)</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-500 h-full w-[65%]"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-300 text-[11px] mb-0.5">
+                  <span>Serum Creatinine (Ref: 0.70 - 1.30 mg/dL)</span>
+                  <span class="text-emerald-400 font-bold">0.92 mg/dL (NORMAL)</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-500 h-full w-[55%]"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-300 text-[11px] mb-0.5">
+                  <span>Fasting Glucose (Ref: 70 - 100 mg/dL)</span>
+                  <span class="text-emerald-400 font-bold">96 mg/dL (NORMAL)</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                  <div class="bg-emerald-500 h-full w-[70%]"></div>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 rounded bg-emerald-950/80 border border-emerald-800 text-emerald-200 text-[10px] flex items-center justify-between">
+              <span>ASA Class I Surgical Candidate</span>
+              <span class="font-bold">Anesthetic Risk: Minimal / Cleared</span>
+            </div>
+          </div>
+        `;
+      } else if (kind === 'blood_rheum') {
         meta.innerText = 'Automated Clinical Chemistry Analyzer | High-Titration Serology';
         canvas.innerHTML = `
-          <div class="w-full h-full p-4 flex flex-col justify-center space-y-3 font-mono text-xs">
+          <div class="w-full h-full p-4 flex flex-col justify-center space-y-3 font-mono text-xs" style="${filterStyle}">
             <div class="text-teal-400 font-bold border-b border-slate-800 pb-1.5 flex justify-between">
               <span>SPECIALTY BIOMARKER TITRATION PANEL</span>
-              <span class="text-red-400">HIGH CRITICAL</span>
+              <span class="text-red-400 font-bold">HIGH CRITICAL</span>
             </div>
             <div class="space-y-2">
               <div>
@@ -1923,10 +2116,96 @@
             </div>
           </div>
         `;
+      } else if (kind === 'tb_gold') {
+        meta.innerText = 'QuantiFERON-TB Gold Plus | Automated Optical ELISA | Liaison XL';
+        canvas.innerHTML = `
+          <div class="w-full h-full p-4 flex flex-col justify-between font-mono text-xs" style="${filterStyle}">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+              <span class="text-teal-400 font-bold">QUANTIFERON®-TB GOLD PLUS (QFT-PLUS) IGRA</span>
+              <span class="text-emerald-400 font-bold">NEGATIVE (CLEARED)</span>
+            </div>
+            
+            <!-- 4-Tube Optical Density Readouts -->
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+              <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div class="text-slate-400 text-[10px]">Nil Control (Baseline):</div>
+                <div class="text-sky-400 font-bold text-sm mt-0.5">0.05 IU/mL</div>
+                <div class="text-[9px] text-slate-500">Threshold: &le; 8.00 IU/mL (Valid)</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div class="text-slate-400 text-[10px]">TB1 Antigen (CD4+):</div>
+                <div class="text-emerald-400 font-bold text-sm mt-0.5">0.02 IU/mL</div>
+                <div class="text-[9px] text-emerald-500">&lt; 0.35 Cutoff &rarr; Negative</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div class="text-slate-400 text-[10px]">TB2 Antigen (CD8+):</div>
+                <div class="text-emerald-400 font-bold text-sm mt-0.5">0.01 IU/mL</div>
+                <div class="text-[9px] text-emerald-500">&lt; 0.35 Cutoff &rarr; Negative</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div class="text-slate-400 text-[10px]">Mitogen Positive Control:</div>
+                <div class="text-teal-400 font-bold text-sm mt-0.5">&gt; 10.00 IU/mL</div>
+                <div class="text-[9px] text-teal-500">Immune Competence Valid</div>
+              </div>
+            </div>
+
+            <!-- Mandatory Clearance Alert Banner -->
+            <div class="p-2 rounded bg-emerald-950/80 border border-emerald-700 text-emerald-200 text-[10px] flex items-center justify-between">
+              <span>✓ Latent M. Tuberculosis Excluded</span>
+              <span class="font-bold">Biologic Safety Cleared for Humira (Adalimumab)</span>
+            </div>
+          </div>
+        `;
+      } else if (kind === 'xray_hands') {
+        meta.innerText = 'Digital Radiography PA Bilateral Hands | 52 kVp | 4 mAs | Fuji FCR 5000';
+        canvas.innerHTML = `
+          <div class="absolute top-3 left-3 text-[10px] font-mono text-cyan-400 space-y-0.5 pointer-events-none z-10">
+            <div class="font-bold">CAREAUTH RADIOLOGY - PA HANDS</div>
+            <div>MRN: 492011 | SOPHIA MARTINEZ</div>
+            <div>PA BILATERAL HANDS & WRISTS</div>
+          </div>
+          <div class="absolute top-3 right-3 text-[10px] font-mono text-red-400 text-right pointer-events-none z-10">
+            <div class="font-bold">EROSIVE RHEUMATOID ARTHRITIS</div>
+            <div>2ND & 3RD MCP MARGINAL EROSIONS</div>
+          </div>
+
+          <!-- Hand & Wrist Bones Radiograph SVG -->
+          <svg style="${filterStyle}" viewBox="0 0 400 240" class="w-full h-full max-h-64">
+            <rect width="400" height="240" fill="#000000"/>
+            <!-- Wrist Radiocarpal Bones Silhouette -->
+            <ellipse cx="200" cy="210" rx="60" ry="25" fill="#475569" stroke="#64748b"/>
+            <!-- 5 Metacarpal Ray Bones -->
+            <path d="M 120,200 L 130,120 L 142,120 L 135,200 Z" fill="#64748b"/>
+            <path d="M 155,200 L 165,100 L 178,100 L 170,200 Z" fill="#94a3b8"/>
+            <path d="M 195,195 L 200,90 L 212,90 L 208,195 Z" fill="#94a3b8"/>
+            <path d="M 235,195 L 235,105 L 246,105 L 243,195 Z" fill="#64748b"/>
+            <path d="M 265,205 L 275,135 L 285,135 L 273,205 Z" fill="#475569"/>
+
+            <!-- Proximal Phalanges -->
+            <line x1="171" y1="95" x2="171" y2="55" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+            <line x1="206" y1="85" x2="206" y2="45" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+
+            <!-- EROSION CALLOUT 1: 2nd MCP Joint -->
+            <circle cx="171" cy="98" r="14" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="3"/>
+            <line x1="171" y1="80" x2="171" y2="116" stroke="#ef4444" stroke-width="1"/>
+            <line x1="153" y1="98" x2="189" y2="98" stroke="#ef4444" stroke-width="1"/>
+            <!-- Annotation Flag -->
+            <rect x="50" y="86" width="105" height="18" rx="3" fill="#7f1d1d" stroke="#ef4444"/>
+            <text x="54" y="98" fill="#fecaca" font-size="7.5" font-family="JetBrains Mono" font-weight="bold">MCP-2 Marginal Erosion</text>
+
+            <!-- EROSION CALLOUT 2: 3rd MCP Joint -->
+            <circle cx="206" cy="88" r="14" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="3"/>
+            <line x1="206" y1="70" x2="206" y2="106" stroke="#ef4444" stroke-width="1"/>
+            <line x1="188" y1="88" x2="224" y2="88" stroke="#ef4444" stroke-width="1"/>
+            <!-- Annotation Flag -->
+            <rect x="228" y="78" width="115" height="18" rx="3" fill="#7f1d1d" stroke="#ef4444"/>
+            <text x="232" y="90" fill="#fecaca" font-size="7.5" font-family="JetBrains Mono" font-weight="bold">MCP-3 Subchondral Loss</text>
+          </svg>
+        `;
       } else if (kind === 'liver_panel') {
         meta.innerText = 'Hepatic Panel | STAT Kinetic Analyzer | Elevated Transaminases';
         canvas.innerHTML = `
-          <div class="w-full h-full p-4 flex flex-col justify-center space-y-3 font-mono text-xs">
+          <div class="w-full h-full p-4 flex flex-col justify-center space-y-3 font-mono text-xs" style="${filterStyle}">
             <div class="text-amber-400 font-bold border-b border-slate-800 pb-1.5 flex justify-between">
               <span>HEPATIC ENZYME TRANSAMINASE ASSAY</span>
               <span class="text-amber-300">STATUTORY EXEMPTION MET</span>
@@ -1956,16 +2235,82 @@
             </div>
           </div>
         `;
-      } else {
-        // Generic Scanned Document Preview
-        meta.innerText = 'Scanned Medical Record | Digital Hash Verified';
+      } else if (kind === 'doc_consult') {
+        meta.innerText = 'Tertiary Rheumatology Specialty Consult | Dr. Sarah Jenkins, MD, FACR';
         canvas.innerHTML = `
-          <div class="w-full h-full p-6 flex flex-col items-center justify-center text-center space-y-2 bg-slate-900 font-mono">
-            <i data-lucide="file-check-2" class="w-10 h-10 text-teal-400 mb-1"></i>
-            <div class="text-teal-200 text-sm font-bold">${currentViewingReport.title}</div>
-            <div class="text-slate-400 text-xs">Category: ${currentViewingReport.type}</div>
-            <div class="text-emerald-400 text-[11px] bg-emerald-950/80 border border-emerald-800 px-3 py-1 rounded-full mt-2">
-              Verified Digital Record Linked to Hospital PACS
+          <div class="w-full h-full p-4 flex flex-col justify-between font-mono text-xs bg-slate-900 border border-slate-800 rounded-xl" style="${filterStyle}">
+            <!-- Letterhead -->
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <div>
+                <div class="text-teal-400 font-bold text-xs">UNIVERSITY DIVISION OF RHEUMATOLOGY & CLINICAL IMMUNOLOGY</div>
+                <div class="text-[10px] text-slate-400">PATIENT: EMILY DAVIS | AGE: 62 | MRN: 109482</div>
+              </div>
+              <div class="text-right">
+                <span class="text-[10px] px-2 py-0.5 bg-teal-950 text-teal-300 border border-teal-800 rounded font-bold">ATTENDING CONSULT</span>
+              </div>
+            </div>
+
+            <!-- DAS28-CRP Disease Activity Metric -->
+            <div class="grid grid-cols-3 gap-2 my-1 text-[11px]">
+              <div class="p-2 rounded bg-slate-950 border border-red-900/60 text-center">
+                <div class="text-slate-400 text-[9px]">DAS28-CRP SCORE</div>
+                <div class="text-red-400 font-bold text-lg">5.8</div>
+                <div class="text-[8px] text-red-300">Severe Disease (&gt; 5.1)</div>
+              </div>
+              <div class="p-2 rounded bg-slate-950 border border-slate-800 text-center">
+                <div class="text-slate-400 text-[9px]">SWOLLEN JOINTS</div>
+                <div class="text-amber-400 font-bold text-lg">14 / 28</div>
+                <div class="text-[8px] text-slate-500">Active Synovitis</div>
+              </div>
+              <div class="p-2 rounded bg-slate-950 border border-slate-800 text-center">
+                <div class="text-slate-400 text-[9px]">TENDER JOINTS</div>
+                <div class="text-amber-400 font-bold text-lg">18 / 28</div>
+                <div class="text-[8px] text-slate-500">Functional Impairment</div>
+              </div>
+            </div>
+
+            <!-- Statutory Exemption Certification Note -->
+            <div class="p-2 rounded bg-slate-950 border border-teal-900/60 text-[10px] text-slate-300 leading-relaxed">
+              <span class="text-teal-300 font-bold">Attestation:</span> Patient manifests severe erosive arthritis with toxic transaminitis (AST 184, ALT 210). Step therapy with oral DMARDs is medically contraindicated. Immediate biologic escalation certified under statutory LCD §4.2.1.
+            </div>
+
+            <!-- Digital Physician Signature -->
+            <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Dr. Sarah Jenkins, MD, FACR (License #MD-904128)</span>
+              </div>
+              <span class="text-teal-400 font-mono">Digitally Signed & Sealed</span>
+            </div>
+          </div>
+        `;
+      } else {
+        // Uploaded Scan / Generic Medical Record Preview
+        meta.innerText = 'CareAuth Digital PACS Archive | Ingested Medical Document | Verified SHA-256';
+        canvas.innerHTML = `
+          <div class="w-full h-full p-4 flex flex-col justify-between bg-slate-900 font-mono border border-slate-800 rounded-xl" style="${filterStyle}">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="file-check-2" class="w-5 h-5 text-teal-400"></i>
+                <div>
+                  <div class="text-teal-200 text-xs font-bold">${currentViewingReport.title}</div>
+                  <div class="text-slate-400 text-[10px]">Type: ${currentViewingReport.type} • Date: ${currentViewingReport.date}</div>
+                </div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">INGESTED ON PACS</span>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-1.5 text-[11px] text-slate-300">
+              <div class="text-slate-400 text-[10px]">Ingestion Summary:</div>
+              <div>${currentViewingReport.summary}</div>
+              <div class="text-[10px] text-teal-400 pt-1 font-mono">
+                SHA-256: 8e4b7c12f099a842...d491a [Cryptographically Intact]
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[10px] text-slate-400">
+              <span>Linked to Hospital PACS & Prior-Auth Audit Trail</span>
+              <span class="text-emerald-400 font-bold">100% Compliant</span>
             </div>
           </div>
         `;
