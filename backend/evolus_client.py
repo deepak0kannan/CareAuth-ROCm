@@ -15,6 +15,8 @@ class EvolusClient:
         self.base_url = settings.EVOLUS_BASE_URL
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
+            "X-APIKEY": self.api_key,
+            "X-Application-Id": os.getenv("EVOLUS_APP_ID", "f21aea1f-f41c-43fc-83e0-f4eea7a9ecc3"),
             "Content-Type": "application/json"
         }
 
