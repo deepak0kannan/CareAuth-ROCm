@@ -30,3 +30,11 @@ CareAuth_ROCm_Demo_With_Voiceover/
 CareAuth_ROCm_Video_Narration_Script.docx
 VIDEO_PRESENTATION_SCRIPT.md
 careauth_rocm_cover_16_9.jpg
+
+# Exclude internal action plans, prototype plans, summaries and presentation slides from repo
+Backend_Lead_Action_Plan.md
+Frontend_Lead_Action_Plan.md
+CareAuth_ROCm_Prototype_Plan.md
+HyperForge_ROCm_Full_Chat_Summary.md
+CareAuth_ROCm_Prototype_Presentation.pdf
+CareAuth_ROCm_Prototype_Presentation.pptx
